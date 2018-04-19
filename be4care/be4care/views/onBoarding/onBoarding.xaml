@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="be4care.views.onBoarding.onBoarding"
+             xmlns:carousel="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
+              xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
+             >
+
+    <xfg:ContentPageGloss.BackgroundGradient>
+        <xfg:Gradient Rotation="45">
+            <xfg:GradientStep StepColor="#FF5955" StepPercentage="0" />
+            <xfg:GradientStep StepColor="#FF9C6C" StepPercentage=".5" />
+            <xfg:GradientStep StepColor="#FFCB7E" StepPercentage="1" />
+        </xfg:Gradient>
+    </xfg:ContentPageGloss.BackgroundGradient>
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition
+                    Height="*" />
+                <RowDefinition
+                    Height="Auto" />
+            </Grid.RowDefinitions>
+            <carousel:CarouselViewControl
+                x:Name="Carousel"
+                Grid.Row="0"
+                Grid.RowSpan="2"
+                Orientation="Horizontal"
+                Position="0"
+                ShowIndicators="True"
+                CurrentPageIndicatorTintColor="LightGray"
+                IndicatorsTintColor="White"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                PositionSelected="OnCarouselPositionSelected" />
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

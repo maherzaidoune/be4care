@@ -1,12 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="be4care.views.onBoarding.FirstPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
+             x:Class="be4care.views.onBoarding.FirstPage"
+             xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss">
+    
+<xfg:ContentPageGloss.BackgroundGradient>
+    <xfg:Gradient Rotation="45">
+        <xfg:GradientStep StepColor="#FF5955" StepPercentage="0" />
+        <xfg:GradientStep StepColor="#FF9C6C" StepPercentage=".5" />
+        <xfg:GradientStep StepColor="#FFCB7E" StepPercentage="1" />
+    </xfg:Gradient>
+</xfg:ContentPageGloss.BackgroundGradient>
+    <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill">
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill"  VerticalOptions="Start" Padding="10" >
+            <Label Text="FERMER X" HorizontalOptions="EndAndExpand" TextColor="White" FontSize="Medium" />
+        </StackLayout>
+
+
+        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"  BackgroundColor="Transparent" Padding="20">
+            <Label Text="Centralisez  et Conservez"
+                   FontSize="44"
+               TextColor="White"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center" 
+                FontAttributes="Bold"/>
+            <Label Text="vos donné  de  santésous forme numerique"
+                   FontSize="Large"
+                   TextColor="White"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
         </StackLayout>
-    </ContentPage.Content>
-</ContentPage>
+    </StackLayout>
+
+</ContentView>

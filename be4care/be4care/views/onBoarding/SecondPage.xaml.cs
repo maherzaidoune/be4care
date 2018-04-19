@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 namespace be4care.views.onBoarding
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class SecondPage : ContentPage,IonBoarding
+	public partial class SecondPage 
 	{
 		public SecondPage ()
 		{

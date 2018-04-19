@@ -10,11 +10,12 @@ using Xamarin.Forms.Xaml;
 namespace be4care.views.onBoarding
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class FirstPage : ContentPage,IonBoarding
+	public partial class FirstPage 
 	{
 		public FirstPage ()
 		{
 			InitializeComponent ();
 		}
+
 	}
 }

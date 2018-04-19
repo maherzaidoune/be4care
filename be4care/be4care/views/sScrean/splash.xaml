@@ -11,8 +11,9 @@
             <xfg:GradientStep StepColor="#FFCB7E" StepPercentage="1" />
         </xfg:Gradient>
     </xfg:ContentPageGloss.BackgroundGradient>
-    <StackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand"  BackgroundColor="Transparent">
-        <Image Source="{local:EmbeddedImage resourceId=be4care.SharedImages.be4care.png}" />
+  
+    <StackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand"  BackgroundColor="Transparent" >
+        <Image Source="{local:EmbeddedImage resourceId=be4care.SharedImages.be4care.png}"  x:Name="image" />
         <Label Text="Be4Care"
                    FontSize="44"
                TextColor="White"

@@ -12,22 +12,21 @@ namespace be4care
 		public App ()
 		{
 			InitializeComponent();
-			MainPage = new be4care.views.sScrean.splash();
+			MainPage = new NavigationPage(new be4care.views.sScrean.splash());
 		}
 
 		protected override void OnStart ()
 		{
-			// Handle when your app starts
-		}
+            // Handle when your app starts
+        }
 
-		protected override void OnSleep ()
+        protected override void OnSleep ()
 		{
-			// Handle when your app sleeps
-		}
+        }
 
-		protected override void OnResume ()
+        protected override void OnResume ()
 		{
-			// Handle when your app resumes
-		}
-	}
+            // Handle when your app resumes
+        }
+    }
 }
