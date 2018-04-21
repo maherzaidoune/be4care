@@ -11,8 +11,9 @@ namespace be4care
 	{
 		public App ()
 		{
-			InitializeComponent();
-			MainPage = new NavigationPage(new be4care.views.sScrean.splash());
+			//InitializeComponent();
+            var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.SplashPageModel>();
+            MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
 		}
 
 		protected override void OnStart ()

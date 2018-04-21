@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="be4care.views.onBoarding.onBoarding"
+             x:Class="be4care.Pages.onBoardingPage"
              xmlns:carousel="clr-namespace:CarouselView.FormsPlugin.Abstractions;assembly=CarouselView.FormsPlugin.Abstractions"
               xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
              >
@@ -24,6 +24,7 @@
             </Grid.RowDefinitions>
             <carousel:CarouselViewControl
                 x:Name="Carousel"
+                ItemsSource="{Binding viewList}"
                 Grid.Row="0"
                 Grid.RowSpan="2"
                 Orientation="Horizontal"
@@ -33,7 +34,7 @@
                 IndicatorsTintColor="White"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand"
-                PositionSelected="OnCarouselPositionSelected" />
+                 />
         </Grid>
     </ContentPage.Content>
 </ContentPage>
