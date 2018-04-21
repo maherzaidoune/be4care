@@ -12,9 +12,7 @@
     </xfg:Gradient>
 </xfg:ContentPageGloss.BackgroundGradient>
     <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill">
-        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill"  VerticalOptions="Start" Padding="10" >
-            <Label Text="FERMER X" HorizontalOptions="EndAndExpand" TextColor="White" FontSize="Medium" />
-        </StackLayout>
+        
 
 
         <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"  BackgroundColor="Transparent" Padding="20">

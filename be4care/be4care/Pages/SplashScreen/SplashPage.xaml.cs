@@ -5,12 +5,12 @@ namespace be4care.Pages
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SplashPage : ContentPage
-    { 
-		public SplashPage()
+    {
+        public SplashPage()
 		{
             NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
         }
-      
+       
     }
 }

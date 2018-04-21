@@ -13,28 +13,39 @@
             <xfg:GradientStep StepColor="#FFCB7E" StepPercentage="1" />
         </xfg:Gradient>
     </xfg:ContentPageGloss.BackgroundGradient>
-    
-    <ContentPage.Content>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition
+    <Grid Padding="10,20,10,0">
+        <Grid.RowDefinitions>
+            <RowDefinition
+                        Height="70" />
+            <RowDefinition
                     Height="*" />
-                <RowDefinition
+            <RowDefinition
                     Height="Auto" />
-            </Grid.RowDefinitions>
-            <carousel:CarouselViewControl
+        </Grid.RowDefinitions>
+        <Label Text="&lt; RETOUR" Grid.Row="0" HorizontalOptions="StartAndExpand" TextColor="White" FontSize="Medium" IsVisible="{Binding isBack}" >
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding backClicked}" NumberOfTapsRequired="1"  />
+            </Label.GestureRecognizers>
+        </Label>
+        <Label Text="FERMER X"  Grid.Row="0" HorizontalOptions="EndAndExpand" TextColor="White" FontSize="Medium" >
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding closeClicked}" NumberOfTapsRequired="1"  />
+            </Label.GestureRecognizers>
+        </Label>
+        <carousel:CarouselViewControl
                 x:Name="Carousel"
                 ItemsSource="{Binding viewList}"
-                Grid.Row="0"
+                Grid.Row="1"
                 Grid.RowSpan="2"
                 Orientation="Horizontal"
-                Position="0"
+                Position="{Binding myPosition, Mode=TwoWay}"
                 ShowIndicators="True"
                 CurrentPageIndicatorTintColor="LightGray"
                 IndicatorsTintColor="White"
                 HorizontalOptions="FillAndExpand"
                 VerticalOptions="FillAndExpand"
-                 />
-        </Grid>
-    </ContentPage.Content>
+               PositionSelectedCommand="{Binding CarousalPositionChanged}"
+                />
+            </Grid>
+        
 </ContentPage>

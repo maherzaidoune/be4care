@@ -1,13 +1,44 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Windows.Input;
+using PropertyChanged;
 
 namespace be4care.PageModels
 {
-
+    [AddINotifyPropertyChangedInterface]
     class onBoardingPageModel : FreshMvvm.FreshBasePageModel
     {
+
+        public bool isBack { get; set; }
+        public int myPosition { get; set; }
         public Xamarin.Forms.View[] viewList { get; set; }
+
+        public ICommand CarousalPositionChanged => new Xamarin.Forms.Command(PositionChanged);
+        public ICommand backClicked => new Xamarin.Forms.Command(backLabelClick);
+        public ICommand closeClicked => new Xamarin.Forms.Command(closeLabelClick);
+
+        private void closeLabelClick(object obj)
+        {
+            
+        }
+
+        private void backLabelClick(object obj)
+        {
+            if (isBack)
+                myPosition -= 1;
+        }
+
+        private void PositionChanged(object obj)
+        {
+            if (myPosition == 0)
+            { isBack = false; }
+            else
+            {
+                isBack = true;
+            }
+        }
+
         public onBoardingPageModel()
         {
 
@@ -16,6 +47,8 @@ namespace be4care.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
+            myPosition = 0;
+            
             viewList = new Xamarin.Forms.View[]
             {
                 new Pages.onBoarding.FirstPage(),
@@ -23,7 +56,10 @@ namespace be4care.PageModels
                 new Pages.onBoarding.ThirdPage()
             };
         }
-        
+       
+
+
+
 
     }
 }

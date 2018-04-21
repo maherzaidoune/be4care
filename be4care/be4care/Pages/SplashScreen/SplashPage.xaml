@@ -13,7 +13,7 @@
     </xfg:ContentPageGloss.BackgroundGradient>
   
     <StackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand"  BackgroundColor="Transparent" >
-        <Image Source="{local:EmbeddedImage resourceId=be4care.SharedImages.be4care.png}"  x:Name="image" />
+        <Image Source="{local:EmbeddedImage resourceId=be4care.SharedImages.be4care.png}"  />
         <Label Text="Be4Care"
                    FontSize="44"
                TextColor="White"

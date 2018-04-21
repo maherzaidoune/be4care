@@ -11,7 +11,7 @@ namespace be4care
 	{
 		public App ()
 		{
-			//InitializeComponent();
+			InitializeComponent();
             var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.SplashPageModel>();
             MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
 		}

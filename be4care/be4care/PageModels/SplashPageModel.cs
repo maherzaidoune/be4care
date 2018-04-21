@@ -11,10 +11,11 @@ namespace be4care.PageModels
         {
             base.Init(initData);
             Console.WriteLine("do some stuff");
-            await System.Threading.Tasks.Task.Delay(2000);
+            await System.Threading.Tasks.Task.Delay(4000);
             await  CoreMethods.PushPageModel<onBoardingPageModel>();
             RaisePageWasPopped();
         }
+        
 
     }
 }

@@ -10,8 +10,8 @@ using Xamarin.Forms.Xaml;
 namespace be4care.Pages.onBoarding
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class FirstPage 
-	{
+	public partial class FirstPage : ContentView
+    {
 		public FirstPage ()
 		{
 			InitializeComponent ();
