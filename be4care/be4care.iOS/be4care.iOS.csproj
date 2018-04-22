@@ -134,7 +134,16 @@
     <PackageReference Include="PropertyChanged.Fody">
       <Version>2.5.4</Version>
     </PackageReference>
+    <PackageReference Include="RestSharp">
+      <Version>106.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="sqlite-net-pcl">
+      <Version>1.4.118</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="2.5.1.444934" />
+    <PackageReference Include="XFControls">
+      <Version>1.0.0.6</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -145,5 +154,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="FodyWeavers.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Image_Unchecked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\Image_Checked.png" />
   </ItemGroup>
 </Project>

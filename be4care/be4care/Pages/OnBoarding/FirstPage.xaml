@@ -2,7 +2,9 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="be4care.Pages.onBoarding.FirstPage"
-             xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss">
+             xmlns:local="clr-namespace:be4care.MarkupExtensions"
+             xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
+             >
     
 <xfg:ContentPageGloss.BackgroundGradient>
     <xfg:Gradient Rotation="45">
@@ -11,10 +13,10 @@
         <xfg:GradientStep StepColor="#FFCB7E" StepPercentage="1" />
     </xfg:Gradient>
 </xfg:ContentPageGloss.BackgroundGradient>
-    <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill">
-        
 
 
+        <StackLayout   AbsoluteLayout.LayoutBounds="0.0, 0.0, 1.0, 1.0"
+            AbsoluteLayout.LayoutFlags="All" >
         <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"  BackgroundColor="Transparent" Padding="20">
             <Label Text="Centralisez  et Conservez"
                    FontSize="44"
@@ -29,5 +31,5 @@
                 HorizontalOptions="CenterAndExpand" />
         </StackLayout>
     </StackLayout>
-
+        
 </ContentView>

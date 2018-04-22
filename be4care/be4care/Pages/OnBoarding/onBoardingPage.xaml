@@ -13,7 +13,7 @@
             <xfg:GradientStep StepColor="#FFCB7E" StepPercentage="1" />
         </xfg:Gradient>
     </xfg:ContentPageGloss.BackgroundGradient>
-    <Grid Padding="10,20,10,0">
+    <Grid Padding="10,20,10,0" >
         <Grid.RowDefinitions>
             <RowDefinition
                         Height="70" />

@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="be4care.Pages.InscriptionPage"
+             xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
+             xmlns:ctrls="clr-namespace:AsNum.XFControls;assembly=AsNum.XFControls"
+             >
+    
+    <xfg:ContentPageGloss.BackgroundGradient>
+        <xfg:Gradient Rotation="45">
+            <xfg:GradientStep StepColor="#FF5955" StepPercentage="0" />
+            <xfg:GradientStep StepColor="#FF9C6C" StepPercentage=".5" />
+            <xfg:GradientStep StepColor="#FFCB7E" StepPercentage="1" />
+        </xfg:Gradient>
+    </xfg:ContentPageGloss.BackgroundGradient>
+
+    <Grid Padding="10,20,10,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Label Text="&lt; RETOUR" Grid.Row="0" HorizontalOptions="StartAndExpand" TextColor="White" FontSize="Medium"  >
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
+            </Label.GestureRecognizers>
+        </Label>
+
+        <StackLayout Grid.Row="1" Padding="0,30,0,0"  >
+            <Label Text="Inscription" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="StartAndExpand" Margin="20"/>
+            <Entry Placeholder="  Email" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding email, Mode=TwoWay}" Keyboard="Email" />
+            <Entry Placeholder="  Numéro de téléphone" PlaceholderColor="White" FontSize="20"  HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding  num , Mode=TwoWay}"  Keyboard="Numeric" />
+            <Entry Placeholder="  Mot de passe" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40"  IsPassword="True" Text="{Binding password , Mode=OneWayToSource}"  />
+            <StackLayout Orientation="Horizontal" Padding="20,20,20,10" HorizontalOptions="CenterAndExpand">
+                <ctrls:CheckBox HorizontalOptions="Start"
+                Grid.Column="1"
+                ShowLabel="False"
+                Checked="{Binding acceptTerms}"
+                Size="25"
+                OnImg="Image_Checked"
+                OffImg="Image_Unchecked"
+            />
+                <Label Text="J'accepte les conditions d'utilisatios " TextColor="White" />
+            </StackLayout>
+            <Button CornerRadius="20" BackgroundColor="White" Text="Valider" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="10" Command="{Binding validate}"/>
+        </StackLayout>
+        
+
+
+    </Grid>
+
+</ContentPage>

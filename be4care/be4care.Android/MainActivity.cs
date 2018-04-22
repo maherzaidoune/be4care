@@ -6,6 +6,7 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using Android.OS;
+using AsNum.XFControls.Droid;
 
 namespace be4care.Droid
 {
@@ -17,6 +18,7 @@ namespace be4care.Droid
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
+            AsNumAssemblyHelper.HoldAssembly();
             global::Xamarin.Forms.Forms.Init(this, bundle);
             LoadApplication(new App());
         }

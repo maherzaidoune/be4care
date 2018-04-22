@@ -22,7 +22,10 @@
     <PackageReference Include="FreshMvvm" Version="2.2.4" />
     <PackageReference Include="Plugin.CrossPlatformTintedImage" Version="1.0.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="2.5.4" />
+    <PackageReference Include="RestSharp" Version="106.2.1" />
+    <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
     <PackageReference Include="Xamarin.Forms" Version="2.5.1.444934" />
+    <PackageReference Include="XFControls" Version="1.0.0.6" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +41,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Pages\Auth\InscriptionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Pages\OnBoarding\FirstPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -50,10 +56,5 @@
     <EmbeddedResource Update="Pages\OnBoarding\ThirdPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 </Project>
