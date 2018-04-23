@@ -37,8 +37,8 @@ namespace be4care.Utils
         {
 
             if (!terms)
-                return new Tuple<bool, string>(false, "Acceptez les conditions d'utilisation ");
-            var msg = " Erreur";
+                return new Tuple<bool, string>(false, "\r\n Acceptez les conditions d'utilisation");
+            var msg = "";
             var accepted = true;
 
             if (!checkMail(text)) {

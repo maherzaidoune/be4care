@@ -10,7 +10,6 @@ namespace be4care.PageModels
         public async override void Init(object initData)
         {
             base.Init(initData);
-            Console.WriteLine("do some stuff");
             await System.Threading.Tasks.Task.Delay(4000);
             await  CoreMethods.PushPageModel<onBoardingPageModel>();
             RaisePageWasPopped();

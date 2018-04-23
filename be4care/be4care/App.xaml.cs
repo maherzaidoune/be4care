@@ -1,4 +1,5 @@
-﻿using System;
+﻿using be4care.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,11 +12,17 @@ namespace be4care
 	{
 		public App ()
 		{
-			InitializeComponent();
+            SetUpIOC();
+
+            InitializeComponent();
             var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.SplashPageModel>();
             MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
 		}
 
+        void SetUpIOC()
+        {
+            FreshMvvm.FreshIOC.Container.Register<IDialogService, DialogService>();
+        }
 		protected override void OnStart ()
 		{
             // Handle when your app starts

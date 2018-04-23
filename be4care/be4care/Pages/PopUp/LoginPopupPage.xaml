@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:be4care.MarkupExtensions"
+            xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+            xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"          
+             x:Class="be4care.Pages.PopUp.LoginPopupPage">
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation
+      PositionIn="Bottom"
+      PositionOut="Center"
+      ScaleIn="1"
+      ScaleOut="0.9"
+      DurationIn="500"
+      EasingIn="Linear"/>
+    </pages:PopupPage.Animation>
+    <ScrollView
+    HorizontalOptions="Fill"
+    VerticalOptions="CenterAndExpand">
+        <Frame
+            Margin="20"
+            HorizontalOptions="Fill"
+            CornerRadius="10"
+            BackgroundColor="#FF9C6C">
+            <StackLayout
+                IsClippedToBounds="True"
+                Padding="10, 5"
+                Spacing="10" >
+                <Label Text="Connexion" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="Center" Margin="5"/>
+                <Entry Placeholder="  Email ou Username" PlaceholderColor="White" FontSize="20"  HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding  user , Mode=TwoWay}" />
+                <Entry Placeholder="  Mot de passe" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40"  IsPassword="True" Text="{Binding password , Mode=OneWayToSource}"  />
+                <Button CornerRadius="20" BackgroundColor="White" Text="Connexion" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="5" Command="{Binding validate}"/>
+            </StackLayout>
+        </Frame>
+    </ScrollView>
+</pages:PopupPage>

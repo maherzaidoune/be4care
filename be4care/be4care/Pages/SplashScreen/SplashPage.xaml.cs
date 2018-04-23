@@ -11,6 +11,13 @@ namespace be4care.Pages
             NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
         }
-       
+        protected async override void OnAppearing()
+        {
+            await image.ScaleTo(1, 500, Easing.Linear);
+            await image.ScaleTo(0.8, 800, Easing.Linear);
+            await image.ScaleTo(1.2, 800, Easing.Linear);
+            await image.ScaleTo(1, 800, Easing.Linear);
+        }
+        
     }
 }

@@ -1,29 +1,34 @@
-﻿using PropertyChanged;
+﻿using be4care.Services;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
+using Rg.Plugins.Popup.Extensions;
+using Rg.Plugins.Popup.Services;
 
 namespace be4care.PageModels
 {
     [AddINotifyPropertyChangedInterface]
     class InscriptionPageModel : FreshMvvm.FreshBasePageModel
     {
+        private readonly IDialogService _dialogservices;
         public ICommand backClick => new Command(backButtonClick);
         public ICommand validate => new Command(validateButtonClicked);
+        public ICommand login => new Command(loginButton);
 
-        private void validateButtonClicked(object obj)
+        private void loginButton(object obj)
+        {
+            _dialogservices.login();
+        }
+
+
+        private  void validateButtonClicked(object obj)
         {
             var t = Utils.EntryCheck.checkentries(num, email, password, acceptTerms);
             if (!t.Item1)
-                CoreMethods.DisplayAlert("Erreur ", t.Item2, "Ok");
-            else
-            {
-                CoreMethods.DisplayAlert("Erreur ", Services.RestServices.inscription(email, password), "Ok");
-
-            }
-
+                _dialogservices.ShowMessage(t.Item2, "Erreur", "retour", true);
         }
 
         public string email { get; set; }
@@ -40,9 +45,9 @@ namespace be4care.PageModels
             RaisePageWasPopped();
         }
 
-        public InscriptionPageModel()
+        public InscriptionPageModel(IDialogService  _dialogservices)
         {
-
+            this._dialogservices = _dialogservices;
         }
         public override void Init(object initData)
         {
@@ -60,6 +65,7 @@ namespace be4care.PageModels
             }
 
         }
+
     }
 
 }
