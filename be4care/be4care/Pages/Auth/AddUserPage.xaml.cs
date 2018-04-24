@@ -10,29 +10,28 @@ using Xamarin.Forms.Xaml;
 namespace be4care.Pages
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class InscriptionPage : ContentPage
+	public partial class AddUserPage : ContentPage
 	{
-
-        public InscriptionPage ()
+		public AddUserPage ()
 		{
             NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
-        }
+		}
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
             if (width > height)
             {
-                this.inscriptonLayout.Padding = new Thickness(0);
-                this.inscriptonLayout.Orientation = StackOrientation.Horizontal;
-                this.buttonStack.Padding = new Thickness(0, 40, 0, 0);
+                this.adduserStack.Padding = new Thickness(0);
+                this.buttonStack.Padding = new Thickness(0, 70, 0, 0);
+                this.adduserStack.Orientation = StackOrientation.Horizontal;
             }
             else
             {
-                this.inscriptonLayout.Padding = new Thickness(0, 50, 0, 0);
-                this.inscriptonLayout.Orientation = StackOrientation.Vertical;
-                this.buttonStack.Padding = new Thickness(0, 5, 0, 0);
+                this.adduserStack.Padding = new Thickness(0, 20, 0, 10);
+                this.buttonStack.Padding = new Thickness(0);
+                this.adduserStack.Orientation = StackOrientation.Vertical;
             }
         }
-    }
+	}
 }

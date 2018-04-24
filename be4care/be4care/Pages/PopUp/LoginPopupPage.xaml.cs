@@ -17,6 +17,18 @@ namespace be4care.Pages.PopUp
 			InitializeComponent ();
             BindingContext = new PageModels.LoginPopupPageModel();
 		}
-        
+        protected override void OnSizeAllocated(double width, double height)
+        {
+            base.OnSizeAllocated(width, height);
+            if (width > height)
+            {
+                this.buttonStack.Orientation = StackOrientation.Horizontal;
+            }
+            else
+            {
+                this.buttonStack.Orientation = StackOrientation.Vertical;
+            }
+        }
+
     }
 }

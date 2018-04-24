@@ -22,9 +22,9 @@
     <PackageReference Include="FreshMvvm" Version="2.2.4" />
     <PackageReference Include="Plugin.CrossPlatformTintedImage" Version="1.0.0" />
     <PackageReference Include="PropertyChanged.Fody" Version="2.5.4" />
+    <PackageReference Include="Realm" Version="3.0.0" />
     <PackageReference Include="RestSharp" Version="106.2.1" />
     <PackageReference Include="Rg.Plugins.Popup" Version="1.1.4.154-pre" />
-    <PackageReference Include="sqlite-net-pcl" Version="1.4.118" />
     <PackageReference Include="Xamarin.Forms" Version="2.5.1.444934" />
     <PackageReference Include="XFControls" Version="1.0.0.6" />
   </ItemGroup>
@@ -32,6 +32,9 @@
   <ItemGroup>
     <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="App.xaml.cs">
       <DependentUpon>*.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\Auth\AddUserPage.xaml.cs">
+      <DependentUpon>AddUserPage.xaml</DependentUpon>
     </Compile>
     <Compile Update="Pages\OnBoarding\onBoardingPage.xaml.cs">
       <DependentUpon>onBoardingPage.xaml</DependentUpon>
@@ -42,6 +45,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Pages\Auth\AddUserPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Pages\Auth\InscriptionPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -60,5 +66,9 @@
     <EmbeddedResource Update="Pages\PopUp\LoginPopupPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Persistence\" />
   </ItemGroup>
 </Project>

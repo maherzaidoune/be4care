@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Realms;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace be4care.Models
 {
-    class Document
+    class Document : : RealmObject
     {
         public String url { get; set; }
         public bool star { get; set; }

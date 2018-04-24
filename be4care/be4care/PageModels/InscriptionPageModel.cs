@@ -24,11 +24,20 @@ namespace be4care.PageModels
         }
 
 
-        private  void validateButtonClicked(object obj)
+        private async  void validateButtonClicked(object obj)
         {
             var t = Utils.EntryCheck.checkentries(num, email, password, acceptTerms);
             if (!t.Item1)
+            {
                 _dialogservices.ShowMessage(t.Item2, "Erreur", "retour", true);
+            }
+            else
+            {
+                //add user details
+                await CoreMethods.PushPageModel<AddUserPageModel>(new Tuple<string,string>(email,num));
+                RaisePageWasPopped();
+            }
+            
         }
 
         public string email { get; set; }

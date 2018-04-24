@@ -29,7 +29,10 @@
                 <Label Text="Connexion" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="Center" Margin="5"/>
                 <Entry Placeholder="  Email ou Username" PlaceholderColor="White" FontSize="20"  HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding  user , Mode=TwoWay}" />
                 <Entry Placeholder="  Mot de passe" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40"  IsPassword="True" Text="{Binding password , Mode=OneWayToSource}"  />
-                <Button CornerRadius="20" BackgroundColor="White" Text="Connexion" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="5" Command="{Binding validate}"/>
+                <StackLayout x:Name="buttonStack" VerticalOptions="CenterAndExpand" HorizontalOptions="Fill" >
+                    <Button  CornerRadius="20" BackgroundColor="White" Text="Connexion" TextColor="#FF9C6C" HorizontalOptions="FillAndExpand" Margin="5" Command="{Binding validate}" />
+                    <Button  CornerRadius="20" BackgroundColor="White" Text="retour" TextColor="#FF9C6C" HorizontalOptions="FillAndExpand" Margin="5" Command="{Binding retour}"  />
+                </StackLayout>
             </StackLayout>
         </Frame>
     </ScrollView>

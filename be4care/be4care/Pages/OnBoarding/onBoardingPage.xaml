@@ -16,7 +16,7 @@
     <Grid Padding="10,20,10,0" >
         <Grid.RowDefinitions>
             <RowDefinition
-                        Height="70" />
+                        Height="30" />
             <RowDefinition
                     Height="*" />
             <RowDefinition

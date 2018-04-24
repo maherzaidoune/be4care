@@ -21,8 +21,9 @@ namespace be4care.Services
             var content = response.Content;
             return content;
         }
-        public  async static  string login(string data, string password)
+        public   static  string login(string data, string password)
         {
+
             var client = new RestClient(url);
             var request = new RestRequest("users/login", Method.POST);
 
@@ -36,6 +37,8 @@ namespace be4care.Services
             }
             request.AddParameter("password", password);
             IRestResponse response =   client.Execute(request);
+            Console.WriteLine("response.IsSuccessful : "+response.IsSuccessful);
+            Console.WriteLine("response.ResponseUri : "+response.ResponseUri);
             var content = response.Content;
             return content;
         }
