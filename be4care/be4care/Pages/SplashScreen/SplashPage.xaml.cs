@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System.Threading.Tasks;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace be4care.Pages
@@ -13,10 +14,9 @@ namespace be4care.Pages
         }
         protected async override void OnAppearing()
         {
+            await Task.Delay(500);
+            await image.ScaleTo(0.7, 500, Easing.Linear);
             await image.ScaleTo(1, 500, Easing.Linear);
-            await image.ScaleTo(0.8, 800, Easing.Linear);
-            await image.ScaleTo(1.2, 800, Easing.Linear);
-            await image.ScaleTo(1, 800, Easing.Linear);
         }
         
     }

@@ -10,13 +10,19 @@ namespace be4care.Services
     {
         public  async void login()
         {
+            await PopupNavigation.Instance.PopAllAsync();
             await PopupNavigation.Instance.PushAsync(new Pages.PopUp.LoginPopupPage());
         }
 
         public async void ShowMessage(string message, string title, string buttonText,bool hasButton)
         {
+            await PopupNavigation.Instance.PopAllAsync();
             await PopupNavigation.Instance.PushAsync(new Pages.PopUp.ShowErrorPage(message,title,buttonText,hasButton));
-
+            if (!hasButton)
+            {
+                await Task.Delay(1500);
+                await PopupNavigation.Instance.PopAllAsync(true);
+            }
         }  
     }
 }

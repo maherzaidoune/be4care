@@ -1,11 +1,10 @@
-﻿using Realms;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace be4care.Models
 {
-    class Doctor : RealmObject
+    class Doctor 
     {
         public string fullName { get; set; }
         public string adress { get; set; }

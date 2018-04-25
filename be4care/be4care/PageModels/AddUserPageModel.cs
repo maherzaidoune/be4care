@@ -1,9 +1,14 @@
-﻿using PropertyChanged;
+﻿using Akavache;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Reactive.Linq;
+using be4care.Models;
+using be4care.Services;
+using System.Threading.Tasks;
 
 namespace be4care.PageModels
 {
@@ -16,7 +21,37 @@ namespace be4care.PageModels
         public string num { get; set; }
         public string sex { get; set; }
         public DateTime date { get; set; }
+        public string username { get; set; }
+        public IEnumerable<string> Data { get; } = new List<string>() { "Homme", "Femme" };
+        User user;
+        private IRestServices _restServices;
+        private IDialogService _dialogService;
         public ICommand backClick => new Command(backButtonClick);
+        public ICommand validate => new Command(addUser);
+
+        private async void addUser(object obj)
+        {
+            user = (new User()).getUser();
+            user.name = nom;
+            user.lastName = prenom;
+            user.sex = sex.Equals("Homme");
+            user.bDate = date;
+            user.username = username;
+            await user.Save();
+            if (_restServices.UpdateProfile(user))
+            {
+                Console.WriteLine("add user profile done");
+            }
+
+        }
+
+        public AddUserPageModel(IRestServices _restServices,IDialogService _dialogService)
+        {
+            sex = "Homme";
+            date = DateTime.Today;
+            this._dialogService = _dialogService;
+            this._restServices = _restServices;
+        }
 
         private async void backButtonClick(object obj)
         {
@@ -24,19 +59,11 @@ namespace be4care.PageModels
             RaisePageWasPopped();
         }
 
-        public IEnumerable<string> Data { get; } = new List<string>() { "Homme", "Femme" };
-        public AddUserPageModel()
-        {
-            Console.WriteLine("AddUserDetailsPageModel");
-            sex = "Homme";
-            date = DateTime.Today;
-        }
+        
         public override void Init(object initData)
         {
             base.Init(initData);
-            var t = initData as Tuple<string,string>;
-            email = t.Item1;
-            num = t.Item2;
+            
         }
     }
 }

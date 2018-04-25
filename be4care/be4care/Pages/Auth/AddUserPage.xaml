@@ -30,30 +30,30 @@
             <StackLayout  x:Name="adduserStack" Orientation="Vertical">
             <StackLayout>
                 <Label Text="Saisir vos données" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="Fill" Margin="10" />
-                <Entry Placeholder="  Email" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding email, Mode=TwoWay}" Keyboard="Email" />
+                <Entry Placeholder="  username" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding username, Mode=TwoWay}" Keyboard="Text"  />
                 <Entry Placeholder="  Nom" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding nom, Mode=TwoWay}" Keyboard="Text" />
                 <Entry Placeholder="  Prénon" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding prenom, Mode=TwoWay}" Keyboard="Text" />
-                <Entry Placeholder="  Numéro du téléphone" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding num, Mode=TwoWay}" Keyboard="Telephone" />
-            </StackLayout>
+                </StackLayout>
                 <StackLayout x:Name="buttonStack">
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
                         <StackLayout Padding="10">
                             <Label Text="Date de naissance : " TextColor="White" FontSize="15" Margin="5" HorizontalOptions="Start"  />
                             <Label Text="Sexe : " TextColor="White" FontSize="15" Margin="5" HorizontalOptions="Start"  />
                         </StackLayout>
-                        <StackLayout >
-                        <DatePicker Date="{Binding date}" TextColor="White"  BackgroundColor="Transparent"  HorizontalOptions="StartAndExpand" />
-                        <Picker   
+                        <StackLayout HorizontalOptions="StartAndExpand" >
+                            <DatePicker Date="{Binding date}" TextColor="White"  BackgroundColor="Transparent"  HorizontalOptions="StartAndExpand" />
+                            <Picker   
                             ItemsSource="{Binding Data}"
                             SelectedItem="{Binding sex}"
                             TextColor="White"
                             HorizontalOptions="StartAndExpand"
                             BackgroundColor="Transparent"      
                         />
-                    </StackLayout>
-                   
-                </StackLayout >
+                        </StackLayout>
+                    </StackLayout >
+                    <StackLayout HorizontalOptions="Fill">
                 <Button CornerRadius="20" BackgroundColor="White" Text="Valider" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="15" Command="{Binding validate}"/>
+                    </StackLayout>
                 </StackLayout>
 
             </StackLayout>

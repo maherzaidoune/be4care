@@ -7,6 +7,8 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Services;
+using be4care.Models;
+using System.Threading.Tasks;
 
 namespace be4care.PageModels
 {
@@ -33,17 +35,27 @@ namespace be4care.PageModels
             }
             else
             {
-                //add user details
-                await CoreMethods.PushPageModel<AddUserPageModel>(new Tuple<string,string>(email,num));
+                var me = new User { email = email, phNumber = num };
+                await me.Save();
+                await CoreMethods.PushPageModel<AddUserPageModel>();
                 RaisePageWasPopped();
+                await Task.Run(() =>
+                {
+                    if (_RestService.Inscription(email, password))
+                    {
+                        Console.WriteLine("Inscription done");
+                    }
+                });
+                
             }
-            
+
         }
 
         public string email { get; set; }
         public string num { get; set; }
         public string password { get; set; }
         public bool acceptTerms { get; set; }
+        private IRestServices _RestService { get; }
 
         private async void backButtonClick(object obj)
         {
@@ -54,9 +66,10 @@ namespace be4care.PageModels
             RaisePageWasPopped();
         }
 
-        public InscriptionPageModel(IDialogService  _dialogservices)
+        public InscriptionPageModel(IDialogService  _dialogservices,IRestServices _restService)
         {
             this._dialogservices = _dialogservices;
+            _RestService = _restService;
         }
         public override void Init(object initData)
         {

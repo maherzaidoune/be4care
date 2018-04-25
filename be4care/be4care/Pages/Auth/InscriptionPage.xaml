@@ -45,8 +45,8 @@
                 />
                     <Label Text="J'accepte les conditions d'utilisatios " TextColor="White"  HorizontalOptions="FillAndExpand"/>
                 </StackLayout>
-            <Button CornerRadius="20" BackgroundColor="White" Text="Valider" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="5" Command="{Binding validate}"/>
-            <Button CornerRadius="20" BackgroundColor="White" Text="J'ai deja un compte" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="5" Command="{Binding login}"/>
+                <Button CornerRadius="20" BackgroundColor="White" Text="Valider" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="5" Command="{Binding validate}"/>
+                <Button CornerRadius="20" BackgroundColor="White" Text="J'ai deja un compte" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="5" Command="{Binding login}"/>
             </StackLayout>
         </StackLayout>
         
