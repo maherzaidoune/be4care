@@ -52,7 +52,19 @@
                         </StackLayout>
                     </StackLayout >
                     <StackLayout HorizontalOptions="Fill">
-                <Button CornerRadius="20" BackgroundColor="White" Text="Valider" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="15" Command="{Binding validate}"/>
+                        <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"  >
+                            <ActivityIndicator
+                        AbsoluteLayout.LayoutBounds="0,0.5,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        IsEnabled="{Binding isBusy,Mode=OneWay}"
+                        IsRunning="{Binding isBusy,Mode=OneWay}"
+                        IsVisible="{Binding isBusy,Mode=OneWay}"
+                        Color="White"
+                        HeightRequest="50"
+                        WidthRequest="50"
+                        ></ActivityIndicator>
+                            <Button AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding  isEnabled , Mode=OneWay}" CornerRadius="20" BackgroundColor="White" Text="Valider" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="15" Command="{Binding validate}"/>
+                        </AbsoluteLayout>
                     </StackLayout>
                 </StackLayout>
 

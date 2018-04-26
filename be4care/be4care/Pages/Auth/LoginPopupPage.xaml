@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:be4care.MarkupExtensions"
+             xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
+             x:Class="be4care.Pages.LoginPopupPage">
+    
+    <xfg:ContentPageGloss.BackgroundGradient>
+        <xfg:Gradient Rotation="45">
+            <xfg:GradientStep StepColor="#FF5955" StepPercentage="0" />
+            <xfg:GradientStep StepColor="#FF9C6C" StepPercentage=".5" />
+            <xfg:GradientStep StepColor="#FFCB7E" StepPercentage="1" />
+        </xfg:Gradient>
+    </xfg:ContentPageGloss.BackgroundGradient>
+    
+    <StackLayout
+                HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10,30,10,10" x:Name="bigstack" >
+        <Image Source="{local:EmbeddedImage resourceId=be4care.SharedImages.be4care.png}" x:Name="image" />
+        <Label Text="Connexion" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="Center" Margin="5"/>
+        <StackLayout >
+            <StackLayout HorizontalOptions="Fill" VerticalOptions="CenterAndExpand">
+                <Entry Placeholder="  Email ou Username" PlaceholderColor="White" FontSize="20"  HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding  user , Mode=TwoWay}" />
+                <Entry Placeholder="  Mot de passe" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40"  IsPassword="True" Text="{Binding password , Mode=OneWayToSource}"  />
+            </StackLayout>
+            <StackLayout x:Name="buttonStack" VerticalOptions="CenterAndExpand" HorizontalOptions="Fill" Padding="0,20,0,10" >
+                <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"  >
+                    <ActivityIndicator
+                        AbsoluteLayout.LayoutBounds="0,0.5,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        IsEnabled="{Binding isBusy,Mode=OneWay}"
+                        IsRunning="{Binding isBusy,Mode=OneWay}"
+                        IsVisible="{Binding isBusy,Mode=OneWay}"
+                        Color="White"
+                        HeightRequest="50"
+                        WidthRequest="50"
+                        ></ActivityIndicator>
+                    <Button AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding  isEnabled , Mode=OneWay}" CornerRadius="20" BackgroundColor="White" Text="Connexion" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="5" Command="{Binding validate}" />
+                </AbsoluteLayout>
+            </StackLayout>
+        </StackLayout>
+        <Label Text="Je n'ai pas un compte " HorizontalOptions="CenterAndExpand" VerticalOptions="End" TextColor="White" FontSize="20">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding inscription}" NumberOfTapsRequired="1"  />
+            </Label.GestureRecognizers>
+        </Label>
+    </StackLayout>
+</ContentPage>

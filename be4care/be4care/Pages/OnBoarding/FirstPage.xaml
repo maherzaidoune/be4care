@@ -15,8 +15,7 @@
 </xfg:ContentPageGloss.BackgroundGradient>
 
 
-        <StackLayout   AbsoluteLayout.LayoutBounds="0.0, 0.0, 1.0, 1.0"
-            AbsoluteLayout.LayoutFlags="All" >
+
         <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"  BackgroundColor="Transparent" Padding="20">
             <Label Text="Centralisez  et Conservez"
                    FontSize="44"
@@ -30,6 +29,5 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
         </StackLayout>
-    </StackLayout>
         
 </ContentView>

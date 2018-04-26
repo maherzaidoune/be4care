@@ -2,26 +2,28 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace be4care.Pages.PopUp
+namespace be4care.Pages
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class LoginPopupPage : Rg.Plugins.Popup.Pages.PopupPage
+	public partial class LoginPopupPage : ContentPage
     {
 		public LoginPopupPage ()
 		{
-			InitializeComponent ();
-            BindingContext = new PageModels.LoginPopupPageModel();
+            NavigationPage.SetHasNavigationBar(this, false);
+            InitializeComponent();
 		}
         protected override void OnSizeAllocated(double width, double height)
         {
             base.OnSizeAllocated(width, height);
             if (width > height)
             {
-                this.buttonStack.Orientation = StackOrientation.Horizontal;
+                image.IsVisible = false;
+                bigstack.Padding = new Thickness(10, 10, 10, 10);
             }
             else
             {
-                this.buttonStack.Orientation = StackOrientation.Vertical;
+                image.IsVisible = true;
+                bigstack.Padding = new Thickness(10, 30, 10, 10);
             }
         }
 

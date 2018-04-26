@@ -8,6 +8,5 @@ namespace be4care.Services
     interface IDialogService
     {
         void ShowMessage(string message, string title, string buttonText,bool hasButton);
-        void login();
     }
 }

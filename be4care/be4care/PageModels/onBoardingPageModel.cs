@@ -20,7 +20,7 @@ namespace be4care.PageModels
 
         private async void closeLabelClick(object obj)
         {
-            await CoreMethods.PushPageModel<InscriptionPageModel>();
+            await CoreMethods.PushPageModel<LoginPopupPageModel>();
             RaisePageWasPopped();
         }
 
@@ -32,12 +32,8 @@ namespace be4care.PageModels
 
         private void PositionChanged(object obj)
         {
-            if (myPosition == 0)
-            { isBack = false; }
-            else
-            {
-                isBack = true;
-            }
+
+            isBack = myPosition != 0;
             
         }
 

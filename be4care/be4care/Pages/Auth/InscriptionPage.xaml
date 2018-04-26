@@ -25,17 +25,18 @@
                 <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
             </Label.GestureRecognizers>
         </Label>
+        <ScrollView Grid.Row="1" Padding="0,0,0,15" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
 
-        <StackLayout Grid.Row="1"  x:Name="inscriptonLayout">
-            <StackLayout  Orientation="Vertical">
-                <Label Text="Inscription" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="Fill" Margin="10"/>
-                <Entry Placeholder="  Email" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding email, Mode=TwoWay}" Keyboard="Email" />
-                <Entry Placeholder="  Numéro de téléphone" PlaceholderColor="White" FontSize="20"  HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding  num , Mode=TwoWay}"  Keyboard="Telephone" />
-                <Entry Placeholder="  Mot de passe" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40"  IsPassword="True" Text="{Binding password , Mode=OneWayToSource}"  />
-            </StackLayout>
-            <StackLayout HorizontalOptions="Fill" x:Name="buttonStack">
-                <StackLayout Orientation="Horizontal" Padding="20,10,20,10" HorizontalOptions="Fill">
-                    <ctrls:CheckBox HorizontalOptions="Start"
+            <StackLayout   x:Name="inscriptonLayout">
+                <StackLayout  Orientation="Vertical">
+                    <Label Text="Inscription" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="Fill" Margin="10"/>
+                    <Entry Placeholder="  Email" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding email, Mode=TwoWay}" Keyboard="Email" />
+                    <Entry Placeholder="  Numéro de téléphone" PlaceholderColor="White" FontSize="20"  HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding  num , Mode=TwoWay}"  Keyboard="Telephone" />
+                    <Entry Placeholder="  Mot de passe" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40"  IsPassword="True" Text="{Binding password , Mode=OneWayToSource}"  />
+                </StackLayout>
+                <StackLayout HorizontalOptions="Fill" x:Name="buttonStack">
+                    <StackLayout Orientation="Horizontal" Padding="20,10,20,10" HorizontalOptions="Fill">
+                        <ctrls:CheckBox HorizontalOptions="Start"
                 Grid.Column="1"
                 ShowLabel="False"
                 Checked="{Binding acceptTerms}"
@@ -43,14 +44,25 @@
                 OnImg="Image_Checked"
                 OffImg="Image_Unchecked"
                 />
-                    <Label Text="J'accepte les conditions d'utilisatios " TextColor="White"  HorizontalOptions="FillAndExpand"/>
+                        <Label Text="J'accepte les conditions d'utilisatios " TextColor="White"  HorizontalOptions="FillAndExpand"/>
+                    </StackLayout>
+                    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"  >
+                        <ActivityIndicator
+                        AbsoluteLayout.LayoutBounds="0,0.5,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        IsEnabled="{Binding isBusy,Mode=OneWay}"
+                        IsRunning="{Binding isBusy,Mode=OneWay}"
+                        IsVisible="{Binding isBusy,Mode=OneWay}"
+                        Color="White"
+                        HeightRequest="50"
+                        WidthRequest="50"
+                        ></ActivityIndicator>
+                        <Button AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"  IsVisible="{Binding  isEnabled , Mode=OneWay}" CornerRadius="20" BackgroundColor="White" Text="Valider" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="5" Command="{Binding validate}"/>
+                    </AbsoluteLayout>
                 </StackLayout>
-                <Button CornerRadius="20" BackgroundColor="White" Text="Valider" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="5" Command="{Binding validate}"/>
-                <Button CornerRadius="20" BackgroundColor="White" Text="J'ai deja un compte" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="5" Command="{Binding login}"/>
             </StackLayout>
-        </StackLayout>
-        
 
+        </ScrollView>
 
     </Grid>
 

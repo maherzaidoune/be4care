@@ -22,6 +22,8 @@ namespace be4care.PageModels
         public string sex { get; set; }
         public DateTime date { get; set; }
         public string username { get; set; }
+        public bool isBusy { get; set; }
+        public bool isEnabled { get; set; }
         public IEnumerable<string> Data { get; } = new List<string>() { "Homme", "Femme" };
         User user;
         private IRestServices _restServices;
@@ -31,6 +33,8 @@ namespace be4care.PageModels
 
         private async void addUser(object obj)
         {
+            isEnabled = false;
+            isBusy = true;
             user = (new User()).getUser();
             user.name = nom;
             user.lastName = prenom;
@@ -38,11 +42,15 @@ namespace be4care.PageModels
             user.bDate = date;
             user.username = username;
             await user.Save();
-            if (_restServices.UpdateProfile(user))
+            await Task.Run(() =>
             {
-                Console.WriteLine("add user profile done");
-            }
-
+                if (_restServices.UpdateProfile(user))
+                {
+                    Console.WriteLine("add user profile done");
+                }
+                isBusy = false;
+                isEnabled = true;
+            });
         }
 
         public AddUserPageModel(IRestServices _restServices,IDialogService _dialogService)
@@ -63,7 +71,8 @@ namespace be4care.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
-            
+            isBusy = false;
+            isEnabled = true;
         }
     }
 }

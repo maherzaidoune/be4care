@@ -16,18 +16,16 @@ namespace be4care.PageModels
     class InscriptionPageModel : FreshMvvm.FreshBasePageModel
     {
         private readonly IDialogService _dialogservices;
+        public bool isBusy { get; set; }
+        public bool isEnabled { get; set; }
         public ICommand backClick => new Command(backButtonClick);
         public ICommand validate => new Command(validateButtonClicked);
-        public ICommand login => new Command(loginButton);
-
-        private void loginButton(object obj)
-        {
-            _dialogservices.login();
-        }
 
 
         private async  void validateButtonClicked(object obj)
         {
+            isEnabled = false;
+            isBusy = true;
             var t = Utils.EntryCheck.checkentries(num, email, password, acceptTerms);
             if (!t.Item1)
             {
@@ -45,6 +43,8 @@ namespace be4care.PageModels
                     {
                         Console.WriteLine("Inscription done");
                     }
+                    isEnabled = true;
+                    isBusy = false;
                 });
                 
             }
@@ -62,20 +62,23 @@ namespace be4care.PageModels
             //save data
             Application.Current.Properties["email"] = email;
             Application.Current.Properties["num"] = num;
-            await CoreMethods.PushPageModel<onBoardingPageModel>();
+            await CoreMethods.PushPageModel<LoginPopupPageModel>();
             RaisePageWasPopped();
         }
 
         public InscriptionPageModel(IDialogService  _dialogservices,IRestServices _restService)
         {
             this._dialogservices = _dialogservices;
-            _RestService = _restService;
+            this._RestService = _restService;
         }
         public override void Init(object initData)
         {
             base.Init(initData);
             //restore user date
             acceptTerms = false;
+            isEnabled = true;
+            isBusy = false;
+
             if (Application.Current.Properties.ContainsKey("num"))
             {
                  num = Application.Current.Properties["num"] as string;

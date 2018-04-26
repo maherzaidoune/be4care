@@ -11,43 +11,63 @@ using Xamarin.Forms;
 namespace be4care.PageModels
 {
     [AddINotifyPropertyChangedInterface]
-    class LoginPopupPageModel
+    class LoginPopupPageModel : FreshMvvm.FreshBasePageModel
     { 
 
         private IRestServices _restServices;
         private IDialogService _dialogService;
+        public bool isBusy { get; set; }
+        public bool isEnabled { get; set; }
 
-        public LoginPopupPageModel()
+        public LoginPopupPageModel(IRestServices _restServices, IDialogService _dialogService)
         {
-            this._restServices = new RestServices();
-            this._dialogService = new DialogService();
+            this._dialogService = _dialogService;
+            this._restServices = _restServices;
         }
       
         public ICommand validate => new Command(login);
-        public ICommand retour => new Command(retourClicked);
+        public ICommand inscription => new Command(inscriptionButton);
 
-        private void login(object obj)
+        private async void login(object obj)
         {
+            isEnabled = false;
+            isBusy = true;
+            Console.WriteLine(  "login invoked");
+            Console.WriteLine( "true :" + isBusy);
+            Console.WriteLine(  "login invoked");
 
-            if ( _restServices.GetAccessToken(user, password))
+            await Task.Run(() =>
             {
-                _dialogService.ShowMessage("Connecté", "Succes", null, false);
-            }
-            else
-            {
+                if (_restServices.GetAccessToken(user, password))
+                {
+                    _dialogService.ShowMessage("Connecté", "Succes", null, false);
+                    
+                }
+                else
+                {
+                    _dialogService.ShowMessage("Verifiez vos donné", "Erreur", null, false);
+                    
+                }
+                isBusy = false;
+                isEnabled = true;
+                Console.WriteLine("true :" + isEnabled);
 
-                _dialogService.ShowMessage("Verifiez vos donné", "Erreur", null, false);
-            }
-
+            });
         }
 
-        private async void retourClicked(object obj)
+        private  void inscriptionButton(object obj)
         {
-            await PopupNavigation.Instance.PopAllAsync();
+            CoreMethods.PushPageModel<InscriptionPageModel>();
+            RaisePageWasPopped();
         }
         public string user { get; set; }
         public string password { get; set; }
 
-        
+        public override void Init(object initData)
+        {
+            base.Init(initData);
+            isBusy = false;
+            isEnabled = true;
+        }
     }
 }

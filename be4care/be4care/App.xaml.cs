@@ -19,7 +19,7 @@ namespace be4care
             SetUpIOC();
 
             InitializeComponent();
-            var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.InscriptionPageModel>();
+            var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.SplashPageModel>();
             MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
 		}
 
