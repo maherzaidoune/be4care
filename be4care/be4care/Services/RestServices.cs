@@ -1,5 +1,6 @@
 ﻿using be4care.Helpers;
 using be4care.Models;
+using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,11 @@ namespace be4care.Services
 {
     class RestServices : IRestServices
     {
-        public  string url = Utils.Constant.url;
+        private readonly  string url = Utils.Constant.url;
+        private string me = "me?access_token=" + "YKuj1L0dWtMkU80qXfI1JwUlWWEt83eJ5og31pYov6f2oeZiaBY04Wgnijb9ESBs";
 
-        public  bool Inscription(string email, string password)
+
+        public bool Inscription(string email, string password)
         {
             var client = new RestClient(url);
             var request = new RestRequest("users/", Method.POST);
@@ -21,11 +24,7 @@ namespace be4care.Services
             try
             {
                 IRestResponse response = client.Execute(request);
-                if(GetAccessToken(email, password))
-                {
-                    Console.WriteLine("Setting.token : " + Settings.AuthToken);
-                }
-                return response.IsSuccessful;
+                return GetAccessToken(email, password);
             }
             catch 
             {
@@ -89,15 +88,28 @@ namespace be4care.Services
 
         public User GetMyProfile()
         {
-            throw new NotImplementedException();
+            var client = new RestClient(url);
+            var request = new RestRequest("users/" + me, Method.GET);
+            try
+            {
+                IRestResponse response = client.Execute(request);
+                return JsonHelper.Deserialize<User>(response);
+            }
+            catch
+            {
+                // will , i'mnot sure  if this
+                Console.WriteLine("error  getting user profile");
+                return new User();
+            }
         }
 
         public bool UpdateProfile(User user)
         {
             var client = new RestClient(url);
-            var urlParams = "users/me?access_token=" + Settings.AuthToken;
-            var request = new RestRequest(urlParams, Method.PATCH);
-            request.AddParameter("email", user.email);
+            var request = new RestRequest("users/" + me, Method.PATCH);
+            request.Parameters.Clear();
+
+            //request.AddParameter("email", user.email);
             request.AddParameter("name", user.name);
             request.AddParameter("lastName", user.lastName);
             request.AddParameter("phNumber", user.phNumber);
@@ -105,17 +117,15 @@ namespace be4care.Services
             request.AddParameter("sex", user.sex);
             request.AddParameter("pUrl", user.pUrl);
             request.AddParameter("username", user.username);
-            //request.AddParameter("Authorization", "Bearer " +Settings.AuthToken, ParameterType.HttpHeader);
             try
             {
-                Console.WriteLine(url);
-                Console.WriteLine(urlParams);
                 IRestResponse response = client.Execute(request);
-                Console.WriteLine(response.Content);
+                Console.WriteLine(response.ToString());
                 return  response.IsSuccessful;
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine(e.StackTrace);
                 return false;
             }
         }

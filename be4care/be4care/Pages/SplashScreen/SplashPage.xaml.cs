@@ -9,7 +9,8 @@ namespace be4care.Pages
     {
         public SplashPage()
 		{
-            NavigationPage.SetHasNavigationBar(this, false);
+            if (Device.RuntimePlatform == Device.Android)
+                NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
         }
         protected async override void OnAppearing()

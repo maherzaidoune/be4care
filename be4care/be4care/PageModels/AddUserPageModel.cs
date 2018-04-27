@@ -1,5 +1,4 @@
-﻿using Akavache;
-using PropertyChanged;
+﻿using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +8,7 @@ using System.Reactive.Linq;
 using be4care.Models;
 using be4care.Services;
 using System.Threading.Tasks;
+using be4care.Helpers;
 
 namespace be4care.PageModels
 {
@@ -35,22 +35,25 @@ namespace be4care.PageModels
         {
             isEnabled = false;
             isBusy = true;
-            user = (new User()).getUser();
             user.name = nom;
             user.lastName = prenom;
             user.sex = sex.Equals("Homme");
             user.bDate = date;
             user.username = username;
-            await user.Save();
-            await Task.Run(() =>
+            await Task.Run( () =>
             {
                 if (_restServices.UpdateProfile(user))
                 {
                     Console.WriteLine("add user profile done");
                 }
+                Console.WriteLine("error updating  profile");
                 isBusy = false;
                 isEnabled = true;
             });
+
+            
+            await ButtonBar.initBar();
+
         }
 
         public AddUserPageModel(IRestServices _restServices,IDialogService _dialogService)

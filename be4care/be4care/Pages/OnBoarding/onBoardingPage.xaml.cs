@@ -9,7 +9,8 @@ namespace be4care.Pages
 
         public onBoardingPage()
         {
-            NavigationPage.SetHasNavigationBar(this, false);
+            if (Device.RuntimePlatform == Device.Android)
+                NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
         }
 

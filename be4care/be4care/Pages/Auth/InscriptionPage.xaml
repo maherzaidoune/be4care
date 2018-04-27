@@ -14,7 +14,7 @@
         </xfg:Gradient>
     </xfg:ContentPageGloss.BackgroundGradient>
 
-    <Grid Padding="10,20,10,0" >
+    <Grid Padding="10,30,10,0" >
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
@@ -25,16 +25,18 @@
                 <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
             </Label.GestureRecognizers>
         </Label>
-        <ScrollView Grid.Row="1" Padding="0,0,0,15" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <ScrollView Grid.Row="1" Padding="0,0,0,15" HorizontalOptions="FillAndExpand" VerticalOptions="Fill">
 
-            <StackLayout   x:Name="inscriptonLayout">
-                <StackLayout  Orientation="Vertical">
+            <StackLayout   x:Name="inscriptonLayout" VerticalOptions="FillAndExpand" >
+                <StackLayout  Orientation="Vertical" VerticalOptions="EndAndExpand"  HorizontalOptions="FillAndExpand" >
                     <Label Text="Inscription" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="Fill" Margin="10"/>
+                    <StackLayout VerticalOptions="Center" Padding="0,20,0,0">
                     <Entry Placeholder="  Email" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding email, Mode=TwoWay}" Keyboard="Email" />
                     <Entry Placeholder="  Numéro de téléphone" PlaceholderColor="White" FontSize="20"  HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding  num , Mode=TwoWay}"  Keyboard="Telephone" />
                     <Entry Placeholder="  Mot de passe" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40"  IsPassword="True" Text="{Binding password , Mode=OneWayToSource}"  />
+                    </StackLayout>
                 </StackLayout>
-                <StackLayout HorizontalOptions="Fill" x:Name="buttonStack">
+                <StackLayout HorizontalOptions="Fill" x:Name="buttonStack" VerticalOptions="FillAndExpand" >
                     <StackLayout Orientation="Horizontal" Padding="20,10,20,10" HorizontalOptions="Fill">
                         <ctrls:CheckBox HorizontalOptions="Start"
                 Grid.Column="1"
@@ -46,7 +48,7 @@
                 />
                         <Label Text="J'accepte les conditions d'utilisatios " TextColor="White"  HorizontalOptions="FillAndExpand"/>
                     </StackLayout>
-                    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"  >
+                    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"   >
                         <ActivityIndicator
                         AbsoluteLayout.LayoutBounds="0,0.5,1,1"
                         AbsoluteLayout.LayoutFlags="All"

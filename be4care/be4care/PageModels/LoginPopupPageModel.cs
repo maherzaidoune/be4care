@@ -1,4 +1,5 @@
-﻿using be4care.Services;
+﻿using be4care.Helpers;
+using be4care.Services;
 using PropertyChanged;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -30,29 +31,38 @@ namespace be4care.PageModels
 
         private async void login(object obj)
         {
-            isEnabled = false;
-            isBusy = true;
-            Console.WriteLine(  "login invoked");
-            Console.WriteLine( "true :" + isBusy);
-            Console.WriteLine(  "login invoked");
 
-            await Task.Run(() =>
+            var t = Utils.EntryCheck.checkentries(user, password);
+            if (!t.Item1)
             {
-                if (_restServices.GetAccessToken(user, password))
-                {
-                    _dialogService.ShowMessage("Connecté", "Succes", null, false);
-                    
-                }
-                else
-                {
-                    _dialogService.ShowMessage("Verifiez vos donné", "Erreur", null, false);
-                    
-                }
-                isBusy = false;
-                isEnabled = true;
-                Console.WriteLine("true :" + isEnabled);
+                _dialogService.ShowMessage(t.Item2, "Erreur", "retour", true);
+            }
+            else
+            {
+                isEnabled = false;
+                isBusy = true;
+                Console.WriteLine("login invoked");
+                Console.WriteLine("true :" + isBusy);
+                Console.WriteLine("login invoked");
 
-            });
+                await Task.Run(async () =>
+                {
+                    if (_restServices.GetAccessToken(user, password))
+                    {
+                        //get user data
+                        var user = _restServices.GetMyProfile();
+                        await ButtonBar.initBar();
+                    }
+                    else
+                    {
+                        _dialogService.ShowMessage("Verifiez vos donné", "Erreur", null, false);
+
+                    }
+                    isBusy = false;
+                    isEnabled = true;
+
+                });
+            }
         }
 
         private  void inscriptionButton(object obj)

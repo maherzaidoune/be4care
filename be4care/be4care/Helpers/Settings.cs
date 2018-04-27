@@ -1,35 +1,38 @@
-﻿using Akavache;
+﻿using be4care.Persistence;
+using Plugin.SecureStorage;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace be4care.Helpers
 {
-    public static class Settings
+    public  class Settings
     {
 
-        private static string authToken = string.Empty;
+
+        //private static string authToken = string.Empty;
 
         public static string AuthToken
         {
             get {
                 try
                 {
-                    //var token = BlobCache.Secure.GetObject<string>("token").ToString();
-                        BlobCache.Secure.GetObject<string>("token")
-                                .Subscribe(x => authToken = x, ex => Console.WriteLine("No token!"));
-                    Console.WriteLine("token saved as : "+ authToken);
-                    return authToken;
+                    //working :)
+                    return  CrossSecureStorage.Current.GetValue("token");
+                    return null;
                 }
                 catch
                 {
                     return null;
                 }
                  }
+
             set {
-                 authToken = value;
-                 BlobCache.Secure.InsertObject("token", authToken);
-                 Console.WriteLine("saved " +value);
+
+                CrossSecureStorage.Current.SetValue("token", value);
+                //authToken = value;
+                Console.WriteLine("token saved to db as  : " +value);
             }
         }
     }

@@ -60,5 +60,25 @@ namespace be4care.Utils
 
 
         }
+        public static Tuple<bool, string> checkentries(string email, string pass)
+        {
+            var msg = "";
+            var accepted = true;
+
+            if (!checkMail(email))
+            {
+                msg += "\r\n Email invalid";
+                accepted = false;
+            }
+            if (!(checkPass(pass)))
+            {
+                msg += "\r\n Password invalid";
+                accepted = false;
+            }
+
+            return new Tuple<bool, string>(accepted, msg);
+
+
+        }
     }
 }

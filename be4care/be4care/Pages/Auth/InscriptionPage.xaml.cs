@@ -15,7 +15,8 @@ namespace be4care.Pages
 
         public InscriptionPage ()
 		{
-            NavigationPage.SetHasNavigationBar(this, false);
+            if (Device.RuntimePlatform == Device.Android)
+                NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
         }
         protected override void OnSizeAllocated(double width, double height)
@@ -25,13 +26,13 @@ namespace be4care.Pages
             {
                 this.inscriptonLayout.Padding = new Thickness(0);
                 this.inscriptonLayout.Orientation = StackOrientation.Horizontal;
-                this.buttonStack.Padding = new Thickness(0, 40, 0, 0);
+                this.buttonStack.Padding = new Thickness(0, 70, 0, 0);
             }
             else
             {
                 this.inscriptonLayout.Padding = new Thickness(0, 50, 0, 0);
                 this.inscriptonLayout.Orientation = StackOrientation.Vertical;
-                this.buttonStack.Padding = new Thickness(0, 5, 0, 0);
+                this.buttonStack.Padding = new Thickness(0);
             }
         }
     }

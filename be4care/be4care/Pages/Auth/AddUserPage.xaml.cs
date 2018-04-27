@@ -14,7 +14,8 @@ namespace be4care.Pages
 	{
 		public AddUserPage ()
 		{
-            NavigationPage.SetHasNavigationBar(this, false);
+            if (Device.RuntimePlatform == Device.Android)
+                NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
 		}
         protected override void OnSizeAllocated(double width, double height)

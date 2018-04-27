@@ -9,6 +9,7 @@ using Rg.Plugins.Popup.Extensions;
 using Rg.Plugins.Popup.Services;
 using be4care.Models;
 using System.Threading.Tasks;
+using be4care.Helpers;
 
 namespace be4care.PageModels
 {
@@ -24,8 +25,7 @@ namespace be4care.PageModels
 
         private async  void validateButtonClicked(object obj)
         {
-            isEnabled = false;
-            isBusy = true;
+            
             var t = Utils.EntryCheck.checkentries(num, email, password, acceptTerms);
             if (!t.Item1)
             {
@@ -33,10 +33,9 @@ namespace be4care.PageModels
             }
             else
             {
+                isEnabled = false;
+                isBusy = true;
                 var me = new User { email = email, phNumber = num };
-                await me.Save();
-                await CoreMethods.PushPageModel<AddUserPageModel>();
-                RaisePageWasPopped();
                 await Task.Run(() =>
                 {
                     if (_RestService.Inscription(email, password))
@@ -46,7 +45,10 @@ namespace be4care.PageModels
                     isEnabled = true;
                     isBusy = false;
                 });
-                
+
+                await CoreMethods.PushPageModel<AddUserPageModel>();
+                RaisePageWasPopped();
+
             }
 
         }

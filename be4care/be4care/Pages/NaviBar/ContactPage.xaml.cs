@@ -10,13 +10,13 @@ using Xamarin.Forms.Xaml;
 namespace be4care.Pages
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AccountPage : ContentPage
+	public partial class ContactPage : ContentPage
 	{
-		public AccountPage ()
+		public ContactPage ()
 		{
             if (Device.RuntimePlatform == Device.Android)
                 NavigationPage.SetHasNavigationBar(this, false);
-            InitializeComponent();
+            InitializeComponent ();
 		}
 	}
 }

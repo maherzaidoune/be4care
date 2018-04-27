@@ -1,5 +1,4 @@
-﻿using Akavache;
-using be4care.Services;
+﻿using be4care.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,9 +12,6 @@ namespace be4care
 	{
 		public App ()
 		{
-
-            BlobCache.ApplicationName = "be4care";
-
             SetUpIOC();
 
             InitializeComponent();
@@ -35,7 +31,6 @@ namespace be4care
 
         protected override void OnSleep ()
 		{
-            BlobCache.Shutdown().Wait();
         }
 
         protected override void OnResume ()

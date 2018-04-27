@@ -14,7 +14,9 @@ namespace be4care.Pages
 	{
 		public SearchPage ()
 		{
-			InitializeComponent ();
+            if (Device.RuntimePlatform == Device.Android)
+                NavigationPage.SetHasNavigationBar(this, false);
+            InitializeComponent();
 		}
 	}
 }

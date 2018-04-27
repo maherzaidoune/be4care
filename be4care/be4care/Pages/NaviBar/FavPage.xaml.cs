@@ -14,7 +14,9 @@ namespace be4care.Pages
 	{
 		public FavPage ()
 		{
-			InitializeComponent ();
+            if (Device.RuntimePlatform == Device.Android)
+                NavigationPage.SetHasNavigationBar(this, false);
+            InitializeComponent();
 		}
 	}
 }

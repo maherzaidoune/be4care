@@ -9,7 +9,8 @@ namespace be4care.Pages
     {
 		public LoginPopupPage ()
 		{
-            NavigationPage.SetHasNavigationBar(this, false);
+            if (Device.RuntimePlatform == Device.Android)
+                NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
 		}
         protected override void OnSizeAllocated(double width, double height)
@@ -18,12 +19,12 @@ namespace be4care.Pages
             if (width > height)
             {
                 image.IsVisible = false;
-                bigstack.Padding = new Thickness(10, 10, 10, 10);
+                bigstack.Padding = new Thickness(10, 30, 10, 10);
             }
             else
             {
                 image.IsVisible = true;
-                bigstack.Padding = new Thickness(10, 30, 10, 10);
+                bigstack.Padding = new Thickness(10, 70, 10, 10);
             }
         }
 
