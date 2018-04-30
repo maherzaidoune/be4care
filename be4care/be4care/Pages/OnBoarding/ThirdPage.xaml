@@ -2,6 +2,7 @@
 <ContentView xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="be4care.Pages.onBoarding.ThirdPage"
+             xmlns:local="clr-namespace:be4care.MarkupExtensions"
              xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss">
 
     <xfg:ContentPageGloss.BackgroundGradient>
@@ -12,10 +13,7 @@
         </xfg:Gradient>
     </xfg:ContentPageGloss.BackgroundGradient>
 
-    <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill">
-        
-
-        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"  BackgroundColor="Transparent" Padding="20">
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand"  BackgroundColor="Transparent" Padding="20">
         <Label Text="Notre Mission"
                    FontSize="44"
                TextColor="White"
@@ -27,6 +25,5 @@
                    TextColor="White"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
-    </StackLayout>
     </StackLayout>
 </ContentView>

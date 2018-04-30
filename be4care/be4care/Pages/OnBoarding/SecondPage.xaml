@@ -12,18 +12,13 @@
         </xfg:Gradient>
     </xfg:ContentPageGloss.BackgroundGradient>
 
-    <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill">
-        
-
-        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"  BackgroundColor="Transparent" Padding="20">
-            <Label Text="Un stockage personnel et sécurisé"
+            <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand"  BackgroundColor="Transparent" Padding="20">
+                <Label Text="Un stockage personnel et sécurisé"
                    FontSize="44"
                TextColor="White"
                 VerticalOptions="Center" 
                 HorizontalOptions="CenterAndExpand" 
                 FontAttributes="Bold"/>
-
-        </StackLayout>
-    </StackLayout>
+            </StackLayout>
 
 </ContentView>

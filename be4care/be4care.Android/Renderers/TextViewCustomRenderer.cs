@@ -14,7 +14,7 @@ using be4care.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-[assembly: ExportRenderer(typeof(Entry), typeof(TextViewCustomRenderer))]
+[assembly: ExportRenderer(typeof(be4care.myEntry), typeof(TextViewCustomRenderer))]
 namespace be4care.Droid.Renderers
 {
     public class TextViewCustomRenderer : EntryRenderer

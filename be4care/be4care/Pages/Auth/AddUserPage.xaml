@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
              xmlns:ctrls="clr-namespace:AsNum.XFControls;assembly=AsNum.XFControls"
+             xmlns:local="clr-namespace:be4care"
              x:Class="be4care.Pages.AddUserPage">
     
     <xfg:ContentPageGloss.BackgroundGradient>
@@ -13,46 +14,45 @@
         </xfg:Gradient>
     </xfg:ContentPageGloss.BackgroundGradient>
 
-    <Grid Padding="0,30,0,0" >
+    <Grid Padding="10,30,10,0" >
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Label Text="&lt; RETOUR" Grid.Row="0" HorizontalOptions="StartAndExpand" TextColor="White" FontSize="Medium"  >
+        <Label Text="IGNORER X" Grid.Row="0" HorizontalOptions="EndAndExpand" TextColor="White" FontSize="Medium"  >
             <Label.GestureRecognizers>
-                <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
+                <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  close}" />
             </Label.GestureRecognizers>
         </Label>
 
-        <ScrollView Grid.Row="1" Padding="0,0,0,15" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <ScrollView Grid.Row="1" Padding="0,0,0,15" HorizontalOptions="FillAndExpand" VerticalOptions="Fill">
 
-            <StackLayout  x:Name="adduserStack" Orientation="Vertical">
-            <StackLayout>
+            <StackLayout  x:Name="adduserStack" Orientation="Vertical" VerticalOptions="FillAndExpand">
+                <StackLayout >
                 <Label Text="Saisir vos données" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="Fill" Margin="10" />
-                <Entry Placeholder="  username" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding username, Mode=TwoWay}" Keyboard="Text"  />
-                <Entry Placeholder="  Nom" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding nom, Mode=TwoWay}" Keyboard="Text" />
-                <Entry Placeholder="  Prénon" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding prenom, Mode=TwoWay}" Keyboard="Text" />
+                <local:myEntry Placeholder="  username" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding username, Mode=TwoWay}" Keyboard="Text"  />
+                <local:myEntry Placeholder="  Nom" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding nom, Mode=TwoWay}" Keyboard="Text" />
+                <local:myEntry Placeholder="  Prénon" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding prenom, Mode=TwoWay}" Keyboard="Text" />
                 </StackLayout>
-                <StackLayout x:Name="buttonStack">
+                <StackLayout x:Name="buttonStack" VerticalOptions="FillAndExpand">
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
                         <StackLayout Padding="10">
                             <Label Text="Date de naissance : " TextColor="White" FontSize="15" Margin="5" HorizontalOptions="Start"  />
                             <Label Text="Sexe : " TextColor="White" FontSize="15" Margin="5" HorizontalOptions="Start"  />
                         </StackLayout>
-                        <StackLayout HorizontalOptions="StartAndExpand" >
-                            <DatePicker Date="{Binding date}" TextColor="White"  BackgroundColor="Transparent"  HorizontalOptions="StartAndExpand" />
+                        <StackLayout HorizontalOptions="StartAndExpand"  x:Name="dateStack">
+                            <DatePicker Date="{Binding date,Mode=TwoWay}" TextColor="White"  BackgroundColor="Transparent"  HorizontalOptions="StartAndExpand" />
                             <Picker   
                             ItemsSource="{Binding Data}"
-                            SelectedItem="{Binding sex}"
+                            SelectedItem="{Binding sex,Mode=TwoWay}"
                             TextColor="White"
                             HorizontalOptions="StartAndExpand"
                             BackgroundColor="Transparent"      
                         />
                         </StackLayout>
                     </StackLayout >
-                    <StackLayout HorizontalOptions="Fill">
-                        <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"  >
+                    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"   >
                             <ActivityIndicator
                         AbsoluteLayout.LayoutBounds="0,0.5,1,1"
                         AbsoluteLayout.LayoutFlags="All"
@@ -63,9 +63,8 @@
                         HeightRequest="50"
                         WidthRequest="50"
                         ></ActivityIndicator>
-                            <Button AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding  isEnabled , Mode=OneWay}" CornerRadius="20" BackgroundColor="White" Text="Valider" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="15" Command="{Binding validate}"/>
+                            <Button AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding  isEnabled , Mode=OneWay}" CornerRadius="20" BackgroundColor="White" Text="Valider" TextColor="#FF9C6C" HorizontalOptions="Fill" Margin="5" Command="{Binding validate}"/>
                         </AbsoluteLayout>
-                    </StackLayout>
                 </StackLayout>
 
             </StackLayout>

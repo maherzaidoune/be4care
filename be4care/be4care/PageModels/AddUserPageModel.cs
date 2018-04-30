@@ -28,11 +28,13 @@ namespace be4care.PageModels
         User user;
         private IRestServices _restServices;
         private IDialogService _dialogService;
-        public ICommand backClick => new Command(backButtonClick);
+        private IUserServices _userServices;
+        public ICommand close => new Command(closebutton);
         public ICommand validate => new Command(addUser);
 
         private async void addUser(object obj)
         {
+            user = await  _userServices.GetUser();
             isEnabled = false;
             isBusy = true;
             user.name = nom;
@@ -40,34 +42,32 @@ namespace be4care.PageModels
             user.sex = sex.Equals("Homme");
             user.bDate = date;
             user.username = username;
-            await Task.Run( () =>
+            await Task.Run( async () =>
             {
-                if (_restServices.UpdateProfile(user))
+                if(!(_restServices.UpdateProfile(user)))
                 {
-                    Console.WriteLine("add user profile done");
+                    //Console.WriteLine("error updating  profile , user save for  local db");
+                    _dialogService.ShowMessage("Erreur", null, null, false);
+                    isBusy = false;
+                    isEnabled = true;
                 }
-                Console.WriteLine("error updating  profile");
-                isBusy = false;
-                isEnabled = true;
+                _userServices.SaveUser(user);
+                await ButtonBar.initBar();
             });
-
-            
-            await ButtonBar.initBar();
-
         }
 
-        public AddUserPageModel(IRestServices _restServices,IDialogService _dialogService)
+        public AddUserPageModel(IRestServices _restServices,IDialogService _dialogService, IUserServices _userServices)
         {
             sex = "Homme";
             date = DateTime.Today;
             this._dialogService = _dialogService;
             this._restServices = _restServices;
+            this._userServices = _userServices;
         }
 
-        private async void backButtonClick(object obj)
+        private async void closebutton(object obj)
         {
-            await CoreMethods.PushPageModel<InscriptionPageModel>();
-            RaisePageWasPopped();
+            await ButtonBar.initBar();
         }
 
         

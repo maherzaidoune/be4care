@@ -8,7 +8,9 @@ namespace be4care.Services
 {
     interface IRestServices
     {
-        Task Init();
+        bool Init();
+
+
 
         Task<IList<Document>> GetDocumentsAsync();
 
@@ -22,7 +24,7 @@ namespace be4care.Services
 
         User GetMyProfile();
 
-        bool Inscription(string email, string password);
+        bool Inscription(string data, string pass);
 
         bool UpdateProfile(User user);
     }

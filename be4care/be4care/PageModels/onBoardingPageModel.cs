@@ -13,6 +13,7 @@ namespace be4care.PageModels
         public bool isBack { get; set; }
         public int myPosition { get; set; }
         public Xamarin.Forms.View[] viewList { get; set; }
+        public string image { get; set; }
 
         public ICommand CarousalPositionChanged => new Xamarin.Forms.Command(PositionChanged);
         public ICommand backClicked => new Xamarin.Forms.Command(backLabelClick);
@@ -34,6 +35,12 @@ namespace be4care.PageModels
         {
 
             isBack = myPosition != 0;
+            if (myPosition == 0)
+                image = "firstback.png";
+            if (myPosition == 1)
+                image = "secondback.png";
+            if (myPosition == 2)
+                image = "stephaneback.png";
             
         }
 

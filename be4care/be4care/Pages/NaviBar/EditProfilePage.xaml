@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:be4care"
+             xmlns:l="clr-namespace:be4care.MarkupExtensions"
+             x:Class="be4care.Pages.EditProfilePage">
+    <ContentPage.Content>
+
+        <Grid Padding="10,30,10,10" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Label Text="&lt; RETOUR" Grid.Row="0" HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="Medium"  >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
+                </Label.GestureRecognizers>
+            </Label>
+            <StackLayout Grid.Row="1" Orientation="Horizontal">
+                <Label Text="Mon Profile" FontSize="44" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
+                <Image Source="modifier.png"
+                   HeightRequest="30"
+                   WidthRequest="30"
+                   VerticalOptions="EndAndExpand"
+                   >
+                    <controls:CircleImage.GestureRecognizers>
+                        <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  edit}" />
+                    </controls:CircleImage.GestureRecognizers>
+                </Image>
+            </StackLayout>
+
+                <ScrollView  Grid.Row="2"  >
+                <StackLayout>
+                    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="Start">
+                    <Label Text="Photo de profile"  FontSize="12" TextColor="Gray" Margin="1"/>
+                    <controls:CircleImage 
+                        Source="{l:EmbeddedImage resourceId=be4care.SharedImages.stephane.png}" 
+                        Aspect="AspectFit"
+                        HeightRequest="75"
+                        WidthRequest="75"
+                        VerticalOptions="Start"
+                        >
+                        <controls:CircleImage.GestureRecognizers>
+                            <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  photochange}" />
+                        </controls:CircleImage.GestureRecognizers>
+                    </controls:CircleImage>
+
+                </StackLayout>
+                <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0,10,0,10">
+                    <Label Text="Identifiant" FontSize="12" TextColor="Black" />
+                    <Entry Text="{Binding email,Mode=TwoWay}" FontSize="20" HorizontalOptions="Fill"  HeightRequest="40" Margin="5"  />
+                    <Label Text="Nom" FontSize="12" TextColor="Black" />
+                    <Entry Text="{Binding nom,Mode=TwoWay}" FontSize="20" HorizontalOptions="Fill" HeightRequest="40" Margin="5"  />
+                    <Label Text="Prenom" FontSize="12" TextColor="Black" />
+                    <Entry Text="{Binding prenom,Mode=TwoWay}" FontSize="20" HorizontalOptions="Fill" HeightRequest="40" Margin="5"  />
+                    <Label Text="Numéro de telephone" FontSize="12" TextColor="Black" />
+                    <Entry Text="{Binding num,Mode=TwoWay}" FontSize="20" HorizontalOptions="Fill" HeightRequest="40" Margin="5"  />
+                    <Label Text="Date de naissance" FontSize="12" TextColor="Black" />
+                    <DatePicker Margin="5" Date="{Binding date,Mode=TwoWay}" TextColor="Black"  BackgroundColor="Transparent"  HorizontalOptions="StartAndExpand" />
+                    <Label   Text="sexe" FontSize="12" TextColor="Black" />
+                    <Picker   
+                            ItemsSource="{Binding Data}"
+                            SelectedItem="{Binding sex,Mode=TwoWay}"
+                            TextColor="Black"
+                        Margin="5"
+                            HorizontalOptions="StartAndExpand"
+                            BackgroundColor="Transparent"  />
+                </StackLayout>
+                    
+                    <!--list of favorite must be implemented  here-->
+                </StackLayout>
+                    
+            </ScrollView>
+
+            <AbsoluteLayout Grid.Row="3" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"   >
+                <ActivityIndicator
+                        AbsoluteLayout.LayoutBounds="0,0.5,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        IsEnabled="{Binding isBusy,Mode=OneWay}"
+                        IsRunning="{Binding isBusy,Mode=OneWay}"
+                        IsVisible="{Binding isBusy,Mode=OneWay}"
+                        Color="Orange"
+                        HeightRequest="50"
+                        WidthRequest="50"
+                        ></ActivityIndicator>
+                <Frame
+                    AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+                    IsClippedToBounds="False"
+                    CornerRadius="10"
+                    Padding="0"
+                    IsVisible = "{Binding  isEnabled , Mode=OneWay}"
+                    HorizontalOptions="Fill">
+                    <local:GradientButton  StartColor="#FF5955" EndColor="#FFCB7E" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                        <Button HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="Transparent" Text="valider" TextColor="White" FontSize="20" Command="{Binding save}" />
+                    </local:GradientButton>
+                </Frame>
+            </AbsoluteLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

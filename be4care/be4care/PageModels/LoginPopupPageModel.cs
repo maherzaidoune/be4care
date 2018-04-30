@@ -14,20 +14,21 @@ namespace be4care.PageModels
     [AddINotifyPropertyChangedInterface]
     class LoginPopupPageModel : FreshMvvm.FreshBasePageModel
     { 
-
         private IRestServices _restServices;
         private IDialogService _dialogService;
+        private IUserServices _userServices;
         public bool isBusy { get; set; }
         public bool isEnabled { get; set; }
-
-        public LoginPopupPageModel(IRestServices _restServices, IDialogService _dialogService)
+        public LoginPopupPageModel(IRestServices _restServices, IDialogService _dialogService, IUserServices _userServices)
         {
             this._dialogService = _dialogService;
             this._restServices = _restServices;
+            this._userServices = _userServices;
         }
       
         public ICommand validate => new Command(login);
         public ICommand inscription => new Command(inscriptionButton);
+        
 
         private async void login(object obj)
         {
@@ -41,26 +42,22 @@ namespace be4care.PageModels
             {
                 isEnabled = false;
                 isBusy = true;
-                Console.WriteLine("login invoked");
-                Console.WriteLine("true :" + isBusy);
-                Console.WriteLine("login invoked");
-
                 await Task.Run(async () =>
                 {
                     if (_restServices.GetAccessToken(user, password))
                     {
+                        password = String.Empty;
                         //get user data
-                        var user = _restServices.GetMyProfile();
+                        var _user = _restServices.GetMyProfile();
+                        _userServices.SaveUser(_user);
                         await ButtonBar.initBar();
                     }
                     else
                     {
                         _dialogService.ShowMessage("Verifiez vos donné", "Erreur", null, false);
-
+                        isBusy = false;
+                        isEnabled = true;
                     }
-                    isBusy = false;
-                    isEnabled = true;
-
                 });
             }
         }

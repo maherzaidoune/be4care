@@ -7,6 +7,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using AsNum.XFControls.Droid;
+using ImageCircle.Forms.Plugin.Droid;
 
 namespace be4care.Droid
 {
@@ -21,9 +22,14 @@ namespace be4care.Droid
             AsNumAssemblyHelper.HoldAssembly();
             Rg.Plugins.Popup.Popup.Init(this, bundle);
             global::Xamarin.Forms.Forms.Init(this, bundle);
+            ImageCircleRenderer.Init();
             LoadApplication(new App());
         }
-        /*
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+        }
+        
         public override void OnBackPressed()
         {
             // This prevents a user from being able to hit the back button and leave the login page.
@@ -31,7 +37,7 @@ namespace be4care.Droid
             return;
 
         }
-        */
+        
 
     }
 }

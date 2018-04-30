@@ -13,7 +13,16 @@
             <xfg:GradientStep StepColor="#FFCB7E" StepPercentage="1" />
         </xfg:Gradient>
     </xfg:ContentPageGloss.BackgroundGradient>
-    <Grid Padding="10,30,10,0" >
+
+    <AbsoluteLayout>
+
+        <Image Source="{Binding image}" AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Aspect="Fill"/>
+
+        <Grid
+        Padding="10,30,10,0"
+        AbsoluteLayout.LayoutBounds="0,0,1,1"
+        AbsoluteLayout.LayoutFlags="All"
+        >
         <Grid.RowDefinitions>
             <RowDefinition
                         Height="30" />
@@ -45,5 +54,5 @@
                PositionSelectedCommand="{Binding CarousalPositionChanged}"
                 />
             </Grid>
-        
+    </AbsoluteLayout>
 </ContentPage>

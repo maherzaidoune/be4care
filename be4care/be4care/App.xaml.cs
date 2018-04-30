@@ -1,4 +1,6 @@
-﻿using be4care.Services;
+﻿using Akavache;
+using Akavache.Sqlite3;
+using be4care.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,8 @@ namespace be4care
 	{
 		public App ()
 		{
+            BlobCache.ApplicationName = "AkavacheExperiment";
+            BlobCache.EnsureInitialized();
             SetUpIOC();
 
             InitializeComponent();
@@ -23,6 +27,7 @@ namespace be4care
         {
             FreshMvvm.FreshIOC.Container.Register<IDialogService, DialogService>();
             FreshMvvm.FreshIOC.Container.Register<IRestServices, RestServices>();
+            FreshMvvm.FreshIOC.Container.Register<IUserServices, UserServices>();
         }
         protected override void OnStart ()
 		{
@@ -31,11 +36,13 @@ namespace be4care
 
         protected override void OnSleep ()
 		{
+            BlobCache.Shutdown().Wait();
         }
 
         protected override void OnResume ()
 		{
             // Handle when your app resumes
         }
+       
     }
 }

@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 using System.Reactive.Linq;
 using be4care.Services;
 using Xamarin.Forms;
-using be4care.Persistence;
 
 namespace be4care.Models
 {
-    class User 
+    public class User 
     {
+        public int  localId { get; set; }
         public string name { get; set; }
         public string lastName { get; set; }
         public string email { get; set; }

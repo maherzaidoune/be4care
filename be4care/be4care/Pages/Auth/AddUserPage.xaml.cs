@@ -24,12 +24,13 @@ namespace be4care.Pages
             if (width > height)
             {
                 this.adduserStack.Padding = new Thickness(0);
-                this.buttonStack.Padding = new Thickness(0, 70, 0, 0);
+                this.buttonStack.Padding = new Thickness(0, 30, 0, 0);
+                this.dateStack.Padding = new Thickness(0, 40, 0, 0);
                 this.adduserStack.Orientation = StackOrientation.Horizontal;
             }
             else
             {
-                this.adduserStack.Padding = new Thickness(0, 20, 0, 10);
+                this.adduserStack.Padding = new Thickness(0, 50, 0, 0);
                 this.buttonStack.Padding = new Thickness(0);
                 this.adduserStack.Orientation = StackOrientation.Vertical;
             }

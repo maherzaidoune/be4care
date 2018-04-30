@@ -15,19 +15,18 @@
 </xfg:ContentPageGloss.BackgroundGradient>
 
 
-
-        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"  BackgroundColor="Transparent" Padding="20">
-            <Label Text="Centralisez  et Conservez"
+        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand"  BackgroundColor="Transparent" Padding="20">
+                <Label Text="Centralisez  et Conservez"
                    FontSize="44"
                TextColor="White"
                 VerticalOptions="Center" 
                 HorizontalOptions="Center" 
                 FontAttributes="Bold"/>
-            <Label Text="vos donné  de  santésous forme numerique"
+                <Label Text="vos donné  de  santésous forme numerique"
                    FontSize="Large"
                    TextColor="White"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-        
+            </StackLayout>
+
 </ContentView>

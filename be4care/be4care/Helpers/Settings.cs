@@ -1,5 +1,4 @@
-﻿using be4care.Persistence;
-using Plugin.SecureStorage;
+﻿using Plugin.SecureStorage;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,11 +19,10 @@ namespace be4care.Helpers
                 {
                     //working :)
                     return  CrossSecureStorage.Current.GetValue("token");
-                    return null;
                 }
                 catch
                 {
-                    return null;
+                    return String.Empty;
                 }
                  }
 

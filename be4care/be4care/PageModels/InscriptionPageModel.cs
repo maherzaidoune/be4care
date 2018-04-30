@@ -22,33 +22,33 @@ namespace be4care.PageModels
         public ICommand backClick => new Command(backButtonClick);
         public ICommand validate => new Command(validateButtonClicked);
 
-
-        private async  void validateButtonClicked(object obj)
+        private  void validateButtonClicked(object obj)
         {
-            
             var t = Utils.EntryCheck.checkentries(num, email, password, acceptTerms);
             if (!t.Item1)
             {
-                _dialogservices.ShowMessage(t.Item2, "Erreur", "retour", true);
+                _dialogservices.ShowMessage(t.Item2, "Erreur",null, false);
             }
             else
             {
                 isEnabled = false;
                 isBusy = true;
-                var me = new User { email = email, phNumber = num };
-                await Task.Run(() =>
+                Task.Run( () =>
                 {
-                    if (_RestService.Inscription(email, password))
+                    if (_RestService.Inscription(email,password))
                     {
-                        Console.WriteLine("Inscription done");
+                        var me = new User { email = email, phNumber = num };
+                        _userServices.SaveUser(me);
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await CoreMethods.PushPageModel<AddUserPageModel>();
+                            RaisePageWasPopped();
+                        });
                     }
+                    password = String.Empty;
                     isEnabled = true;
                     isBusy = false;
                 });
-
-                await CoreMethods.PushPageModel<AddUserPageModel>();
-                RaisePageWasPopped();
-
             }
 
         }
@@ -57,21 +57,20 @@ namespace be4care.PageModels
         public string num { get; set; }
         public string password { get; set; }
         public bool acceptTerms { get; set; }
-        private IRestServices _RestService { get; }
+        private IRestServices _RestService { get; set; }
+        public IUserServices _userServices { get; set; }
 
         private async void backButtonClick(object obj)
-        {
-            //save data
-            Application.Current.Properties["email"] = email;
-            Application.Current.Properties["num"] = num;
+        { 
             await CoreMethods.PushPageModel<LoginPopupPageModel>();
             RaisePageWasPopped();
         }
 
-        public InscriptionPageModel(IDialogService  _dialogservices,IRestServices _restService)
+        public InscriptionPageModel(IDialogService  _dialogservices,IRestServices _restService,IUserServices _userServices)
         {
             this._dialogservices = _dialogservices;
             this._RestService = _restService;
+            this._userServices = _userServices;
         }
         public override void Init(object initData)
         {
@@ -80,17 +79,6 @@ namespace be4care.PageModels
             acceptTerms = false;
             isEnabled = true;
             isBusy = false;
-
-            if (Application.Current.Properties.ContainsKey("num"))
-            {
-                 num = Application.Current.Properties["num"] as string;
-
-            }
-            if (Application.Current.Properties.ContainsKey("email"))
-            {
-                email = Application.Current.Properties["email"] as string;
-            }
-
         }
 
     }
