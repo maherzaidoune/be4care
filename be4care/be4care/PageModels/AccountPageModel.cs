@@ -28,7 +28,6 @@ namespace be4care.PageModels
             }
             set
             {
-                Console.WriteLine("setter called");
                 if(value.position == 0)
                     CoreMethods.PushPageModel<ProfilePageModel>();
                 if (value.position == 1)
@@ -46,20 +45,19 @@ namespace be4care.PageModels
 
         public AccountPageModel()
         {
-            views = new List<ViewElement>
-        {
-            new ViewElement{ image = "contactlist.png" , label = "Mon Profile",position= 0},
-            new ViewElement{ image = "contactlist.png" , label = "Répertoire", position= 1},
-            new ViewElement{ image = "contactlist.png" , label = "A propos", position= 2},
-            new ViewElement{ image = "info.png" , label = "Mentions Légales", position= 3},
-            new ViewElement{ image = "contact.png" , label = "Contacts", position= 4},
-        };
+            
         }
-        public override void Init(object initData)
+        public  override void Init(object initData)
         {
             base.Init(initData);
-            
-            
+            views = new List<ViewElement>
+        {
+            new ViewElement{ image = "phonebook.png" , label = "Mon Profile",position= 0},
+            new ViewElement{ image = "phonebook.png" , label = "Répertoire", position= 1},
+            new ViewElement{ image = "Hand.png" , label = "A propos", position= 2},
+            new ViewElement{ image = "file.png" , label = "Mentions Légales", position= 3},
+            new ViewElement{ image = "bubble.png" , label = "Contacts", position= 4},
+        };
         }
     }
 }

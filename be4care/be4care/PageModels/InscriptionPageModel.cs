@@ -1,15 +1,10 @@
 ﻿using be4care.Services;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows.Input;
 using Xamarin.Forms;
-using Rg.Plugins.Popup.Extensions;
-using Rg.Plugins.Popup.Services;
 using be4care.Models;
 using System.Threading.Tasks;
-using be4care.Helpers;
 
 namespace be4care.PageModels
 {
@@ -27,7 +22,7 @@ namespace be4care.PageModels
             var t = Utils.EntryCheck.checkentries(num, email, password, acceptTerms);
             if (!t.Item1)
             {
-                _dialogservices.ShowMessage(t.Item2, "Erreur",null, false);
+                _dialogservices.ShowMessage(t.Item2);
             }
             else
             {

@@ -16,9 +16,15 @@ namespace be4care.Services
 
         Task<IList<Doctor>> GetDoctorsAsync();
 
-        string Analyse();
+        bool AddDoctor(Doctor d);
 
-        string UploadPhoto(string Url);
+        Task<IList<HealthStruct>> GetHealthStructs();
+
+        bool AddHealthStruct(HealthStruct s);
+
+        Task<string> Analyse(User user);
+
+        Task<string> Analyse(string Url);
 
         bool GetAccessToken(string username, string password);
 

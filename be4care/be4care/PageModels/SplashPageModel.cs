@@ -6,6 +6,7 @@ using Plugin.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace be4care.PageModels
@@ -14,25 +15,32 @@ namespace be4care.PageModels
     {
         private IDialogService _dialogServices;
         private IRestServices _restServices;
-        public SplashPageModel(IDialogService _dialogServices, IRestServices _restServices)
+        private IUserServices _userServices;
+        private IHStructServices _hstructServices;
+        private IDoctorServices _doctorServices;
+        public SplashPageModel(IDialogService _dialogServices, IRestServices _restServices,IUserServices _userServices,IHStructServices _hstructServices,IDoctorServices _doctorServices)
         {
             this._dialogServices = _dialogServices;
             this._restServices = _restServices;
+            this._hstructServices = _hstructServices;
+            this._doctorServices = _doctorServices;
         }
         public  async override void Init(object initData)
         {
             base.Init(initData);
-            await System.Threading.Tasks.Task.Delay(3000);    
-            var auth =  Settings.AuthToken;
+            await Task.Delay(3000);
+            var auth = Settings.AuthToken;
             if (!CrossConnectivity.Current.IsConnected)
             {
-                _dialogServices.ShowMessage("verifier votre connection internet", "Erreur", null, false);
+                _dialogServices.ShowMessage("verifier votre connection internet");
             }
-            Console.WriteLine("auth : "  + auth);
-            
+            Console.WriteLine("auth : " + auth);
+           
             if (string.IsNullOrEmpty(auth))
             {
                 Console.WriteLine("auth empty , user is not connected");
+                _doctorServices.DeleteDoctors();
+                _hstructServices.DeleteStructs();
                 await CoreMethods.PushPageModel<onBoardingPageModel>();
                 RaisePropertyChanged();
             }
@@ -41,13 +49,14 @@ namespace be4care.PageModels
                 if (_restServices.Init())
                 {
                     Console.WriteLine("Token : " + auth);
-                    Console.WriteLine("user connected");
                     await ButtonBar.initBar();
                 }
                 else { 
-                Settings.AuthToken = String.Empty;
-                await CoreMethods.PushPageModel<LoginPopupPageModel>();
-                RaisePropertyChanged();
+                    Settings.AuthToken = String.Empty;
+                    _doctorServices.DeleteDoctors();
+                     _hstructServices.DeleteStructs();
+                    await CoreMethods.PushPageModel<LoginPopupPageModel>();
+                    RaisePropertyChanged();
                     }
             }
         }

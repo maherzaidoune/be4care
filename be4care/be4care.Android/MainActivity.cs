@@ -8,10 +8,12 @@ using Android.Widget;
 using Android.OS;
 using AsNum.XFControls.Droid;
 using ImageCircle.Forms.Plugin.Droid;
+using Acr.UserDialogs;
+using Plugin.CurrentActivity;
 
 namespace be4care.Droid
 {
-    [Activity(Label = "be4care", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "be4care", Icon = "@drawable/icon", Theme = "@style/MainTheme", MainLauncher = false, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle bundle)
@@ -20,11 +22,21 @@ namespace be4care.Droid
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
             AsNumAssemblyHelper.HoldAssembly();
-            Rg.Plugins.Popup.Popup.Init(this, bundle);
+            UserDialogs.Init(this);
             global::Xamarin.Forms.Forms.Init(this, bundle);
             ImageCircleRenderer.Init();
             LoadApplication(new App());
         }
+        public void OnActivityCreated(Activity activity, Bundle savedInstanceState)
+        {
+            CrossCurrentActivity.Current.Activity = activity;
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        {
+            Plugin.Permissions.PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
         protected override void OnDestroy()
         {
             base.OnDestroy();

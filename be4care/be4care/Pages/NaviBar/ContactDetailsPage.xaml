@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="be4care.Pages.ContactDetailsPage">
+    <ContentPage.Content>
+        <Grid Padding="10,30,10,0" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="80" />
+                <RowDefinition Height="auto" 
+                               />
+            </Grid.RowDefinitions>
+            <Label Text="&lt; RETOUR" Grid.Row="0" HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="Medium"  >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
+                </Label.GestureRecognizers>
+            </Label>
+            <StackLayout Grid.Row="1" >
+                <StackLayout Orientation="Horizontal">
+                    <StackLayout >
+                        <Label Text="{Binding name} " FontSize="44" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
+                        <Label Text="{Binding spec}" Font="12" TextColor="Black" HorizontalOptions="Start" />
+                    </StackLayout>
+                    <Image Source="modifier.png"
+                   HeightRequest="30"
+                   WidthRequest="30"
+                   VerticalOptions="Center"
+                   >
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  add}" />
+                        </Image.GestureRecognizers>
+                    </Image>
+                </StackLayout>
+            </StackLayout>
+
+            <ListView
+                    Grid.Row="2"
+                    ItemsSource="{Binding contact}"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand"
+                    RowHeight="60"
+                    >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="5,5,5,5" HorizontalOptions="Fill" VerticalOptions="Fill" >
+                                <Label Text="{Binding menu}" FontSize="12" TextColor="Gray" Margin="1"/>
+                                <Label Text="{Binding  info}" FontSize="16" TextColor="Black"  />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

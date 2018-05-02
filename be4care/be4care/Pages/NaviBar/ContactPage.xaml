@@ -3,19 +3,64 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="be4care.Pages.ContactPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Médecin" FontSize="24" BackgroundColor="Gray" Margin="5" HorizontalOptions="Start"/>
-            <ListView>
+
+
+        <Grid Padding="10,30,10,0" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="70" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Text="&lt; RETOUR" Grid.Row="0" HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="Medium"  >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
+                </Label.GestureRecognizers>
+            </Label>
+            <StackLayout Grid.Row="1" Orientation="Horizontal" Padding="0,0,0,10">
+                <Label Text="Répertoire " FontSize="44" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
+                <Image Source="modifier.png"
+                   HeightRequest="30"
+                   WidthRequest="30"
+                   VerticalOptions="Center"
+                   >
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  edit}" />
+                    </Image.GestureRecognizers>
+                </Image>
+            </StackLayout>
+            <ListView 
+                        Grid.Row="2"
+                        ItemsSource="{Binding contacts}"
+                        RowHeight="40"
+                        SelectedItem="{Binding selectedContact}"
+                        SeparatorColor="LightGray"
+                        IsGroupingEnabled="true"
+                        CachingStrategy="RecycleElement"
+                        VerticalOptions="Fill"
+                        >
+                <ListView.GroupHeaderTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout HeightRequest="25"  HorizontalOptions="Fill" BackgroundColor="#f5f5f5">
+                                <Label Text="{Binding title}" FontSize="20" TextColor="Black" Margin="5" HorizontalOptions="Start"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.GroupHeaderTemplate>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Orientation="Horizontal">
-                                <Image 
+                            <StackLayout Orientation="Horizontal" VerticalOptions="Center">
+                                <StackLayout  WidthRequest="35">
+                                    <Image  Source="star.png" IsVisible="{Binding star}" HeightRequest="25" WidthRequest="25"  VerticalOptions="Center" />
+                                </StackLayout>
+                                <Label Text="{Binding fullName}" FontSize="22" TextColor="Black" VerticalOptions="Center" />
+                                <Image Source="next.png"  HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
-        </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

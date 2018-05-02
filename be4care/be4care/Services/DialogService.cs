@@ -1,25 +1,19 @@
-﻿using Rg.Plugins.Popup.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.Forms;
+﻿using Acr.UserDialogs;
 
 namespace be4care.Services
 {
     class DialogService : FreshMvvm.FreshBasePageModel, IDialogService
     {
-        public  void ShowMessage(string message, string title, string buttonText,bool hasButton)
+        public  void ShowMessage(string message)
         {
-             Device.BeginInvokeOnMainThread(async () =>
+            Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
             {
-                await PopupNavigation.Instance.PopAllAsync();
-                await PopupNavigation.Instance.PushAsync(new Pages.PopUp.ShowErrorPage(message, title, buttonText, hasButton));
-                if (!hasButton)
-                {
-                    await Task.Delay(1500);
-                    await PopupNavigation.Instance.PopAllAsync(true);
-                }
+                var toastConfig = new ToastConfig(message);
+                toastConfig.SetDuration(2000);
+                toastConfig.MessageTextColor = System.Drawing.Color.Black;
+                toastConfig.SetPosition(ToastPosition.Bottom);
+                toastConfig.SetBackgroundColor(System.Drawing.Color.FromArgb(255, 112, 67));
+                UserDialogs.Instance.Toast(toastConfig);
             });
             
         }  

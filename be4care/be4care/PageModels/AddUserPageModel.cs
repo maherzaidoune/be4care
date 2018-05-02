@@ -47,7 +47,7 @@ namespace be4care.PageModels
                 if(!(_restServices.UpdateProfile(user)))
                 {
                     //Console.WriteLine("error updating  profile , user save for  local db");
-                    _dialogService.ShowMessage("Erreur", null, null, false);
+                    _dialogService.ShowMessage("Erreur");
                     isBusy = false;
                     isEnabled = true;
                 }

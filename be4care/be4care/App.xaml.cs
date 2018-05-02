@@ -28,6 +28,8 @@ namespace be4care
             FreshMvvm.FreshIOC.Container.Register<IDialogService, DialogService>();
             FreshMvvm.FreshIOC.Container.Register<IRestServices, RestServices>();
             FreshMvvm.FreshIOC.Container.Register<IUserServices, UserServices>();
+            FreshMvvm.FreshIOC.Container.Register<IDoctorServices, DoctorServices>();
+            FreshMvvm.FreshIOC.Container.Register<IHStructServices, HStructServices>();
         }
         protected override void OnStart ()
 		{

@@ -1,10 +1,7 @@
 ﻿using be4care.Helpers;
 using be4care.Services;
 using PropertyChanged;
-using Rg.Plugins.Popup.Services;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -36,7 +33,7 @@ namespace be4care.PageModels
             var t = Utils.EntryCheck.checkentries(user, password);
             if (!t.Item1)
             {
-                _dialogService.ShowMessage(t.Item2, "Erreur", "retour", true);
+                _dialogService.ShowMessage(t.Item2);
             }
             else
             {
@@ -54,7 +51,7 @@ namespace be4care.PageModels
                     }
                     else
                     {
-                        _dialogService.ShowMessage("Verifiez vos donné", "Erreur", null, false);
+                        _dialogService.ShowMessage("Verifiez vos donné");
                         isBusy = false;
                         isEnabled = true;
                     }

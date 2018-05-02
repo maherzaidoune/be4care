@@ -1,8 +1,5 @@
 ﻿using be4care.PageModels;
 using BottomBar.XamarinForms;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -25,7 +22,7 @@ namespace be4care.Helpers
                         tabs.AddTab<SearchPageModel>("Recherche", "search.png");
                         tabs.AddTab<AddDocPageModel>("", "plus.png");
                         tabs.AddTab<FavPageModel>("Raccourcis", "favorite.png");
-                        tabs.AddTab<AccountPageModel>("Mon  Compte", "account.png");
+                        tabs.AddTab<AccountPageModel>("Mon Compte", "account.png");
 
                         Device.BeginInvokeOnMainThread(() =>
                         {

@@ -32,7 +32,8 @@ namespace be4care.Services
             try
             {
                 Console.WriteLine("Akavache: "+ BlobCache.LocalMachine.GetType());
-                return await BlobCache.UserAccount.GetObject<User>("user");
+                var user = await BlobCache.UserAccount.GetObject<User>("user");
+                return user;
             }
             catch(Exception e)
             {

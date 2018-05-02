@@ -25,7 +25,7 @@ namespace be4care.PageModels
 
         private void backClickbutton(object obj)
         {
-            CoreMethods.PopPageModel();
+            CoreMethods.PushPageModel<AccountPageModel>();
             RaisePropertyChanged();
         }
 
@@ -44,11 +44,13 @@ namespace be4care.PageModels
         }
 
         private IUserServices _userServices;
+        private IRestServices _restServices;
         public List<detail> details { get; set; }
 
-        public ProfilePageModel(IUserServices _userServices)
+        public ProfilePageModel(IUserServices _userServices, IRestServices _restServices)
         {
             this._userServices = _userServices;
+            this._restServices = _restServices;
         }
 
         public string convertSexe(bool sex)
@@ -60,7 +62,15 @@ namespace be4care.PageModels
         public override async void Init(object initData)
         {
             base.Init(initData);
-            user = await _userServices.GetUser();
+            try
+            {
+                user = await _userServices.GetUser();
+                Console.WriteLine("cant get user from db");
+            }
+            catch
+            {
+                user =  _restServices.GetMyProfile();
+            }
             details = new List<detail>()
             {
                 new detail {menu = "Identifiant" ,  info=user.email },

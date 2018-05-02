@@ -13,6 +13,6 @@ namespace be4care.Models
         public String type { get; set; }
         public String HStructure { get; set; }
         public String place { get; set; }
-        public String id { get; set; }
+        public bool starred { get; set; }
     }
 }

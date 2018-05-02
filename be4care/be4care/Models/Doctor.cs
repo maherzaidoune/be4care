@@ -4,13 +4,21 @@ using System.Text;
 
 namespace be4care.Models
 {
-    class Doctor 
+    public class Doctor : Contact
     {
-        public string fullName { get; set; }
+        public string respectme;
+        public string fullName { get {
+                return "Dr " + respectme;
+            } set {
+                respectme = value;
+            } }
         public string adress { get; set; }
-        public int phNumber { get; set; } // change this in server !!!!
+        public string phNumber { get; set; } // change this in server !!!!
         public string email { get; set; }
         public string healthStruct { get; set; }
         public string id { get; set; }
+        public bool star { get; set; }
+        public string specialite { get; set; }
+        public string note { get; set; }
     }
 }
