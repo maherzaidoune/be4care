@@ -18,11 +18,13 @@ namespace be4care.Services
 
         bool AddDoctor(Doctor d);
 
+        bool addDocument(Document d);
+
         Task<IList<HealthStruct>> GetHealthStructs();
 
         bool AddHealthStruct(HealthStruct s);
 
-        Task<string> Analyse(User user);
+        Task<string> Upload(User user);
 
         Task<string> Analyse(string Url);
 
@@ -33,5 +35,9 @@ namespace be4care.Services
         bool Inscription(string data, string pass);
 
         bool UpdateProfile(User user);
+
+        bool Disconnect();
+
+        bool Delete();
     }
 }

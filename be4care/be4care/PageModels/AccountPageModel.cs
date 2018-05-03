@@ -45,11 +45,14 @@ namespace be4care.PageModels
 
         public AccountPageModel()
         {
-            
+            Console.WriteLine("account  page model construct");
+
         }
         public  override void Init(object initData)
         {
             base.Init(initData);
+            Console.WriteLine("account  page model init");
+
             views = new List<ViewElement>
         {
             new ViewElement{ image = "phonebook.png" , label = "Mon Profile",position= 0},

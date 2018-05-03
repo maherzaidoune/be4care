@@ -35,6 +35,7 @@
                     <local:myEntry Placeholder="  Email" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding email, Mode=TwoWay}" Keyboard="Email" />
                     <local:myEntry Placeholder="  Numéro de téléphone" PlaceholderColor="White" FontSize="20"  HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding  num , Mode=TwoWay}"  Keyboard="Telephone" />
                     <local:myEntry Placeholder="  Mot de passe" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40"  IsPassword="True" Text="{Binding password , Mode=OneWayToSource}"  />
+                    <local:myEntry  Placeholder="  Mot de passe" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40"  IsPassword="True" Text="{Binding passverif , Mode=OneWayToSource}"  />
                     </StackLayout>
                 </StackLayout>
                 <StackLayout HorizontalOptions="Fill" x:Name="buttonStack" VerticalOptions="FillAndExpand" >

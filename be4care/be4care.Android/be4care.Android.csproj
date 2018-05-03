@@ -92,6 +92,9 @@
     <PackageReference Include="PropertyChanged.Fody">
       <Version>2.5.4</Version>
     </PackageReference>
+    <PackageReference Include="Rg.Plugins.Popup">
+      <Version>1.1.4.154-pre</Version>
+    </PackageReference>
     <PackageReference Include="sameerIOTApps.Plugin.SecureStorage">
       <Version>2.0.1</Version>
     </PackageReference>

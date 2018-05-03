@@ -119,7 +119,7 @@ namespace be4care.Services
 
         }
 
-        public async Task<string> Analyse(User user)
+        public async Task<string> Upload(User user)
         {
             await CrossMedia.Current.Initialize();
 
@@ -149,8 +149,9 @@ namespace be4care.Services
             try
             {
                 var downloadUrl = task;
-                var result = await Analyse(downloadUrl);
-                return result;
+                Console.WriteLine(downloadUrl);
+                return downloadUrl;
+                
             }
             catch (Exception e)
             {
@@ -193,9 +194,8 @@ namespace be4care.Services
                         bDate = user.bDate.ToUniversalTime(),
                         sex  = user.sex, 
                         pUrl = user.pUrl,
-                        username = user.username
                         }).
-                    Result;
+                          Result;
                 return result.IsSuccessStatusCode;
             }
             catch (FlurlHttpTimeoutException)
@@ -256,8 +256,54 @@ namespace be4care.Services
 
         public Task<string> Analyse(string Url)
         {
-            var token = "?access_token=" + Settings.AuthToken;
-            return (Constant.urlAnalyse + token).PostJsonAsync(new { url = Url }).ReceiveString();
+            try
+            {
+                var token = "?access_token=" + Settings.AuthToken;
+                return (Constant.urlAnalyse + token).PostJsonAsync(new { url = Url }).ReceiveString();
+            }catch(Exception e)
+            {
+                Console.WriteLine("Error analysing + " + e.StackTrace);
+                return null;
+            }
+        }
+
+        public bool addDocument(Document d)
+        {
+            try
+            {
+                var token = "?access_token=" + Settings.AuthToken;
+                return (Constant.urlgetDocuments + token).PostJsonAsync(d).Result.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool Disconnect()
+        {
+            try
+            {
+                var token = "?access_token=" + Settings.AuthToken;
+                return (Constant.urlDisconnect + token).PostJsonAsync(new { }).Result.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool Delete()
+        {
+            try
+            {
+                var token = "?access_token=" + Settings.AuthToken;
+                return (Constant.urlme + token).DeleteAsync().Result.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
     

@@ -1,4 +1,9 @@
 ﻿using Acr.UserDialogs;
+using Rg.Plugins.Popup.Pages;
+using Xamarin.Forms;
+using Rg.Plugins.Popup;
+using Rg.Plugins.Popup.Extensions;
+using be4care.Pages;
 
 namespace be4care.Services
 {
@@ -16,6 +21,22 @@ namespace be4care.Services
                 UserDialogs.Instance.Toast(toastConfig);
             });
             
-        }  
+        }
+
+        public  void ShowPopup(string title)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new OptionPage(title));
+            });
+        }
+
+        public void verifier()
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new VerifPopPage());
+            });
+        }
     }
 }

@@ -33,6 +33,7 @@
     <PackageReference Include="Microsoft.CSharp" Version="4.4.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="PropertyChanged.Fody" Version="2.5.4" />
+    <PackageReference Include="Rg.Plugins.Popup" Version="1.1.4.154-pre" />
     <PackageReference Include="sameerIOTApps.Plugin.SecureStorage" Version="2.0.1" />
     <PackageReference Include="Splat" Version="4.0.0" />
     <PackageReference Include="System.Dynamic.Runtime" Version="4.3.0" />
@@ -120,6 +121,12 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\Auth\LoginPopupPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\Popup\OptionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\Popup\VerifPopPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

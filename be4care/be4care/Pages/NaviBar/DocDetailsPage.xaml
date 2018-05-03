@@ -1,12 +1,73 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+             xmlns:local="clr-namespace:be4care"
              x:Class="be4care.Pages.DocDetailsPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <Grid Padding="10,30,10,10" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="70" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+            <Label Text="&lt; RETOUR" Grid.Row="0" HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="Medium"  >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
+                </Label.GestureRecognizers>
+            </Label>
+            <StackLayout Grid.Row="1" Orientation="Horizontal">
+                <Label Text="Mon Profile" FontSize="44" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
+                <Image Source="modifier.png"
+                   HeightRequest="30"
+                   WidthRequest="30"
+                   VerticalOptions="Center"
+                   >
+                    <controls:CircleImage.GestureRecognizers>
+                        <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  edit}" />
+                    </controls:CircleImage.GestureRecognizers>
+                </Image>
+            </StackLayout>
+            <ScrollView Grid.Row="2">
+            <StackLayout BindingContext="{Binding document}" >
+                <Label Text="Date de document" FontSize="12" TextColor="Black" />
+                    <DatePicker Margin="5" Date="{Binding date,Mode=TwoWay}" TextColor="Black"  BackgroundColor="Transparent"  HorizontalOptions="StartAndExpand" />
+                <Label Text="Professionnel de santé" FontSize="12" TextColor="Black" />
+                    <Entry Text="{Binding dr,Mode=TwoWay}" FontSize="20" HorizontalOptions="Fill"  HeightRequest="40" Margin="5"  />
+                <Label Text="Type de  document" FontSize="12" TextColor="Black" />
+                    <Entry Text="{Binding type,Mode=TwoWay}" FontSize="20" HorizontalOptions="Fill" HeightRequest="40" Margin="5"  />
+                <Label Text="Structure de santé" FontSize="12" TextColor="Black" />
+                    <Entry Text="{Binding HStructure,Mode=TwoWay}" FontSize="20" HorizontalOptions="Fill" HeightRequest="40" Margin="5"  />
+                <Label Text="Lieu" FontSize="12" TextColor="Black" />
+                    <Entry Text="{Binding place,Mode=TwoWay}" FontSize="20" HorizontalOptions="Fill" HeightRequest="40" Margin="5"  />
+                <Label Text="Notes" FontSize="12" TextColor="Black" />
+                    <Entry Text="{Binding note,Mode=TwoWay}" FontSize="20" HorizontalOptions="Fill" HeightRequest="40" Margin="5"  />
+            </StackLayout>
+            </ScrollView>
+            <AbsoluteLayout Grid.Row="3" HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"   >
+                <ActivityIndicator
+                        AbsoluteLayout.LayoutBounds="0,0.5,1,1"
+                        AbsoluteLayout.LayoutFlags="All"
+                        IsEnabled="{Binding isBusy,Mode=OneWay}"
+                        IsRunning="{Binding isBusy,Mode=OneWay}"
+                        IsVisible="{Binding isBusy,Mode=OneWay}"
+                        Color="Orange"
+                        HeightRequest="50"
+                        WidthRequest="50"
+                        ></ActivityIndicator>
+                <Frame
+                    AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
+                    IsClippedToBounds="False"
+                    CornerRadius="10"
+                    Padding="0"
+                    IsVisible = "{Binding  isEnabled , Mode=OneWay}"
+                    HorizontalOptions="Fill">
+                    <local:GradientButton  StartColor="#FF5955" EndColor="#FFCB7E" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
+                        <Button HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="Transparent" Text="Enregistrer le  document" TextColor="White" FontSize="20" Command="{Binding save}" />
+                    </local:GradientButton>
+                </Frame>
+            </AbsoluteLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

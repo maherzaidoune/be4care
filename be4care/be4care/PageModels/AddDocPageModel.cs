@@ -19,22 +19,36 @@ namespace be4care.PageModels
         public bool isEnabled { get; set; }
         private User user;
         public ICommand addDoc => new Command(addDocument);
+        public Document document { get; set; }
 
         private async void addDocument(object obj)
         {
             isEnabled = false;
             isBusy = true;
+            var url = "nothing  to show";
             var result = "nothing  to show";
             await Task.Run(async () =>
             {
                 try
                 {
-                    result = await upload(user);
-                    Device.BeginInvokeOnMainThread(async () =>
+                    url = await upload(user);
+                    Console.WriteLine("AddDocPageModel "+url);
+                    result = await analyse(url);
+                    document = new Document { url = url, text = result };
+                    if(result  != null)
                     {
-                        await CoreMethods.PushPageModel<DocDetailsPageModel>(result);
-                        RaisePropertyChanged();
-                    });
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await CoreMethods.PushPageModel<DocDetailsPageModel>(document);
+                            RaisePropertyChanged();
+                        });
+                    }
+                    else
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    }
+                    
                 }
                 catch (Exception e)
                 {
@@ -61,6 +75,7 @@ namespace be4care.PageModels
         public async override void Init(object initData)
         {
             base.Init(initData);
+            Console.WriteLine("addDocPageModel init method called ! ");
             user = await _userServices.GetUser();
             isBusy = false;
             isEnabled = true;
@@ -71,7 +86,22 @@ namespace be4care.PageModels
             {
                 try
                 {
-                    var photo = await _restServices.Analyse(user);
+                    var photo = await _restServices.Upload(user);
+                    return photo;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("ERROR : " + e.StackTrace);
+                    return null;
+                }
+            }
+        }
+        public async Task<string> analyse(string url)
+        {
+            {
+                try
+                {
+                    var photo = await _restServices.Analyse(url);
                     return photo;
                 }
                 catch (Exception e)

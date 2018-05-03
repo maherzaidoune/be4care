@@ -23,6 +23,9 @@ namespace be4care.PageModels
             if (!t.Item1)
             {
                 _dialogservices.ShowMessage(t.Item2);
+            } else if (!(passverif.Equals(password)))
+            {
+                _dialogservices.ShowMessage("verifiez votre mot de passe");
             }
             else
             {
@@ -51,6 +54,7 @@ namespace be4care.PageModels
         public string email { get; set; }
         public string num { get; set; }
         public string password { get; set; }
+        public string passverif { get; set; }
         public bool acceptTerms { get; set; }
         private IRestServices _RestService { get; set; }
         public IUserServices _userServices { get; set; }

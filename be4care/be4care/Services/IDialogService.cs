@@ -8,5 +8,7 @@ namespace be4care.Services
     interface IDialogService
     {
         void ShowMessage(string message);
+        void ShowPopup(string title);
+        void verifier();
     }
 }

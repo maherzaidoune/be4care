@@ -10,6 +10,7 @@
         private static string _urlgetDocuments = "https://peaceful-forest-76384.herokuapp.com/api/users/me/documents";
         private static string _urlgetHealthStruct = "https://peaceful-forest-76384.herokuapp.com/api/users/me/healthStructs";
         private static string _urlAnalyse = "https://peaceful-forest-76384.herokuapp.com/api/documents/analyse";
+        private static string _urlDisconnect = "https://peaceful-forest-76384.herokuapp.com/api/users/logout";
 
 
 
@@ -19,6 +20,13 @@
             get
             {
                 return _url;
+            }
+        }
+        public static string urlDisconnect
+        {
+            get
+            {
+                return _urlDisconnect;
             }
         }
 

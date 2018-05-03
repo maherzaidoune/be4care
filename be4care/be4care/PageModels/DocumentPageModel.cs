@@ -10,11 +10,14 @@ namespace be4care.PageModels
     {
         public DocumentPageModel()
         {
+            Console.WriteLine("document  page model construct");
 
         }
         public override void Init(object initData)
         {
             base.Init(initData);
+            Console.WriteLine("document  page model init");
+
         }
     }
 }

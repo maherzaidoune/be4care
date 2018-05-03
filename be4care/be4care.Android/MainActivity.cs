@@ -23,6 +23,7 @@ namespace be4care.Droid
             base.OnCreate(bundle);
             AsNumAssemblyHelper.HoldAssembly();
             UserDialogs.Init(this);
+            Rg.Plugins.Popup.Popup.Init(this, bundle);
             global::Xamarin.Forms.Forms.Init(this, bundle);
             ImageCircleRenderer.Init();
             LoadApplication(new App());

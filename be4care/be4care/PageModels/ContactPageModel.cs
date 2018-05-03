@@ -45,10 +45,13 @@ namespace be4care.PageModels
             this._restServices = _restServices;
             this._doctorServices = _doctorServices;
             this._hStructServices = _hStructServices;
+            Console.WriteLine("contact  page model construct");
         }
         public async override void Init(object initData)
         {
             base.Init(initData);
+            Console.WriteLine("contact  page model init");
+
             try
             {
                 doctors = await _doctorServices.GetDoctors();

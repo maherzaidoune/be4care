@@ -1,5 +1,7 @@
-﻿using be4care.Models;
+﻿using be4care.Helpers;
+using be4care.Models;
 using be4care.Services;
+using FreshMvvm;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -29,15 +31,17 @@ namespace be4care.PageModels
         public bool isEnabled { get; set; }
 
         public ICommand save => new Command(saveButton);
-        public ICommand backClick => new Command(backClickbutton);
+        public ICommand backClick => new Command(back);
 
-        private void backClickbutton(object obj)
+        private void back(object obj)
         {
-            CoreMethods.PopPageModel();
-            RaisePropertyChanged();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await ButtonBar.initBar();
+            });
         }
 
-        private  void saveButton(object obj)
+        private void saveButton(object obj)
         {
             isEnabled = false;
             isBusy = true;
@@ -51,8 +55,7 @@ namespace be4care.PageModels
                 username = username,
                 sex = sex.Equals("Homme")
             };
-            _userServices.SaveUser(user);
-            Task.Run(() =>
+             Task.Run(async () =>
             {
                 if (!(_restServices.UpdateProfile(user)))
                 {
@@ -61,9 +64,13 @@ namespace be4care.PageModels
                     isBusy = false;
                     isEnabled = true;
                 }
+                else
+                {
+                    _userServices.SaveUser(user);
+                    await ButtonBar.initBar();
+                }
             });
-            CoreMethods.PushPageModel<ProfilePageModel>();
-            RaisePropertyChanged();
+            
         }
 
         public EditProfilePageModel(IRestServices _restServices, IDialogService _dialogService, IUserServices _userServices)
@@ -71,24 +78,31 @@ namespace be4care.PageModels
             this._dialogService = _dialogService;
             this._restServices = _restServices;
             this._userServices = _userServices;
+            Console.WriteLine("edit profile  page model construct");
 
         }
         public override void Init(object initData)
         {
             base.Init(initData);
-            user = initData as User;
-            email = user.email;
-            nom = user.name;
-            prenom = user.lastName;
-            num = user.phNumber;
-            date = user.bDate;
-            username = user.username;
-            if (user.sex)
-            { sex = "Homme"; }
-            else
+            Console.WriteLine("edit profile  page model init");
+
+            Task.Run(async () =>
             {
-                sex = "Femme";
-            }
+                user = await _userServices.GetUser();
+                email = user.email;
+                nom = user.name;
+                prenom = user.lastName;
+                num = user.phNumber;
+                date = user.bDate;
+                username = user.username;
+                if (user.sex)
+                { sex = "Homme"; }
+                else
+                {
+                    sex = "Femme";
+                }
+            });
+            
             isBusy = false;
             isEnabled = true;
 

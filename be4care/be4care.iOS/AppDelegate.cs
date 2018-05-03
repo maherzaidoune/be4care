@@ -24,6 +24,7 @@ namespace be4care.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             AsNumAssemblyHelper.HoldAssembly();
+            Rg.Plugins.Popup.Popup.Init();
             global::Xamarin.Forms.Forms.Init();
             ImageCircleRenderer.Init();
             LoadApplication(new App());

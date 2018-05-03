@@ -63,6 +63,8 @@ namespace be4care.PageModels
         {
             CoreMethods.PushPageModel<InscriptionPageModel>();
             RaisePageWasPopped();
+            Console.WriteLine("login  page model construct");
+
         }
         public string user { get; set; }
         public string password { get; set; }
@@ -70,6 +72,8 @@ namespace be4care.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
+            Console.WriteLine("login  page model init");
+
             isBusy = false;
             isEnabled = true;
         }

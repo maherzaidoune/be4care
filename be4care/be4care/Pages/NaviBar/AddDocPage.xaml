@@ -26,7 +26,7 @@
                 <Label Text="Bienvenue" HorizontalOptions="Center" VerticalOptions="Center" FontSize="50" TextColor="Black"/>
                 <Label Text="dans be4care" HorizontalOptions="Center" VerticalOptions="Center" FontSize="44" TextColor="Black" />
                 </StackLayout>
-                    <AbsoluteLayout>
+                    <AbsoluteLayout   HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" HeightRequest="50">
                         <ActivityIndicator
                     AbsoluteLayout.LayoutBounds="0,0.5,1,1"
                     AbsoluteLayout.LayoutFlags="All"
@@ -39,11 +39,11 @@
                     ></ActivityIndicator>
                         <Frame  
                             AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All"
-                    IsClippedToBounds="False"
-                    CornerRadius="10"
-                    Padding="0"
-                    IsVisible = "{Binding  isEnabled , Mode=OneWay}"
-                    HorizontalOptions="Fill">
+                            IsClippedToBounds="False"
+                            CornerRadius="10"
+                            Padding="0"
+                            IsVisible = "{Binding  isEnabled , Mode=OneWay}"
+                            HorizontalOptions="Fill">
                             <local:GradientButton  StartColor="#FF5955" EndColor="#FFCB7E" HorizontalOptions="Fill" VerticalOptions="Fill" IsClippedToBounds="True">
                                 <Button HorizontalOptions="Fill" VerticalOptions="Fill" BackgroundColor="Transparent" Text="Ajouter un document" TextColor="White" FontSize="20" Command="{Binding addDoc}" />
                             </local:GradientButton>
