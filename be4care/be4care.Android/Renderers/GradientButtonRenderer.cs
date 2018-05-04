@@ -18,8 +18,7 @@ using Xamarin.Forms.Platform.Android;
 namespace be4care.Droid.Renderers
 {
     public class GradientButtonRenderer : VisualElementRenderer<StackLayout> {
-
-        
+    
 
         private Color StartColor
         {

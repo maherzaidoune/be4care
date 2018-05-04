@@ -10,7 +10,7 @@ using FreshMvvm;
 namespace be4care.PageModels
 {
     [AddINotifyPropertyChangedInterface]
-    class OptionPageModel 
+    class OptionPageModel : FreshMvvm.FreshBasePageModel
     {
         public string title { get; set; }
         private IRestServices _restServices;
@@ -31,8 +31,8 @@ namespace be4care.PageModels
                 Console.WriteLine("Account deleted");
                 PopupNavigation.Instance.PopAllAsync();
                 //App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<LoginPopupPageModel>());
-                var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<SplashPageModel>();
-                App.Current.MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
+                var rootPage = FreshPageModelResolver.ResolvePageModel<SplashPageModel>();
+                App.Current.MainPage = new FreshNavigationContainer(rootPage);
             }
         }
 
@@ -43,8 +43,8 @@ namespace be4care.PageModels
                 Console.WriteLine("Disconnected");
                 PopupNavigation.Instance.PopAllAsync();
                 //App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<LoginPopupPageModel>());
-                var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<SplashPageModel>();
-                App.Current.MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
+                var rootPage = FreshPageModelResolver.ResolvePageModel<LoginPopupPageModel>();
+                App.Current.MainPage = new FreshNavigationContainer(rootPage);
             }
 
         }
@@ -54,8 +54,8 @@ namespace be4care.PageModels
             Device.BeginInvokeOnMainThread(async  () =>
             {
                  await PopupNavigation.Instance.PopAllAsync();
-                 App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<EditProfilePageModel>());
-
+                //App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<EditProfilePageModel>());
+                 await App.Current.MainPage.Navigation.PushModalAsync(FreshPageModelResolver.ResolvePageModel<EditProfilePageModel>());
             });
             
         }
@@ -64,6 +64,11 @@ namespace be4care.PageModels
         {
             this.title = title;
             this._restServices = _restServices;
+        }
+
+        public override void Init(object initData)
+        {
+            base.Init(initData);
         }
     }
 }

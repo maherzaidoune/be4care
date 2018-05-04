@@ -35,10 +35,7 @@ namespace be4care.PageModels
 
         private void back(object obj)
         {
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                await ButtonBar.initBar();
-            });
+            App.Current.MainPage.Navigation.PopModalAsync();
         }
 
         private void saveButton(object obj)
@@ -67,7 +64,8 @@ namespace be4care.PageModels
                 else
                 {
                     _userServices.SaveUser(user);
-                    await ButtonBar.initBar();
+                    MessagingCenter.Send(this, "updateProfile");
+                    await App.Current.MainPage.Navigation.PopModalAsync();
                 }
             });
             

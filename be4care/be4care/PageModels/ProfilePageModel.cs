@@ -1,8 +1,11 @@
 ﻿using be4care.Models;
+using be4care.Pages;
 using be4care.Services;
+using FreshMvvm;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -34,10 +37,13 @@ namespace be4care.PageModels
 
         private void editUser(object obj)
         {
-            //Console.WriteLine("photclicked !");
-            //CoreMethods.PushPageModel<EditProfilePageModel>(user);
-            //RaisePropertyChanged();
+            MessagingCenter.Subscribe<EditProfilePageModel>(this, "updateProfile", updateProfile);
             _dialogServices.ShowPopup("Profile");
+        }
+
+        public void updateProfile(EditProfilePageModel editProfilePage)
+        {
+            initView();
         }
 
         private void photoclicked(object obj)
@@ -55,6 +61,7 @@ namespace be4care.PageModels
             this._userServices = _userServices;
             this._restServices = _restServices;
             this._dialogServices = _dialogServices;
+            Console.WriteLine("profile constructor called");
         }
 
         public string convertSexe(bool sex)
@@ -63,19 +70,27 @@ namespace be4care.PageModels
                 return "Homme";
             return "Femme";
         }
-        public override async void Init(object initData)
+        public override  void Init(object initData)
         {
             base.Init(initData);
-            try
+            initView();
+
+        }
+
+        public void initView()
+        {
+            Task.Run(async () =>
             {
-                user = await _userServices.GetUser();
-            }
-            catch
-            {
-                Console.WriteLine("cant get user from db");
-                user =  _restServices.GetMyProfile();
-            }
-            details = new List<detail>()
+                try
+                {
+                    user = await _userServices.GetUser();
+                }
+                catch
+                {
+                    Console.WriteLine("cant get user from db");
+                    user = _restServices.GetMyProfile();
+                }
+                details = new List<detail>()
             {
                 new detail {menu = "Identifiant" ,  info=user.email },
                 new detail {menu = "Nom" ,  info= user.name },
@@ -84,8 +99,9 @@ namespace be4care.PageModels
                 new detail {menu = "Date de naissance" ,  info= user.bDate.ToString() },
                 new detail {menu = "sexe" ,  info=  convertSexe(user.sex)}
             };
-
+            });
         }
+
         public override void ReverseInit(object returnedData)
         {
             base.ReverseInit(returnedData);

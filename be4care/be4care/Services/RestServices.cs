@@ -163,7 +163,7 @@ namespace be4care.Services
         }
     
 
-    public User GetMyProfile()
+        public User GetMyProfile()
         {
             try
             {
@@ -272,10 +272,11 @@ namespace be4care.Services
             try
             {
                 var token = "?access_token=" + Settings.AuthToken;
-                return (Constant.urlgetDocuments + token).PostJsonAsync(d).Result.IsSuccessStatusCode;
+                return  (Constant.urlgetDocuments + token).PostJsonAsync(d).Result.IsSuccessStatusCode;
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine("Eroor adding doc "+e.StackTrace);
                 return false;
             }
         }

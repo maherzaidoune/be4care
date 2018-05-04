@@ -5,6 +5,7 @@ using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -25,22 +26,30 @@ namespace be4care.PageModels
         {
             isEnabled = false;
             isBusy = true;
-            try
-            {
-                if (_restService.addDocument(document))
+            Task.Run(() => {
+                try
                 {
-                    Console.WriteLine("DocDetails : document  added succefuly" + document.url);
-                    CoreMethods.PushPageModel<DocumentPageModel>();
+                    if ( _restService.addDocument(document))
+                    {
+                        Console.WriteLine("DocDetails : document  added succefuly" + document.url);
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await CoreMethods.PushPageModel<DocumentDetailsPageModel>(document);
+                            RaisePropertyChanged();
+                        });
+                       
+                    }
+                    isBusy = false;
+                    isEnabled = true;
                 }
-                isBusy = false;
-                isEnabled = true;
-            }
-            catch
-            {
-                Console.WriteLine("DocDetails : Error");
-                isBusy = false;
-                isEnabled = true;
-            }
+                catch
+                {
+                    Console.WriteLine("DocDetails : Error");
+                    isBusy = false;
+                    isEnabled = true;
+                }
+            });
+            
         }
 
         public DocDetailsPageModel(IRestServices _restService)

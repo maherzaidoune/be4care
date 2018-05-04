@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="be4care.Pages.DocumentDetailsPage">
+    <Grid Padding="10,30,10,0" >
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="70" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Label Text="&lt; RETOUR" Grid.Row="0" HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="Medium"  >
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
+            </Label.GestureRecognizers>
+        </Label>
+        <StackLayout Grid.Row="1" Orientation="Horizontal">
+            <Label Text="Mon Profile" FontSize="44" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
+        </StackLayout>
+        <ScrollView Grid.Row="2" Padding="0,0,0,15" HorizontalOptions="FillAndExpand" VerticalOptions="Fill">
+            
+        </ScrollView>
+    </Grid>
+</ContentPage>

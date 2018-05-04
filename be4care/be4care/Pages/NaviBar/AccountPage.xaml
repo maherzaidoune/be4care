@@ -8,14 +8,16 @@
             <ListView 
                 ItemsSource="{Binding views}"
                 SelectedItem="{Binding selected}"
+                CachingStrategy="RecycleElement"
+                RowHeight="50"
                 >
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal"  HeightRequest="50">
-                            <Image Source="{Binding image}" HorizontalOptions="Start"/>
-                            <Label Text="{Binding label}" FontSize="20" TextColor="Black" VerticalOptions="Center"/>
-                            <Image Source="next.png"  HorizontalOptions="EndAndExpand"/>
+                        <StackLayout Orientation="Horizontal"  >
+                                <Image Source="{Binding image}" HorizontalOptions="Start"  />
+                                <Label Text="{Binding label}" FontSize="20" TextColor="Black" VerticalOptions="Center"/>
+                                <Image Source="next.png"  HorizontalOptions="EndAndExpand" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

@@ -55,7 +55,7 @@
                                     <Image  Source="star.png" IsVisible="{Binding star}" HeightRequest="25" WidthRequest="25"  VerticalOptions="Center" />
                                 </StackLayout>
                                 <Label Text="{Binding fullName}" FontSize="22" TextColor="Black" VerticalOptions="Center" />
-                                <Image Source="next.png"  HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                                <Image Source="next.png"   HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
