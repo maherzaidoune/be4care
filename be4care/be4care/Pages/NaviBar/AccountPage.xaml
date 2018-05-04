@@ -8,7 +8,6 @@
             <ListView 
                 ItemsSource="{Binding views}"
                 SelectedItem="{Binding selected}"
-                CachingStrategy="RecycleElement"
                 RowHeight="50"
                 >
             <ListView.ItemTemplate>
