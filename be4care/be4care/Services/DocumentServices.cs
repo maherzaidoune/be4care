@@ -1,28 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Akavache;
 using be4care.Models;
+using System.Reactive.Linq;
+
 
 namespace be4care.Services
 {
-    public class DoctorServices : IDoctorServices
+    class DocumentServices : IDocumentServices
     {
-        public DoctorServices()
-        {
-             
-        }
-        public async Task<bool> DeleteDoctor(Doctor doc)
+        public async Task<bool> DeleteDocument(Document doc)
         {
             try
             {
-                var docs = await GetDoctors();
+                var docs = await GetDocuments();
                 if (docs == null)
-                    docs = new List<Doctor>();
+                    docs = new List<Document>();
                 docs.Remove(doc);
-                SaveDoctors(docs);
+                SaveDocuments(docs);
                 return true;
             }
             catch
@@ -31,11 +28,11 @@ namespace be4care.Services
             }
         }
 
-        public bool DeleteDoctors()
+        public bool DeleteDocuments()
         {
             try
             {
-                BlobCache.UserAccount.Invalidate("doctors");
+                BlobCache.UserAccount.Invalidate("documents");
                 return true;
             }
             catch
@@ -44,31 +41,31 @@ namespace be4care.Services
             }
         }
 
-        public async Task<IList<Doctor>> GetDoctors()
+        public async Task<IList<Document>> GetDocuments()
         {
             try
             {
                 // need much test
-                var docs = await BlobCache.UserAccount.GetObject<IList<Doctor>>("doctors") ;
-                return docs  ;
+                var docs = await BlobCache.UserAccount.GetObject<IList<Document>>("documents");
+                return docs;
             }
             catch (Exception e)
             {
-                Console.WriteLine("Doctor Services : error gettings doctors list");
+                Console.WriteLine("Documents Services : error gettings doctors list");
                 Console.WriteLine(e.StackTrace);
                 return null;
             }
         }
 
-        public async Task<bool> SaveDoctor(Doctor doc)
+        public async Task<bool> SaveDocument(Document doc)
         {
             try
             {
-                var docs = await GetDoctors();
+                var docs = await GetDocuments();
                 if (docs == null)
-                    docs = new List<Doctor>();
+                    docs = new List<Document>();
                 docs.Add(doc);
-                SaveDoctors(docs);
+                SaveDocuments(docs);
                 return true;
             }
             catch
@@ -77,19 +74,21 @@ namespace be4care.Services
             }
         }
 
-        public  bool SaveDoctors(IList<Doctor> docs)
+        public bool SaveDocuments(IList<Document> docs)
         {
             try
             {
-                BlobCache.UserAccount.Invalidate("doctors");
-                BlobCache.UserAccount.InsertObject("doctors", docs);
+                BlobCache.UserAccount.Invalidate("documents");
+                BlobCache.UserAccount.InsertObject("documents", docs);
                 return true;
-            }catch(Exception e)
+            }
+            catch (Exception e)
             {
-                Console.WriteLine("Doctor Services : error saving doctors list");
+                Console.WriteLine("Documents Services : error saving doctors list");
                 Console.WriteLine(e.StackTrace);
                 return false;
             }
         }
+    
     }
 }

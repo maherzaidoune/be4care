@@ -49,7 +49,7 @@ namespace be4care.PageModels
 
         }
 
-        private async void edit(object obj)
+        private  void edit(object obj)
         {
             Device.BeginInvokeOnMainThread(async  () =>
             {

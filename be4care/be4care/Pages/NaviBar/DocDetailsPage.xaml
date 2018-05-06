@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              xmlns:local="clr-namespace:be4care"
+             CompressedLayout.IsHeadless="True"
              x:Class="be4care.Pages.DocDetailsPage">
     <ContentPage.Content>
         <Grid Padding="10,30,10,10" >
@@ -17,20 +17,20 @@
                     <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
                 </Label.GestureRecognizers>
             </Label>
-            <StackLayout Grid.Row="1" Orientation="Horizontal">
+            <StackLayout Grid.Row="1" Orientation="Horizontal" CompressedLayout.IsHeadless="True">
                 <Label Text="Mon Profile" FontSize="44" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
                 <Image Source="modifier.png"
                    HeightRequest="30"
                    WidthRequest="30"
                    VerticalOptions="Center"
                    >
-                    <controls:CircleImage.GestureRecognizers>
+                    <Image.GestureRecognizers>
                         <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  edit}" />
-                    </controls:CircleImage.GestureRecognizers>
+                    </Image.GestureRecognizers>
                 </Image>
             </StackLayout>
             <ScrollView Grid.Row="2">
-            <StackLayout BindingContext="{Binding document}" >
+                <StackLayout BindingContext="{Binding document}" CompressedLayout.IsHeadless="True" >
                 <Label Text="Date de document" FontSize="12" TextColor="Black" />
                     <DatePicker Margin="5" Date="{Binding date,Mode=TwoWay}" TextColor="Black"  BackgroundColor="Transparent"  HorizontalOptions="StartAndExpand" />
                 <Label Text="Professionnel de santé" FontSize="12" TextColor="Black" />

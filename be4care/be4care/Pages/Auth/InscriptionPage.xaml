@@ -4,6 +4,7 @@
              x:Class="be4care.Pages.InscriptionPage"
              xmlns:local="clr-namespace:be4care"
              xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
+             CompressedLayout.IsHeadless="True"
              xmlns:ctrls="clr-namespace:AsNum.XFControls;assembly=AsNum.XFControls"
              >
     
@@ -28,8 +29,8 @@
         </Label>
         <ScrollView Grid.Row="1" Padding="0,0,0,15" HorizontalOptions="FillAndExpand" VerticalOptions="Fill">
 
-            <StackLayout   x:Name="inscriptonLayout" VerticalOptions="FillAndExpand" >
-                <StackLayout  Orientation="Vertical" VerticalOptions="EndAndExpand"  HorizontalOptions="FillAndExpand" >
+            <StackLayout   x:Name="inscriptonLayout" VerticalOptions="FillAndExpand" CompressedLayout.IsHeadless="True" >
+                <StackLayout  Orientation="Vertical" VerticalOptions="EndAndExpand"  HorizontalOptions="FillAndExpand" CompressedLayout.IsHeadless="True" >
                     <Label Text="Inscription" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="Fill" Margin="10"/>
                     <StackLayout VerticalOptions="Center" Padding="0,20,0,0">
                     <local:myEntry Placeholder="  Email" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding email, Mode=TwoWay}" Keyboard="Email" />
@@ -38,8 +39,8 @@
                     <local:myEntry  Placeholder="  Mot de passe" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40"  IsPassword="True" Text="{Binding passverif , Mode=OneWayToSource}"  />
                     </StackLayout>
                 </StackLayout>
-                <StackLayout HorizontalOptions="Fill" x:Name="buttonStack" VerticalOptions="FillAndExpand" >
-                    <StackLayout Orientation="Horizontal" Padding="20,10,20,10" HorizontalOptions="Fill">
+                <StackLayout HorizontalOptions="Fill" x:Name="buttonStack" VerticalOptions="FillAndExpand" CompressedLayout.IsHeadless="True">
+                    <StackLayout Orientation="Horizontal" Padding="20,10,20,10" HorizontalOptions="Fill" CompressedLayout.IsHeadless="True">
                         <ctrls:CheckBox HorizontalOptions="Start"
                 Grid.Column="1"
                 ShowLabel="False"
@@ -50,7 +51,7 @@
                 />
                         <Label Text="J'accepte les conditions d'utilisatios " TextColor="White"  HorizontalOptions="FillAndExpand"/>
                     </StackLayout>
-                    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"   >
+                    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" CompressedLayout.IsHeadless="True"  >
                         <ActivityIndicator
                         AbsoluteLayout.LayoutBounds="0,0.5,1,1"
                         AbsoluteLayout.LayoutFlags="All"

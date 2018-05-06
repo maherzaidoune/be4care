@@ -23,14 +23,6 @@ namespace be4care.Services
             
         }
 
-        public  void ShowPopup(string title)
-        {
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new OptionPage(title));
-            });
-        }
-
         public void verifier()
         {
             Device.BeginInvokeOnMainThread(async () =>

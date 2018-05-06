@@ -21,6 +21,7 @@ namespace be4care.PageModels
         public ICommand save => new Command(saveDoc);
 
         private IRestServices _restService;
+        private IDocumentServices _documentServices;
 
         private void saveDoc(object obj)
         {
@@ -31,6 +32,7 @@ namespace be4care.PageModels
                 {
                     if ( _restService.addDocument(document))
                     {
+                        _documentServices.SaveDocument(document);
                         Console.WriteLine("DocDetails : document  added succefuly" + document.url);
                         Device.BeginInvokeOnMainThread(async () =>
                         {
@@ -52,9 +54,10 @@ namespace be4care.PageModels
             
         }
 
-        public DocDetailsPageModel(IRestServices _restService)
+        public DocDetailsPageModel(IRestServices _restService,IDocumentServices _documentServices)
         {
             this._restService = _restService;
+            this._documentServices = _documentServices;
         }
 
         public override void Init(object initData)

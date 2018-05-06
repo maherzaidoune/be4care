@@ -38,7 +38,10 @@ namespace be4care.PageModels
         private void editUser(object obj)
         {
             MessagingCenter.Subscribe<EditProfilePageModel>(this, "updateProfile", updateProfile);
-            _dialogServices.ShowPopup("Profile");
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new OptionPage("profile"));
+            });
         }
 
         public void updateProfile(EditProfilePageModel editProfilePage)
@@ -70,11 +73,16 @@ namespace be4care.PageModels
                 return "Homme";
             return "Femme";
         }
+        protected override void ViewIsAppearing(object sender, EventArgs e)
+        {
+            base.ViewIsAppearing(sender, e);
+            initView();
+
+        }
+
         public override  void Init(object initData)
         {
             base.Init(initData);
-            initView();
-
         }
 
         public void initView()
@@ -84,11 +92,17 @@ namespace be4care.PageModels
                 try
                 {
                     user = await _userServices.GetUser();
+                    if(user == null)
+                    {
+                        user = _restServices.GetMyProfile();
+                        _userServices.SaveUser(user);
+                    }
                 }
                 catch
                 {
                     Console.WriteLine("cant get user from db");
                     user = _restServices.GetMyProfile();
+                    _userServices.SaveUser(user);
                 }
                 details = new List<detail>()
             {

@@ -214,11 +214,12 @@ namespace be4care.Services
         {
             try
             {
-                return Constant.urlgetDoctors.PostJsonAsync(d).Result.IsSuccessStatusCode;
+                var token = "?access_token=" + Settings.AuthToken;
+                return  (Constant.urlgetDoctors + token).PostJsonAsync(d).Result.IsSuccessStatusCode;
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("error adding  Doctor");
+                Console.WriteLine("error adding  Doctor : " +e.StackTrace);
                 return false;
             }
         }
@@ -245,11 +246,12 @@ namespace be4care.Services
         {
             try
             {
-                return Constant.urlgetDoctors.PostJsonAsync(s).Result.IsSuccessStatusCode;
+                var token = "?access_token=" + Settings.AuthToken;
+                return (Constant.urlgetHealthStruct + token).PostJsonAsync(s).Result.IsSuccessStatusCode;
             }
-            catch
+            catch (Exception e)
             {
-                Console.WriteLine("error adding  Doctor");
+                Console.WriteLine("error adding  Healthstruct : " + e.StackTrace);
                 return false;
             }
         }

@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Xamarin.Forms;
 using be4care.Models;
 using System.Threading.Tasks;
+using Plugin.Connectivity;
 
 namespace be4care.PageModels
 {
@@ -37,6 +38,16 @@ namespace be4care.PageModels
                     {
                         var me = new User { email = email, phNumber = num };
                         _userServices.SaveUser(me);
+                        try
+                        {
+                            _doctorServices.DeleteDoctors();
+                            _hstructServices.DeleteStructs();
+                            _documentServices.DeleteDocuments();
+                        }
+                        catch
+                        {
+                            Console.WriteLine("iscription page : error deleting old data");
+                        }
                         Device.BeginInvokeOnMainThread(async () =>
                         {
                             await CoreMethods.PushPageModel<AddUserPageModel>();
@@ -58,6 +69,9 @@ namespace be4care.PageModels
         public bool acceptTerms { get; set; }
         private IRestServices _RestService { get; set; }
         public IUserServices _userServices { get; set; }
+        private IHStructServices _hstructServices;
+        private IDoctorServices _doctorServices;
+        private IDocumentServices _documentServices;
 
         private async void backButtonClick(object obj)
         { 
@@ -65,11 +79,23 @@ namespace be4care.PageModels
             RaisePageWasPopped();
         }
 
-        public InscriptionPageModel(IDialogService  _dialogservices,IRestServices _restService,IUserServices _userServices)
+        public InscriptionPageModel(IDialogService  _dialogservices,IRestServices _restService,IUserServices _userServices, IHStructServices _hstructServices, IDoctorServices _doctorServices, IDocumentServices _documentServices)
         {
             this._dialogservices = _dialogservices;
             this._RestService = _restService;
             this._userServices = _userServices;
+            this._hstructServices = _hstructServices;
+            this._doctorServices = _doctorServices;
+            this._documentServices = _documentServices;
+        }
+
+        protected override void ViewIsAppearing(object sender, EventArgs e)
+        {
+            base.ViewIsAppearing(sender, e);
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                _dialogservices.ShowMessage("verifier votre connection internet");
+            }
         }
         public override void Init(object initData)
         {

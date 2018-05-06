@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             CompressedLayout.IsHeadless="True"
              x:Class="be4care.Pages.ContactPage">
     <ContentPage.Content>
 
@@ -16,7 +17,7 @@
                     <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
                 </Label.GestureRecognizers>
             </Label>
-            <StackLayout Grid.Row="1" Orientation="Horizontal" Padding="0,0,0,10">
+            <StackLayout Grid.Row="1" Orientation="Horizontal" Padding="0,0,0,10" CompressedLayout.IsHeadless="True" >
                 <Label Text="Répertoire " FontSize="44" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
                 <Image Source="modifier.png"
                    HeightRequest="30"
@@ -51,8 +52,8 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                                <StackLayout  WidthRequest="35">
-                                    <Image  Source="star.png" IsVisible="{Binding star}" HeightRequest="25" WidthRequest="25"  VerticalOptions="Center" />
+                                <StackLayout  WidthRequest="30">
+                                <Image  Source="star.png" IsVisible="{Binding star}" HeightRequest="25" WidthRequest="25"  VerticalOptions="Center" />
                                 </StackLayout>
                                 <Label Text="{Binding fullName}" FontSize="22" TextColor="Black" VerticalOptions="Center" />
                                 <Image Source="next.png"   HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />

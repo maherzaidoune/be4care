@@ -4,6 +4,7 @@
              xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
              xmlns:ctrls="clr-namespace:AsNum.XFControls;assembly=AsNum.XFControls"
              xmlns:local="clr-namespace:be4care"
+             CompressedLayout.IsHeadless="True"
              x:Class="be4care.Pages.AddUserPage">
     
     <xfg:ContentPageGloss.BackgroundGradient>
@@ -28,7 +29,7 @@
 
         <ScrollView Grid.Row="1" Padding="0,0,0,15" HorizontalOptions="FillAndExpand" VerticalOptions="Fill">
 
-            <StackLayout  x:Name="adduserStack" Orientation="Vertical" VerticalOptions="FillAndExpand">
+            <StackLayout  x:Name="adduserStack" Orientation="Vertical" VerticalOptions="FillAndExpand" CompressedLayout.IsHeadless="True">
                 <StackLayout >
                 <Label Text="Saisir vos données" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="Fill" Margin="10" />
                 <local:myEntry Placeholder="  username" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding username, Mode=TwoWay}" Keyboard="Text"  />
@@ -36,7 +37,7 @@
                 <local:myEntry Placeholder="  Prénon" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding prenom, Mode=TwoWay}" Keyboard="Text" />
                 </StackLayout>
                 <StackLayout x:Name="buttonStack" VerticalOptions="FillAndExpand">
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" CompressedLayout.IsHeadless="True">
                         <StackLayout Padding="10">
                             <Label Text="Date de naissance : " TextColor="White" FontSize="15" Margin="5" HorizontalOptions="Start"  />
                             <Label Text="Sexe : " TextColor="White" FontSize="15" Margin="5" HorizontalOptions="Start"  />
@@ -52,7 +53,7 @@
                         />
                         </StackLayout>
                     </StackLayout >
-                    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"   >
+                    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" CompressedLayout.IsHeadless="True"  >
                             <ActivityIndicator
                         AbsoluteLayout.LayoutBounds="0,0.5,1,1"
                         AbsoluteLayout.LayoutFlags="All"

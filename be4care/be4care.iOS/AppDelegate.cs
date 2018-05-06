@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using AsNum.XFControls.iOS;
+using FFImageLoading.Forms.Touch;
 using Foundation;
-using ImageCircle.Forms.Plugin.iOS;
 using UIKit;
 
 namespace be4care.iOS
@@ -26,7 +26,7 @@ namespace be4care.iOS
             AsNumAssemblyHelper.HoldAssembly();
             Rg.Plugins.Popup.Popup.Init();
             global::Xamarin.Forms.Forms.Init();
-            ImageCircleRenderer.Init();
+            CachedImageRenderer.Init();
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

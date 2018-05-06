@@ -15,6 +15,8 @@ namespace be4care.Services
             try
             {
                 var structs = await GetStructs();
+                if (structs == null)
+                    structs = new List<HealthStruct>();
                 structs.Remove(s);
                 SaveStructs(structs);
                 return true;
@@ -59,6 +61,8 @@ namespace be4care.Services
             try
             {
                 var structs =await GetStructs();
+                if (structs == null)
+                    structs = new List<HealthStruct>();
                 structs.Add(s);
                 SaveStructs(structs);
                 return true;

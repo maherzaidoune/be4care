@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:be4care.MarkupExtensions"
              xmlns:l="clr-namespace:be4care"
              xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss"
+             CompressedLayout.IsHeadless="True"
              x:Class="be4care.Pages.LoginPopupPage">
     
     <xfg:ContentPageGloss.BackgroundGradient>
@@ -15,7 +16,7 @@
     </xfg:ContentPageGloss.BackgroundGradient>
     
     <StackLayout
-                HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10,30,10,10" x:Name="bigstack" >
+                HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="10,30,10,10" x:Name="bigstack" CompressedLayout.IsHeadless="True" >
         <Image Source="{local:EmbeddedImage resourceId=be4care.SharedImages.be4care.png}" x:Name="image" />
         <Label Text="Connexion" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="Center" Margin="5"/>
         <StackLayout >
@@ -23,8 +24,8 @@
                 <l:myEntry Placeholder="  Email ou Username" PlaceholderColor="White" FontSize="20"  HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding  user , Mode=TwoWay}" />
                 <l:myEntry Placeholder="  Mot de passe" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40"  IsPassword="True" Text="{Binding password , Mode=OneWayToSource}"  />
             </StackLayout>
-            <StackLayout x:Name="buttonStack" VerticalOptions="CenterAndExpand" HorizontalOptions="Fill" >
-                <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"  >
+            <StackLayout x:Name="buttonStack" VerticalOptions="CenterAndExpand" HorizontalOptions="Fill" CompressedLayout.IsHeadless="True" >
+                <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" CompressedLayout.IsHeadless="True" >
                     <ActivityIndicator
                         AbsoluteLayout.LayoutBounds="0,0.5,1,1"
                         AbsoluteLayout.LayoutFlags="All"

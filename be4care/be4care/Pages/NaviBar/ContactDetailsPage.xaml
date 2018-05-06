@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             CompressedLayout.IsHeadless="True"
              x:Class="be4care.Pages.ContactDetailsPage">
     <ContentPage.Content>
         <Grid Padding="10,30,10,0" >
@@ -15,7 +16,7 @@
                     <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
                 </Label.GestureRecognizers>
             </Label>
-            <StackLayout Grid.Row="1" >
+            <StackLayout Grid.Row="1"  CompressedLayout.IsHeadless="True" >
                 <StackLayout Orientation="Horizontal">
                     <StackLayout >
                         <Label Text="{Binding name} " FontSize="44" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>

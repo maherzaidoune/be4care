@@ -64,6 +64,17 @@ namespace be4care.PageModels
 
         }
 
+        protected override void ViewIsAppearing(object sender, EventArgs e)
+        {
+            base.ViewIsAppearing(sender, e);
+            Task.Run(async () =>
+            {
+                user = await _userServices.GetUser();
+            });
+            //addDocument(null);
+
+        }
+
         public  AddDocPageModel(IRestServices _restServices,IUserServices _userServices)
         {
                 this._restServices = _restServices;
@@ -72,11 +83,11 @@ namespace be4care.PageModels
 
         public IUserServices _UserServices { get; }
 
-        public async override void Init(object initData)
+
+        public override void Init(object initData)
         {
             base.Init(initData);
             Console.WriteLine("addDocPageModel init method called ! ");
-            user = await _userServices.GetUser();
             isBusy = false;
             isEnabled = true;
         }

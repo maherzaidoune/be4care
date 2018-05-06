@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace be4care
@@ -18,7 +18,7 @@ namespace be4care
             BlobCache.EnsureInitialized();
             SetUpIOC();
 
-            InitializeComponent();
+            //InitializeComponent();
             var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.SplashPageModel>();
             MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
 		}
@@ -30,6 +30,7 @@ namespace be4care
             FreshMvvm.FreshIOC.Container.Register<IUserServices, UserServices>();
             FreshMvvm.FreshIOC.Container.Register<IDoctorServices, DoctorServices>();
             FreshMvvm.FreshIOC.Container.Register<IHStructServices, HStructServices>();
+            FreshMvvm.FreshIOC.Container.Register<IDocumentServices, DocumentServices>();
         }
         protected override void OnStart ()
 		{

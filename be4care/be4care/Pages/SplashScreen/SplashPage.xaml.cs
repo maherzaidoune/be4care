@@ -15,9 +15,9 @@ namespace be4care.Pages
         }
         protected async override void OnAppearing()
         {
-            await Task.Delay(500);
-            await image.ScaleTo(0.7, 500, Easing.Linear);
             await image.ScaleTo(1, 500, Easing.Linear);
+            await image.ScaleTo(0.8, 500, Easing.Linear);
+            await image.ScaleTo(1.1, 500, Easing.Linear);
         }
         
     }

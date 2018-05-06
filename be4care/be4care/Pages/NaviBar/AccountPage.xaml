@@ -1,27 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             CompressedLayout.IsHeadless="True"
              x:Class="be4care.Pages.AccountPage">
-    <StackLayout Padding="15,30,15,10">
+    <StackLayout Padding="15,30,15,10" Spacing="40" CompressedLayout.IsHeadless="True">
         <Label Text="Mon Compte" TextColor="Black" FontSize="44" HorizontalOptions="StartAndExpand" VerticalOptions="Start"/>
-        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="0,40,0,10">
             <ListView 
                 ItemsSource="{Binding views}"
                 SelectedItem="{Binding selected}"
                 RowHeight="50"
+                HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 
                 >
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal"  >
-                                <Image Source="{Binding image}" HorizontalOptions="Start"  />
+                        <StackLayout Orientation="Horizontal" CompressedLayout.IsHeadless="True" >
+                            <ffimageloading:CachedImage Source="{Binding image}" HorizontalOptions="Start" HeightRequest="35" WidthRequest="35"  VerticalOptions="Center"  />
                                 <Label Text="{Binding label}" FontSize="20" TextColor="Black" VerticalOptions="Center"/>
-                                <Image Source="next.png"  HorizontalOptions="EndAndExpand" />
+                            <ffimageloading:CachedImage Source="next.png"  HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center"  />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        </StackLayout>
-    </StackLayout>
+      </StackLayout>
 </ContentPage>

@@ -7,9 +7,9 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using AsNum.XFControls.Droid;
-using ImageCircle.Forms.Plugin.Droid;
 using Acr.UserDialogs;
 using Plugin.CurrentActivity;
+using FFImageLoading.Forms.Droid;
 
 namespace be4care.Droid
 {
@@ -24,8 +24,9 @@ namespace be4care.Droid
             AsNumAssemblyHelper.HoldAssembly();
             UserDialogs.Init(this);
             Rg.Plugins.Popup.Popup.Init(this, bundle);
+            global::Xamarin.Forms.Forms.SetFlags("FastRenderers_Experimental");
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            ImageCircleRenderer.Init();
+            CachedImageRenderer.Init(true);
             LoadApplication(new App());
         }
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)

@@ -1,5 +1,6 @@
 ﻿using be4care.Helpers;
 using be4care.Services;
+using Plugin.Connectivity;
 using PropertyChanged;
 using System;
 using System.Threading.Tasks;
@@ -14,13 +15,19 @@ namespace be4care.PageModels
         private IRestServices _restServices;
         private IDialogService _dialogService;
         private IUserServices _userServices;
+        private IHStructServices _hstructServices;
+        private IDoctorServices _doctorServices;
+        private IDocumentServices _documentServices;
         public bool isBusy { get; set; }
         public bool isEnabled { get; set; }
-        public LoginPopupPageModel(IRestServices _restServices, IDialogService _dialogService, IUserServices _userServices)
+        public LoginPopupPageModel(IRestServices _restServices, IDialogService _dialogService, IUserServices _userServices, IHStructServices _hstructServices, IDoctorServices _doctorServices, IDocumentServices _documentServices)
         {
             this._dialogService = _dialogService;
             this._restServices = _restServices;
             this._userServices = _userServices;
+            this._hstructServices = _hstructServices;
+            this._doctorServices = _doctorServices;
+            this._documentServices = _documentServices;
         }
       
         public ICommand validate => new Command(login);
@@ -47,6 +54,9 @@ namespace be4care.PageModels
                         //get user data
                         var _user = _restServices.GetMyProfile();
                         _userServices.SaveUser(_user);
+                        _doctorServices.DeleteDoctors();
+                        _hstructServices.DeleteStructs();
+                        _documentServices.DeleteDocuments();
                         await ButtonBar.initBar();
                     }
                     else
@@ -68,6 +78,15 @@ namespace be4care.PageModels
         }
         public string user { get; set; }
         public string password { get; set; }
+
+        protected override void ViewIsAppearing(object sender, EventArgs e)
+        {
+            base.ViewIsAppearing(sender, e);
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                _dialogService.ShowMessage("verifier votre connection internet");
+            }
+        }
 
         public override void Init(object initData)
         {

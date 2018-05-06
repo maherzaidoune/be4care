@@ -9,7 +9,12 @@ namespace be4care.Models
         public String url { get; set; }
         public bool star { get; set; }
         public DateTime date { get; set; }
-        public String dr { get; set; }
+        public string doctor { get; set; }
+        public String dr { get {
+                return "Dr " + doctor;
+            } set {
+                doctor = value;
+            } }
         public String type { get; set; }
         public String HStructure { get; set; }
         public String place { get; set; }

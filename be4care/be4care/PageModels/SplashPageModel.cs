@@ -15,20 +15,16 @@ namespace be4care.PageModels
     {
         private IDialogService _dialogServices;
         private IRestServices _restServices;
-        private IUserServices _userServices;
-        private IHStructServices _hstructServices;
-        private IDoctorServices _doctorServices;
-        public SplashPageModel(IDialogService _dialogServices, IRestServices _restServices,IUserServices _userServices,IHStructServices _hstructServices,IDoctorServices _doctorServices)
+        public SplashPageModel(IDialogService _dialogServices, IRestServices _restServices,IUserServices _userServices,IHStructServices _hstructServices,IDoctorServices _doctorServices,IDocumentServices _documentServices)
         {
             this._dialogServices = _dialogServices;
             this._restServices = _restServices;
-            this._hstructServices = _hstructServices;
-            this._doctorServices = _doctorServices;
         }
         public  async override void Init(object initData)
         {
             base.Init(initData);
-            await Task.Delay(3000);
+            await Task.Delay(2000);
+
             var auth = Settings.AuthToken;
             if (!CrossConnectivity.Current.IsConnected)
             {
@@ -39,24 +35,31 @@ namespace be4care.PageModels
             if (string.IsNullOrEmpty(auth))
             {
                 Console.WriteLine("auth empty , user is not connected");
-                _doctorServices.DeleteDoctors();
-                _hstructServices.DeleteStructs();
-                await CoreMethods.PushPageModel<onBoardingPageModel>();
-                RaisePropertyChanged();
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await CoreMethods.PushPageModel<onBoardingPageModel>();
+                    RaisePropertyChanged();
+                });
+                
             }
             else
             {
                 if (_restServices.Init())
                 {
                     Console.WriteLine("Token : " + auth);
-                    await ButtonBar.initBar();
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await ButtonBar.initBar();
+                    });
                 }
                 else { 
                     Settings.AuthToken = String.Empty;
-                    _doctorServices.DeleteDoctors();
-                     _hstructServices.DeleteStructs();
-                    await CoreMethods.PushPageModel<LoginPopupPageModel>();
-                    RaisePropertyChanged();
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await CoreMethods.PushPageModel<LoginPopupPageModel>();
+                        RaisePropertyChanged();
+                    });
+                    
                     }
             }
         }
