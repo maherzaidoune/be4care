@@ -16,9 +16,9 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal" CompressedLayout.IsHeadless="True" >
-                            <ffimageloading:CachedImage Source="{Binding image}" HorizontalOptions="Start" HeightRequest="35" WidthRequest="35"  VerticalOptions="Center"  />
+                            <ffimageloading:CachedImage Source="{Binding image}" HorizontalOptions="Start" HeightRequest="35" WidthRequest="35"  VerticalOptions="Center" CacheType="Memory" />
                                 <Label Text="{Binding label}" FontSize="20" TextColor="Black" VerticalOptions="Center"/>
-                            <ffimageloading:CachedImage Source="next.png"  HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center"  />
+                            <ffimageloading:CachedImage Source="next.png"  HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" CacheType="Memory"  />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

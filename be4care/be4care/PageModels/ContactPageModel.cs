@@ -98,16 +98,16 @@ namespace be4care.PageModels
         }
 
 
-        protected  override void ViewIsAppearing(object sender, EventArgs e)
+        protected async override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
-            
+            await updateCantact();
         }
 
-        public async  override void Init(object initData)
+        public override void Init(object initData)
         {
             base.Init(initData);
-            await updateCantact();
+            
             Console.WriteLine("contact  page model init");
 
         }

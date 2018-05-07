@@ -60,10 +60,10 @@ namespace be4care.PageModels
             base.ViewIsDisappearing(sender, e);
         }
 
-        public  override void Init(object initData)
+        public  async override void Init(object initData)
         {
             base.Init(initData);
-            Task.Run(() =>
+            await Task.Run(() =>
             {
                 views = new List<ViewElement>
                 {

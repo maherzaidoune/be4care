@@ -183,7 +183,7 @@
     <PackageReference Include="Xamarin.FFImageLoading.Transformations">
       <Version>2.3.6</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Forms" Version="2.5.1.527436" />
+    <PackageReference Include="Xamarin.Forms" Version="2.5.1.444934" />
     <PackageReference Include="XFControls">
       <Version>1.0.0.6</Version>
     </PackageReference>

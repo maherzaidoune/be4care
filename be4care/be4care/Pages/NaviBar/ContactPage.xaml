@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              CompressedLayout.IsHeadless="True"
              x:Class="be4care.Pages.ContactPage">
     <ContentPage.Content>
@@ -19,15 +20,15 @@
             </Label>
             <StackLayout Grid.Row="1" Orientation="Horizontal" Padding="0,0,0,10" CompressedLayout.IsHeadless="True" >
                 <Label Text="Répertoire " FontSize="44" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
-                <Image Source="modifier.png"
+                <ffimageloading:CachedImage Source="modifier.png"
                    HeightRequest="30"
                    WidthRequest="30"
                    VerticalOptions="Center"
                    >
-                    <Image.GestureRecognizers>
+                    <ffimageloading:CachedImage.GestureRecognizers>
                         <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  edit}" />
-                    </Image.GestureRecognizers>
-                </Image>
+                    </ffimageloading:CachedImage.GestureRecognizers>
+                </ffimageloading:CachedImage>
             </StackLayout>
             <ListView 
                         Grid.Row="2"
@@ -53,10 +54,10 @@
                         <ViewCell>
                             <StackLayout Orientation="Horizontal" VerticalOptions="Center">
                                 <StackLayout  WidthRequest="30">
-                                <Image  Source="star.png" IsVisible="{Binding star}" HeightRequest="25" WidthRequest="25"  VerticalOptions="Center" />
+                                <ffimageloading:CachedImage  Source="star.png" IsVisible="{Binding star}" HeightRequest="25" WidthRequest="25"  VerticalOptions="Center" CacheType="Memory" />
                                 </StackLayout>
                                 <Label Text="{Binding fullName}" FontSize="22" TextColor="Black" VerticalOptions="Center" />
-                                <Image Source="next.png"   HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                                <ffimageloading:CachedImage Source="next.png"   HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" CacheType="Memory" />
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

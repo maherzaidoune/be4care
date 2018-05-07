@@ -49,13 +49,16 @@ namespace be4care.PageModels
         protected  override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
+            UpdateView();
         }
 
         public override void Init(object initData)
         {
             base.Init(initData);
-
-             Task.Run(async () => {
+        }
+        public void UpdateView()
+        {
+            Task.Run(async () => {
                 try
                 {
                     documents = await _documentSerives.GetDocuments();
@@ -74,7 +77,8 @@ namespace be4care.PageModels
 
 
             });
-
         }
     }
+
+    
 }
