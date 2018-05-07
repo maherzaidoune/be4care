@@ -35,7 +35,7 @@
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  >
                                 <StackLayout HeightRequest="82" WidthRequest="72">
-                                    <ffimageloading:CachedImage  Source="{Binding urli}" DownsampleToViewSize="True" DownsampleHeight="80"  DownsampleWidth="70"  HeightRequest="80" WidthRequest="70" HorizontalOptions="Start"  VerticalOptions="Fill"  />
+                                    <ffimageloading:CachedImage  Source="{Binding url}" DownsampleToViewSize="True" DownsampleHeight="80"  DownsampleWidth="70"  HeightRequest="80" WidthRequest="70" HorizontalOptions="Start"  VerticalOptions="Fill"  />
                                 </StackLayout>
                                 <StackLayout >
                                     <Label Text="{Binding  date}" FontSize="16" TextColor="Gray"  VerticalOptions="Center" />

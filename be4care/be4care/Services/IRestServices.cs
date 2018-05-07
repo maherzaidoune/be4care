@@ -23,6 +23,7 @@ namespace be4care.Services
         Task<bool> AddDoctor(Doctor d);
 
         Task<bool> AddDoctorFromDB(string id);
+        Task<bool> AddHStructFromDb(string id);
 
         bool addDocument(Document d);
 

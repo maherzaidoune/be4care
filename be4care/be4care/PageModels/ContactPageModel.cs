@@ -28,10 +28,28 @@ namespace be4care.PageModels
         {
             MessagingCenter.Subscribe<AddDoctorPageModel>(this, "doctorupdated", docCantactUpdated);
             MessagingCenter.Subscribe<AddHstructPageModel>(this, "HstructUpdated", hstCantactUpdated);
+            MessagingCenter.Subscribe<DoctorsListPageModel>(this, "newDoctorAdd", doctorlistupdated);
+            MessagingCenter.Subscribe<HstructListPageModel>(this, "newStructAdd", hstListCantactUpdated);
 
             Device.BeginInvokeOnMainThread(async () =>
             {
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new CantactSettingsPage());
+            });
+        }
+
+        private void hstListCantactUpdated(HstructListPageModel obj)
+        {
+            Task.Run(async () =>
+            {
+                await updateCantact();
+            });
+        }
+
+        private void doctorlistupdated(DoctorsListPageModel obj)
+        {
+            Task.Run(async () =>
+            {
+                await updateCantact();
             });
         }
 

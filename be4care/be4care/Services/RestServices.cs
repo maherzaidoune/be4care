@@ -212,7 +212,7 @@ namespace be4care.Services
 
         public async Task<bool> AddDoctor(Doctor d)
         {
-            var doc = new Doctor
+            var doc = new 
             {
                 adress = d.adress,
                 phNumber = d.phNumber,
@@ -257,13 +257,13 @@ namespace be4care.Services
         public async Task<bool> AddHealthStruct(HealthStruct s)
         {
 
-           var str = new HealthStruct
+           var str = new 
            {
                 fullName = s.fullName,
                 adress =s.adress,
-                 phNumber = s.phNumber,
-                 email = s.email,
-                 star = s.star,
+                phNumber = s.phNumber,
+                email = s.email,
+                star = s.star,
             };
             try
             {
@@ -294,7 +294,7 @@ namespace be4care.Services
         public bool addDocument(Document d)
         {
 
-            var doc = new Document
+            var doc = new 
             {
                 url = d.url,
                 star = d.star,
@@ -384,7 +384,22 @@ namespace be4care.Services
             try
             {
                 var token = "?access_token=" + Settings.AuthToken;
-                var result = await (Constant.urlAddDocFromDb + token).PostStringAsync(id);
+                var result = await (Constant.urlAddDocFromDb + token).PostJsonAsync(new { doctorId  = id});
+                return result.IsSuccessStatusCode;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error adding  Healthstruct : " + e.StackTrace);
+                return false;
+            }
+        }
+
+        public async Task<bool> AddHStructFromDb(string id)
+        {
+            try
+            {
+                var token = "?access_token=" + Settings.AuthToken;
+                var result = await (Constant.urlAddHstruct + token).PostJsonAsync(new { healthStructId = id });
                 return result.IsSuccessStatusCode;
             }
             catch (Exception e)

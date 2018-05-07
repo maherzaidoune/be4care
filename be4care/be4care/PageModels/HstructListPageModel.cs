@@ -12,21 +12,25 @@ using Xamarin.Forms;
 namespace be4care.PageModels
 {
     [AddINotifyPropertyChangedInterface]
-    class DoctorsListPageModel : FreshMvvm.FreshBasePageModel
+    class HstructListPageModel : FreshMvvm.FreshBasePageModel
     {
         [AddINotifyPropertyChangedInterface]
-        public class DocList
+        public class hList
         {
             public bool add { get; set; }
-            public Doctor doctor { get; set; }
+            public HealthStruct hstruct { get; set; }
             public string fullName { get; set; }
         }
         private IRestServices _restServices;
         private IDoctorServices _doctorServices;
         private IHStructServices _hStructServices;
+        public IList<hList> structs { get; set; }
+        public IList<hList> list { get; set; }
+        public IList<HealthStruct> userstruct { get; set; }
+        private IDialogService _dialogServices;
         public bool isBusy { get; set; }
         public bool isEnabled { get; set; }
-        public DocList selected { get; set; }
+        public hList selected { get; set; }
 
         public ICommand backClick => new Command(backClickbutton);
 
@@ -58,60 +62,62 @@ namespace be4care.PageModels
             IsRefreshing = true;
             Task.Run(async () =>
             {
-                var docs = await _restServices.GetAllDoctors();
+                var st = await _restServices.GetAllHstruct();
 
-                if(docs != null)
+                if (st != null)
                 {
-                    _doctorServices.saveAllDoctors(docs);
-                    foreach (Doctor d in docs)
+                    _hStructServices.saveAllHstruct(st);
+                    foreach (HealthStruct d in st)
                     {
-                        foreach (Doctor ud in userdoctors)
+                        foreach (HealthStruct ud in userstruct)
                         {
                             if (d.id == ud.id)
                             {
-                                doctors.Add(new DocList { add = false, doctor = d, fullName = d.fullName });
+                                structs.Add(new hList { add = false, hstruct = d, fullName = d.fullName });
                                 break;
                             }
                         }
-                        doctors.Add(new DocList { add = true, doctor = d, fullName = d.fullName });
+                        structs.Add(new hList { add = true, hstruct = d, fullName = d.fullName });
                     }
                 }
 
-                list = doctors;
+                list = structs;
                 IsRefreshing = false;
-                
+
             });
-            
         }
+
+
 
         public void OnsearchChanged()
         {
             if (string.IsNullOrEmpty(search))
             {
-                list = doctors;
+                list = structs;
             }
             else
             {
-                list = doctors.Where(d => d.fullName.Contains(search)).ToList();
+                list = structs.Where(d => d.fullName.Contains(search)).ToList();
             }
 
         }
 
 
-        public ICommand addDoctor => new Command(addthisDoctor);
+        public ICommand addhStruct => new Command(addthisStruct);
 
-        private void addthisDoctor(object obj)
+        private void addthisStruct(object obj)
         {
             isEnabled = false;
             isBusy = true;
             Task.Run(async () =>
             {
 
-                var doc = obj as DocList;
-                var d = doc.doctor;
-                if (await _restServices.AddDoctorFromDB(d.id)) {
-                    await _doctorServices.SaveDoctor(d);
-                    MessagingCenter.Send(this, "newDoctorAdd");
+                var doc = obj as hList;
+                var d = doc.hstruct;
+                if (await _restServices.AddHStructFromDb(d.id))
+                {
+                    await _hStructServices.SaveStruct(d);
+                    MessagingCenter.Send(this, "newStructAdd");
                     _dialogServices.ShowMessage(d.fullName + " a été ajouter a votre liste de contact");
 
                 }
@@ -126,88 +132,87 @@ namespace be4care.PageModels
             });
         }
 
-        public IList<DocList> doctors { get; set; }
-        public IList<DocList> list { get; set; }
-        public IList<Doctor> userdoctors { get; set; }
-        private IDialogService _dialogServices;
 
-        public DoctorsListPageModel(IDialogService _dialogServices,IRestServices _restServices, IDoctorServices _doctorServices, IHStructServices _hStructServices)
+
+
+        public HstructListPageModel(IDialogService _dialogServices, IRestServices _restServices, IDoctorServices _doctorServices, IHStructServices _hStructServices)
         {
             this._restServices = _restServices;
             this._doctorServices = _doctorServices;
             this._hStructServices = _hStructServices;
             this._dialogServices = _dialogServices;
-            doctors = new List<DocList>();
+            structs = new List<hList>();
         }
         public override void Init(object initData)
         {
             base.Init(initData);
-
             isBusy = false;
             Task.Run(async () =>
             {
-                
+
                 await UpdateList();
             });
         }
+
 
         public async Task UpdateList()
         {
             try
             {
-                userdoctors = await _doctorServices.GetDoctors();
+                userstruct = await _hStructServices.GetStructs();
             }
             catch
             {
                 Console.WriteLine("can't get user doctor list");
-                userdoctors = null;
+                userstruct = null;
             }
             try
             {
-                var docs = await _doctorServices.GetAllDoctors();
+                var docs = await _hStructServices.GetAllHstrcts();
                 if (docs == null)
                 {
-                    docs = await _restServices.GetAllDoctors();
-                    _doctorServices.saveAllDoctors(docs);
+                    docs = await _restServices.GetAllHstruct();
+                    _hStructServices.saveAllHstruct(docs);
                 }
 
-                foreach(Doctor d in docs)
+                foreach (HealthStruct d in docs)
                 {
-                    foreach(Doctor ud in userdoctors)
+                    foreach (HealthStruct ud in userstruct)
                     {
-                        if(d.id == ud.id)
+                        if (d.id == ud.id)
                         {
-                            doctors.Add(new DocList { add = false, doctor = d, fullName = d.fullName });
+                            structs.Add(new hList { add = false, hstruct = d, fullName = d.fullName });
                             break;
                         }
                     }
-                    doctors.Add(new DocList { add = true, doctor = d, fullName = d.fullName });
+                    structs.Add(new hList { add = true, hstruct = d, fullName = d.fullName });
                 }
             }
             catch
             {
-                Console.WriteLine("error getting doctors from local database");
-                var docs = await _restServices.GetAllDoctors();
-                if (_doctorServices.saveAllDoctors(docs))
+                Console.WriteLine("error getting structs from local database");
+                var docs = await _restServices.GetAllHstruct();
+                if (_hStructServices.saveAllHstruct(docs))
                     Console.WriteLine("Doctors  saved");
-                foreach (Doctor d in docs)
+                foreach (HealthStruct d in docs)
                 {
-                    foreach (Doctor ud in userdoctors)
+                    foreach (HealthStruct ud in userstruct)
                     {
                         if (d.id == ud.id)
                         {
-                            doctors.Add(new DocList { add = false, doctor = d, fullName = d.fullName });
+                            structs.Add(new hList { add = false, hstruct = d, fullName = d.fullName });
                             break;
                         }
                     }
-                    doctors.Add(new DocList { add = true, doctor = d, fullName = d.fullName });
+                    structs.Add(new hList { add = true, hstruct = d, fullName = d.fullName });
                 }
 
             }
             isBusy = false;
             isEnabled = true;
-            list = doctors;
-            
+            list = structs;
+
         }
+
     }
 }

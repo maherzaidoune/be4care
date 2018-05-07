@@ -21,7 +21,11 @@ namespace be4care.PageModels
 
         private void HealthstructList(object obj)
         {
-            throw new NotImplementedException();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await PopupNavigation.Instance.PopAllAsync();
+                await App.Current.MainPage.Navigation.PushModalAsync(FreshPageModelResolver.ResolvePageModel<HstructListPageModel>());
+            });
         }
 
         private void DoctorList(object obj)

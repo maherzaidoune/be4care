@@ -3,6 +3,7 @@ using be4care.Models;
 using be4care.Services;
 using BottomBar.XamarinForms;
 using Plugin.Connectivity;
+using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,11 +12,12 @@ using Xamarin.Forms;
 
 namespace be4care.PageModels
 {
+    [AddINotifyPropertyChangedInterface]
     class SplashPageModel : FreshMvvm.FreshBasePageModel
     {
         private IDialogService _dialogServices;
         private IRestServices _restServices;
-        public SplashPageModel(IDialogService _dialogServices, IRestServices _restServices,IUserServices _userServices,IHStructServices _hstructServices,IDoctorServices _doctorServices,IDocumentServices _documentServices)
+        public SplashPageModel(IDialogService _dialogServices, IRestServices _restServices)
         {
             this._dialogServices = _dialogServices;
             this._restServices = _restServices;
@@ -23,7 +25,8 @@ namespace be4care.PageModels
         public  async override void Init(object initData)
         {
             base.Init(initData);
-            await Task.Delay(2000);
+
+            await Task.Delay(3000);
 
             var auth = Settings.AuthToken;
             if (!CrossConnectivity.Current.IsConnected)

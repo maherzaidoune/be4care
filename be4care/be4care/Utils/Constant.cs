@@ -14,6 +14,7 @@
         private static string _urlAllDoctors = "https://peaceful-forest-76384.herokuapp.com/api/doctors";
         private static string _urlAllHstruct = "https://peaceful-forest-76384.herokuapp.com/api/healthStructs";
         private static string _urlAddDocFromDb = "https://peaceful-forest-76384.herokuapp.com/api/users/addDoctor";
+        private static string _urlAddHstruct = "https://peaceful-forest-76384.herokuapp.com/api/users/addHealthStruct";
 
 
 
@@ -23,6 +24,13 @@
             get
             {
                 return _url;
+            }
+        }
+        public static string urlAddHstruct
+        {
+            get
+            {
+                return _urlAddHstruct;
             }
         }
         public static string urlAddDocFromDb
