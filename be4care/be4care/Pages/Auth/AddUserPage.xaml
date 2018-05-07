@@ -29,7 +29,7 @@
 
         <ScrollView Grid.Row="1" Padding="0,0,0,15" HorizontalOptions="FillAndExpand" VerticalOptions="Fill">
 
-            <StackLayout  x:Name="adduserStack" Orientation="Vertical" VerticalOptions="FillAndExpand" CompressedLayout.IsHeadless="True">
+            <StackLayout  x:Name="adduserStack" Orientation="Vertical" VerticalOptions="FillAndExpand" >
                 <StackLayout >
                 <Label Text="Saisir vos données" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="Fill" Margin="10" />
                 <local:myEntry Placeholder="  username" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding username, Mode=TwoWay}" Keyboard="Text"  />
@@ -37,7 +37,7 @@
                 <local:myEntry Placeholder="  Prénon" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding prenom, Mode=TwoWay}" Keyboard="Text" />
                 </StackLayout>
                 <StackLayout x:Name="buttonStack" VerticalOptions="FillAndExpand">
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" CompressedLayout.IsHeadless="True">
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" >
                         <StackLayout Padding="10">
                             <Label Text="Date de naissance : " TextColor="White" FontSize="15" Margin="5" HorizontalOptions="Start"  />
                             <Label Text="Sexe : " TextColor="White" FontSize="15" Margin="5" HorizontalOptions="Start"  />

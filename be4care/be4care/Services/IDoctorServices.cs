@@ -13,5 +13,7 @@ namespace be4care.Services
         Task<IList<Doctor>> GetDoctors();
         Task<bool> DeleteDoctor(Doctor doctor);
         bool DeleteDoctors();
+        bool saveAllDoctors(IList<Doctor> docs);
+        Task<IList<Doctor>> GetAllDoctors();
     }
 }

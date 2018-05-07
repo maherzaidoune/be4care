@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:be4care"
+             CompressedLayout.IsHeadless="True"
+             x:Name="DoctorsListPage"
+             x:Class="be4care.Pages.DoctorsListPage">
+    <ContentPage.Content>
+
+        <Grid Padding="10,30,10,10" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Text="&lt; RETOUR" Grid.Row="0" HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="Medium"  >
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
+                </Label.GestureRecognizers>
+            </Label>
+
+            <StackLayout Grid.Row="1" Padding="0,10,0,10" Spacing="10" VerticalOptions="Fill" HorizontalOptions="FillAndExpand">
+                <SearchBar Text="{Binding search ,Mode=TwoWay}" Placeholder="Chercher ..." HorizontalOptions="StartAndExpand" />
+                <ListView
+                ItemsSource="{Binding list}"
+                RowHeight="40"
+                VerticalOptions="Center"
+                HorizontalOptions="StartAndExpand"
+                IsPullToRefreshEnabled="True"
+                RefreshCommand="{Binding refresh}"
+                IsRefreshing="{Binding IsRefreshing}"
+                SeparatorColor="LightGray"
+                SelectedItem="{Binding selected}"
+                >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding fullName}" TextColor="Black" FontSize="18" HorizontalOptions="Start" VerticalOptions="Center"/>
+                                    <AbsoluteLayout HorizontalOptions="EndAndExpand"  VerticalOptions="Fill" IsVisible="{Binding add}"  >
+                                        <Button BorderRadius="5" Text="Add" TextColor="Black" BackgroundColor="#f5f5f5" IsVisible="{Binding  isEnabled}" Command="{Binding Source={x:Reference DoctorsListPage}, Path=BindingContext.addDoctor}" CommandParameter="{Binding .}" />
+                                        <ActivityIndicator
+                                        IsEnabled="{Binding isBusy,Mode=OneWay}"
+                                        IsRunning="{Binding isBusy,Mode=OneWay}"
+                                        IsVisible="{Binding isBusy,Mode=OneWay}"
+                                        Color="Orange"
+                                        HeightRequest="25"
+                                        WidthRequest="25"
+                        ></ActivityIndicator>
+                                    </AbsoluteLayout>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

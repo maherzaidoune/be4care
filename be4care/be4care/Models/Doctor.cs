@@ -6,9 +6,15 @@ namespace be4care.Models
 {
     public class Doctor : Contact
     {
-        public string respectme;
+        private string respectme;
+        public string id { get; set; }
         public string fullName { get {
-                return "Dr " + respectme;
+
+                if (!respectme.Contains("Dr"))
+                {
+                    return "Dr " + respectme;
+                }
+                return respectme;
             } set {
                 respectme = value;
             } }
@@ -16,7 +22,6 @@ namespace be4care.Models
         public string phNumber { get; set; } // change this in server !!!!
         public string email { get; set; }
         public string healthStruct { get; set; }
-        public string id { get; set; }
         public bool star { get; set; }
         public string specialite { get; set; }
         public string note { get; set; }

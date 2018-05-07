@@ -44,6 +44,22 @@ namespace be4care.Services
             }
         }
 
+        public async Task<IList<Doctor>> GetAllDoctors()
+        {
+            try
+            {
+                // need much test
+                var docs = await BlobCache.UserAccount.GetObject<IList<Doctor>>("alldoctors");
+                return docs;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Doctor Services : error gettings doctors list");
+                Console.WriteLine(e.StackTrace);
+                return null;
+            }
+        }
+
         public async Task<IList<Doctor>> GetDoctors()
         {
             try
@@ -57,6 +73,22 @@ namespace be4care.Services
                 Console.WriteLine("Doctor Services : error gettings doctors list");
                 Console.WriteLine(e.StackTrace);
                 return null;
+            }
+        }
+
+        public bool saveAllDoctors(IList<Doctor> docs)
+        {
+            try
+            {
+                BlobCache.UserAccount.Invalidate("alldoctors");
+                BlobCache.UserAccount.InsertObject("alldoctors", docs);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Doctor Services : error saving doctors list");
+                Console.WriteLine(e.StackTrace);
+                return false;
             }
         }
 

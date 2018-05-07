@@ -14,24 +14,38 @@ namespace be4care.PageModels
     class CantactSettingsPageModel : FreshMvvm.FreshBasePageModel
     {
         public ICommand annuler => new Command(annulerpopup);
-        public ICommand addDoc => new Command(addDocument);
+        public ICommand addDoc => new Command(addDoctor);
         public ICommand addStruct => new Command(addHstruct);
+        public ICommand DocsList => new Command(DoctorList);
+        public ICommand HstructList => new  Command(HealthstructList);
+
+        private void HealthstructList(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DoctorList(object obj)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await PopupNavigation.Instance.PopAllAsync();
+                await App.Current.MainPage.Navigation.PushModalAsync(FreshPageModelResolver.ResolvePageModel<DoctorsListPageModel>());
+            });
+        }
 
         private void addHstruct(object obj)
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
                 await PopupNavigation.Instance.PopAllAsync();
-                await PopupNavigation.Instance.PopAllAsync();
-                await App.Current.MainPage.Navigation.PushModalAsync(FreshPageModelResolver.ResolvePageModel<AddDoctorPageModel>());
+                await App.Current.MainPage.Navigation.PushModalAsync(FreshPageModelResolver.ResolvePageModel<AddHstructPageModel>());
             });
         }
 
-        private void addDocument(object obj)
+        private void addDoctor(object obj)
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await PopupNavigation.Instance.PopAllAsync();
                 await PopupNavigation.Instance.PopAllAsync();
                 await App.Current.MainPage.Navigation.PushModalAsync(FreshPageModelResolver.ResolvePageModel<AddDoctorPageModel>());
             });

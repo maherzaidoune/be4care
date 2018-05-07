@@ -151,17 +151,17 @@ namespace be4care.Services
                 var downloadUrl = task;
                 Console.WriteLine(downloadUrl);
                 return downloadUrl;
-                
+
             }
             catch (Exception e)
             {
                 Console.WriteLine("restServoces error add document" + e.StackTrace);
                 return null;
             }
-           
-            
+
+
         }
-    
+
 
         public User GetMyProfile()
         {
@@ -186,15 +186,15 @@ namespace be4care.Services
             try
             {
                 var token = "?access_token=" + Settings.AuthToken;
-                var result =  (Constant.urlme + token).PatchJsonAsync
+                var result = (Constant.urlme + token).PatchJsonAsync
                     (new {
                         name = user.name,
                         lastName = user.lastName,
                         phNumber = user.phNumber,
                         bDate = user.bDate.ToUniversalTime(),
-                        sex  = user.sex, 
+                        sex = user.sex,
                         pUrl = user.pUrl,
-                        }).
+                    }).
                           Result;
                 return result.IsSuccessStatusCode;
             }
@@ -209,17 +209,29 @@ namespace be4care.Services
             return false;
         }
 
-        
-        public bool AddDoctor(Doctor d)
+
+        public async Task<bool> AddDoctor(Doctor d)
         {
+            var doc = new Doctor
+            {
+                adress = d.adress,
+                phNumber = d.phNumber,
+                email = d.email,
+                healthStruct = d.healthStruct,
+                star = d.star,
+                specialite = d.specialite,
+                note = d.note
+            };
+
             try
             {
                 var token = "?access_token=" + Settings.AuthToken;
-                return  (Constant.urlgetDoctors + token).PostJsonAsync(d).Result.IsSuccessStatusCode;
+                var result = await (Constant.urlgetDoctors + token).PostJsonAsync(doc);
+                return result.IsSuccessStatusCode;
             }
             catch (Exception e)
             {
-                Console.WriteLine("error adding  Doctor : " +e.StackTrace);
+                Console.WriteLine("error adding  Doctor : " + e.StackTrace);
                 return false;
             }
         }
@@ -229,7 +241,7 @@ namespace be4care.Services
             try
             {
                 var token = "?access_token=" + Settings.AuthToken;
-                return  (Constant.urlgetHealthStruct + token).GetJsonAsync<IList<HealthStruct>>();
+                return (Constant.urlgetHealthStruct + token).GetJsonAsync<IList<HealthStruct>>();
             }
             catch (FlurlHttpTimeoutException)
             {
@@ -242,12 +254,22 @@ namespace be4care.Services
             return null;
         }
 
-        public bool AddHealthStruct(HealthStruct s)
+        public async Task<bool> AddHealthStruct(HealthStruct s)
         {
+
+           var str = new HealthStruct
+           {
+                fullName = s.fullName,
+                adress =s.adress,
+                 phNumber = s.phNumber,
+                 email = s.email,
+                 star = s.star,
+            };
             try
             {
                 var token = "?access_token=" + Settings.AuthToken;
-                return (Constant.urlgetHealthStruct + token).PostJsonAsync(s).Result.IsSuccessStatusCode;
+                var result = await (Constant.urlgetHealthStruct + token).PostJsonAsync(str);
+                return result.IsSuccessStatusCode;
             }
             catch (Exception e)
             {
@@ -271,10 +293,22 @@ namespace be4care.Services
 
         public bool addDocument(Document d)
         {
+
+            var doc = new Document
+            {
+                url = d.url,
+                star = d.star,
+                date =d.date,
+                dr = d.dr,
+                type  = d.type,
+                HStructure = d.HStructure,
+                place =d.place,
+                note = d.note,
+            };
             try
             {
                 var token = "?access_token=" + Settings.AuthToken;
-                return  (Constant.urlgetDocuments + token).PostJsonAsync(d).Result.IsSuccessStatusCode;
+                return  (Constant.urlgetDocuments + token).PostJsonAsync(doc).Result.IsSuccessStatusCode;
             }
             catch (Exception e)
             {
@@ -305,6 +339,57 @@ namespace be4care.Services
             }
             catch
             {
+                return false;
+            }
+        }
+
+        public Task<IList<Doctor>> GetAllDoctors()
+        {
+            try
+            {
+                var token = "?access_token=" + Settings.AuthToken;
+                return (Constant.urlAllDoctors + token).GetJsonAsync<IList<Doctor>>();
+            }
+            catch (FlurlHttpTimeoutException)
+            {
+                Console.WriteLine("Request timed out.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+        public Task<IList<HealthStruct>> GetAllHstruct()
+        {
+            try
+            {
+                var token = "?access_token=" + Settings.AuthToken;
+                return (Constant.urlAllHstruct + token).GetJsonAsync<IList<HealthStruct>>();
+            }
+            catch (FlurlHttpTimeoutException)
+            {
+                Console.WriteLine("Request timed out.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
+        public async Task<bool> AddDoctorFromDB(string id)
+        {
+            try
+            {
+                var token = "?access_token=" + Settings.AuthToken;
+                var result = await (Constant.urlAddDocFromDb + token).PostStringAsync(id);
+                return result.IsSuccessStatusCode;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("error adding  Healthstruct : " + e.StackTrace);
                 return false;
             }
         }

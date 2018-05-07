@@ -64,7 +64,7 @@ namespace be4care.PageModels
                 else
                 {
                     _userServices.SaveUser(user);
-                    MessagingCenter.Send(this, "updateProfile");
+                    MessagingCenter.Send(this, "Doctorupdated");
                     await App.Current.MainPage.Navigation.PopModalAsync();
                 }
             });

@@ -7,6 +7,7 @@ namespace be4care.Models
     class Document 
     {
         public String url { get; set; }
+        public string id { get; set; }
         public bool star { get; set; }
         public DateTime date { get; set; }
         public string doctor { get; set; }

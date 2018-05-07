@@ -40,6 +40,22 @@ namespace be4care.Services
             }
         }
 
+        public async Task<IList<HealthStruct>> GetAllHstrcts()
+        {
+            try
+            {
+                // need much test
+                var s = await BlobCache.UserAccount.GetObject<IList<HealthStruct>>("allstruct");
+                return s;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("struct Services : error gettings struct list");
+                Console.WriteLine(e.StackTrace);
+                return null;
+            }
+        }
+
         public async Task<IList<HealthStruct>> GetStructs()
         {
             try
@@ -53,6 +69,22 @@ namespace be4care.Services
                 Console.WriteLine("struct Services : error gettings struct list");
                 Console.WriteLine(e.StackTrace);
                 return null;
+            }
+        }
+
+        public bool saveAllHstruct(IList<HealthStruct> s)
+        {
+            try
+            {
+                BlobCache.UserAccount.Invalidate("allstruct");
+                BlobCache.UserAccount.InsertObject("allstruct", s);
+                return true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("struct Services : error saving structs list");
+                Console.WriteLine(e.StackTrace);
+                return false;
             }
         }
 

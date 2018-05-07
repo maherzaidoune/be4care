@@ -20,7 +20,7 @@
             <ListView 
                 Grid.Row="2"
                 ItemsSource="{Binding documents}"
-                RowHeight="95"
+                RowHeight="90"
                 SelectedItem="{Binding selectedDoc}"
                 SeparatorColor="LightGray"
                 VerticalOptions="Fill"
@@ -34,8 +34,8 @@
                                 <ffimageloading:CachedImage  Source="star.png" IsVisible="{Binding star}" HeightRequest="25" WidthRequest="25"  VerticalOptions="Center" />
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  >
-                                <StackLayout HeightRequest="80" WidthRequest="70">
-                                    <ffimageloading:CachedImage  Source="{Binding url}" DownsampleToViewSize="True" DownsampleHeight="80"  DownsampleWidth="60"  HorizontalOptions="Start"  VerticalOptions="Fill" CacheDuration="90" />
+                                <StackLayout HeightRequest="82" WidthRequest="72">
+                                    <ffimageloading:CachedImage  Source="{Binding urli}" DownsampleToViewSize="True" DownsampleHeight="80"  DownsampleWidth="70"  HeightRequest="80" WidthRequest="70" HorizontalOptions="Start"  VerticalOptions="Fill"  />
                                 </StackLayout>
                                 <StackLayout >
                                     <Label Text="{Binding  date}" FontSize="16" TextColor="Gray"  VerticalOptions="Center" />

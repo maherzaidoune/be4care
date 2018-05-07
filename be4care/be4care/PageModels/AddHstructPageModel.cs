@@ -11,26 +11,22 @@ using Xamarin.Forms;
 namespace be4care.PageModels
 {
     [AddINotifyPropertyChangedInterface]
-    class AddDoctorPageModel : FreshMvvm.FreshBasePageModel
+    class AddHstructPageModel : FreshMvvm.FreshBasePageModel
     {
+        private IRestServices _restServices;
+        private IHStructServices _hStructServices;
+        private IDialogService _dialogSservices;
 
         public string fullName { get; set; }
         public string adress { get; set; }
-        public string phNumber { get; set; } 
+        public string phNumber { get; set; }
         public string email { get; set; }
-        public string healthStruct { get; set; }
         public bool star { get; set; }
-        public string specialite { get; set; }
-        public string note { get; set; }
 
         public bool isBusy { get; set; }
         public bool isEnabled { get; set; }
 
-        private IRestServices _restServices;
-        private IDoctorServices _doctorServices;
-        private IDialogService _dialogSservices;
-
-        public ICommand save => new Command(addDoctor);
+        public ICommand save => new Command(addHstruct);
         public ICommand backClick => new Command(back);
 
         private void back(object obj)
@@ -38,32 +34,28 @@ namespace be4care.PageModels
             App.Current.MainPage.Navigation.PopModalAsync();
         }
 
-        private void addDoctor(object obj)
+        private void addHstruct(object obj)
         {
-
             isEnabled = false;
             isBusy = true;
-            
-            Task.Run(async() =>
+
+            Task.Run(async () =>
             {
                 try
                 {
-                    var doctor = new Doctor()
+                    var hstruct = new HealthStruct()
                     {
                         fullName = fullName,
                         adress = adress,
                         phNumber = phNumber,
                         email = email,
-                        healthStruct = healthStruct,
-                        specialite = specialite,
-                        note = note,
                         star = star
                     };
 
-                    if (await _restServices.AddDoctor(doctor))
+                    if (await _restServices.AddHealthStruct(hstruct))
                     {
-                        await _doctorServices.SaveDoctor(doctor);
-                        MessagingCenter.Send(this, "doctorupdated");
+                        await _hStructServices.SaveStruct(hstruct);
+                        MessagingCenter.Send(this, "HstructUpdated");
                         _dialogSservices.ShowMessage(fullName + " a été ajouté avec succès ");
                     }
                 }
@@ -77,14 +69,14 @@ namespace be4care.PageModels
                 await App.Current.MainPage.Navigation.PopModalAsync();
 
             });
-            
+
         }
 
-        public AddDoctorPageModel(IRestServices _restServices,IDoctorServices _doctorServices,IDialogService _dialogSservices)
+        public AddHstructPageModel(IRestServices _restServices, IHStructServices _hStructServices, IDialogService _dialogSservices)
         {
-            this._doctorServices = _doctorServices;
-            this._restServices = _restServices;
             this._dialogSservices = _dialogSservices;
+            this._hStructServices = _hStructServices;
+            this._restServices = _restServices;
         }
         public override void Init(object initData)
         {

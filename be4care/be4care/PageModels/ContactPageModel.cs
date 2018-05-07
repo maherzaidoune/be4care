@@ -26,17 +26,28 @@ namespace be4care.PageModels
 
         private void contactSettings(object obj)
         {
-            MessagingCenter.Subscribe<AddDoctorPageModel>(this, "doctorupdated", updateContact);
-            //MessagingCenter.Subscribe<EditProfilePageModel>(this, "updateProfile", updateProfile);
+            MessagingCenter.Subscribe<AddDoctorPageModel>(this, "doctorupdated", docCantactUpdated);
+            MessagingCenter.Subscribe<AddHstructPageModel>(this, "HstructUpdated", hstCantactUpdated);
+
             Device.BeginInvokeOnMainThread(async () =>
             {
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new CantactSettingsPage());
             });
         }
 
-        private void updateContact(AddDoctorPageModel obj)
+        private void docCantactUpdated(AddDoctorPageModel obj)
         {
-            updateCantact();
+            Task.Run(async () =>
+            {
+                await updateCantact();
+            });
+        }
+        private void hstCantactUpdated(AddHstructPageModel obj)
+        {
+            Task.Run(async () =>
+            {
+                await updateCantact();
+            });
         }
 
         public Contact selectedContact
@@ -75,17 +86,17 @@ namespace be4care.PageModels
             
         }
 
-        public  override void Init(object initData)
+        public async  override void Init(object initData)
         {
             base.Init(initData);
+            await updateCantact();
             Console.WriteLine("contact  page model init");
-            updateCantact();
 
         }
 
-        public void updateCantact()
+        public async Task updateCantact()
         {
-            Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 try
                 {

@@ -11,6 +11,9 @@
         private static string _urlgetHealthStruct = "https://peaceful-forest-76384.herokuapp.com/api/users/me/healthStructs";
         private static string _urlAnalyse = "https://peaceful-forest-76384.herokuapp.com/api/documents/analyse";
         private static string _urlDisconnect = "https://peaceful-forest-76384.herokuapp.com/api/users/logout";
+        private static string _urlAllDoctors = "https://peaceful-forest-76384.herokuapp.com/api/doctors";
+        private static string _urlAllHstruct = "https://peaceful-forest-76384.herokuapp.com/api/healthStructs";
+        private static string _urlAddDocFromDb = "https://peaceful-forest-76384.herokuapp.com/api/users/addDoctor";
 
 
 
@@ -20,6 +23,27 @@
             get
             {
                 return _url;
+            }
+        }
+        public static string urlAddDocFromDb
+        {
+            get
+            {
+                return _urlAddDocFromDb;
+            }
+        }
+        public static string urlAllDoctors
+        {
+            get
+            {
+                return _urlAllDoctors;
+            }
+        }
+        public static string urlAllHstruct
+        {
+            get
+            {
+                return _urlAllHstruct;
             }
         }
         public static string urlDisconnect

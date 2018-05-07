@@ -28,6 +28,16 @@
                         IsClippedToBounds="True"
                         Padding="10, 5"
                         Spacing="3">
+                <Button HorizontalOptions="Fill" BackgroundColor="Transparent" Text="Liste des médecins" TextColor="Black" Command="{Binding DocsList}"  />
+                <BoxView 
+                            HeightRequest="1" 
+                            BackgroundColor="Black" 
+                            HorizontalOptions="FillAndExpand" />
+                <Button HorizontalOptions="Fill" BackgroundColor="Transparent" Text="Liste des Structures de soins" TextColor="Black" Command="{Binding HstructList}"  />
+                <BoxView 
+                            HeightRequest="1" 
+                            BackgroundColor="Black" 
+                            HorizontalOptions="FillAndExpand" />
                 <Button HorizontalOptions="Fill" BackgroundColor="Transparent" Text="Ajouter Médecin" TextColor="Black" Command="{Binding addDoc}"  />
                 <BoxView 
                             HeightRequest="1" 
