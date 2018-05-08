@@ -21,7 +21,7 @@ namespace be4care.Services
                 }
                 else
                 {
-                    toastConfig.SetBackgroundColor(System.Drawing.Color.LawnGreen);
+                    toastConfig.SetBackgroundColor(System.Drawing.Color.LimeGreen);
                 }
                 toastConfig.MessageTextColor = System.Drawing.Color.White;
                 toastConfig.SetPosition(ToastPosition.Bottom);

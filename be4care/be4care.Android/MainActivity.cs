@@ -10,6 +10,7 @@ using AsNum.XFControls.Droid;
 using Acr.UserDialogs;
 using Plugin.CurrentActivity;
 using FFImageLoading.Forms.Droid;
+using Akavache;
 
 namespace be4care.Droid
 {
@@ -42,6 +43,7 @@ namespace be4care.Droid
         protected override void OnDestroy()
         {
             base.OnDestroy();
+            BlobCache.Shutdown().Wait();
         }
         
         public override void OnBackPressed()

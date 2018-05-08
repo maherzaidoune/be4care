@@ -50,7 +50,6 @@ namespace be4care.PageModels
         protected  override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
-            UpdateView();
             Console.WriteLine("viewIsAppearing ");
         }
 
@@ -58,6 +57,7 @@ namespace be4care.PageModels
         {
             base.Init(initData);
             MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentadded", update);
+            UpdateView();
             Console.WriteLine("init ");
 
         }
@@ -72,13 +72,13 @@ namespace be4care.PageModels
             Task.Run(async () => {
                 try
                 {
-                    documents = await _documentSerives.GetDocuments();
-                    if (documents == null || documents.Count == 0)
-                    {
+                    //documents = await _documentSerives.GetDocuments();
+                    //if (documents == null || documents.Count == 0)
+                    //{
                         documents = await _restServices.GetDocumentsAsync();
                         if(!(documents == null || documents.Count == 0))
                             _documentSerives.SaveDocuments(documents);
-                    }
+                    //}
                 }
                 catch
                 {

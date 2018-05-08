@@ -16,8 +16,8 @@ namespace be4care.Services
             try
             {
                 var docs = await GetDocuments();
-                if (docs == null)
-                    docs = new List<Document>();
+                if (docs == null || docs.Count == 0)
+                    return false;
                 docs.Remove(doc);
                 SaveDocuments(docs);
                 return true;
@@ -63,7 +63,7 @@ namespace be4care.Services
             {
                 var docs = await GetDocuments();
                 if (docs == null)
-                    docs = new List<Document>();
+                    return false;
                 docs.Add(doc);
                 SaveDocuments(docs);
                 return true;

@@ -22,7 +22,7 @@ namespace be4care.PageModels
 
         private IRestServices _restService;
         private IDocumentServices _documentServices;
-
+        private IDialogService _dialogServices;
         private void saveDoc(object obj)
         {
             isEnabled = false;
@@ -32,14 +32,21 @@ namespace be4care.PageModels
                 {
                     if ( _restService.addDocument(document))
                     {
-                        await _documentServices.SaveDocument(document);
-                        Console.WriteLine("DocDetails : document  added succefuly" + document.url);
-                        MessagingCenter.Send(this, "documentadded");
-                        Device.BeginInvokeOnMainThread(async () =>
+                        if(await _documentServices.SaveDocument(document))
                         {
-                            await CoreMethods.PushPageModel<DocumentDetailsPageModel>(document);
-                            RaisePropertyChanged();
-                        });
+                            Console.WriteLine("DocDetails : document  added succefuly" + document.url);
+                            MessagingCenter.Send(this, "documentadded");
+                            Device.BeginInvokeOnMainThread(async () =>
+                            {
+                                await CoreMethods.PushPageModel<DocumentDetailsPageModel>(document);
+                                RaisePropertyChanged();
+                            });
+                        }
+                        else
+                        {
+                            _dialogServices.ShowMessage("Erreur : Essayez à nouveau ", true);
+                        }
+                        
                     }
                     isBusy = false;
                     isEnabled = true;
@@ -54,10 +61,11 @@ namespace be4care.PageModels
             
         }
 
-        public DocDetailsPageModel(IRestServices _restService,IDocumentServices _documentServices)
+        public DocDetailsPageModel(IRestServices _restService,IDocumentServices _documentServices,IDialogService _dialogServices)
         {
             this._restService = _restService;
             this._documentServices = _documentServices;
+            this._dialogServices = _dialogServices;
         }
 
         public override void Init(object initData)
