@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace be4care.PageModels
 {
@@ -50,29 +51,41 @@ namespace be4care.PageModels
         {
             base.ViewIsAppearing(sender, e);
             UpdateView();
+            Console.WriteLine("viewIsAppearing ");
         }
 
         public override void Init(object initData)
         {
             base.Init(initData);
+            MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentadded", update);
+            Console.WriteLine("init ");
+
         }
+
+        private void update(DocDetailsPageModel obj)
+        {
+            UpdateView();
+        }
+
         public void UpdateView()
         {
             Task.Run(async () => {
                 try
                 {
                     documents = await _documentSerives.GetDocuments();
-                    if (documents == null)
+                    if (documents == null || documents.Count == 0)
                     {
                         documents = await _restServices.GetDocumentsAsync();
-                        _documentSerives.SaveDocuments(documents);
+                        if(!(documents == null || documents.Count == 0))
+                            _documentSerives.SaveDocuments(documents);
                     }
                 }
                 catch
                 {
                     Console.WriteLine("error getting doctors from local database");
                     documents = await _restServices.GetDocumentsAsync();
-                    _documentSerives.SaveDocuments(documents);
+                    if (!(documents == null || documents.Count == 0))
+                        _documentSerives.SaveDocuments(documents);
                 }
 
 

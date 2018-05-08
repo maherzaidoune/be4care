@@ -7,7 +7,7 @@
     <Grid Padding="10,30,10,10" >
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
-            <RowDefinition Height="70" />
+            <RowDefinition Height="80" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Label Text="&lt; RETOUR" Grid.Row="0" HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="Medium"  >
@@ -15,15 +15,20 @@
                 <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
             </Label.GestureRecognizers>
         </Label>
-        <StackLayout Grid.Row="1"  BindingContext="{Binding  doc}" Padding="10,0,0,0">
+        <StackLayout Grid.Row="1"  BindingContext="{Binding  doc}" Padding="0,5,0,0">
             <Label Text="{Binding dr}" FontSize="20" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
-            <Label Text="{Binding type}" FontSize="44" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
+            <Label Text="{Binding type}" FontSize="36" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
         </StackLayout>
         <ScrollView Grid.Row="2" Padding="10" >
-            <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill"  CompressedLayout.IsHeadless="True" >
-            <ffimageloading:CachedImage  VerticalOptions="Center"
-		     HeightRequest="300"
-			 DownsampleToViewSize="true" Source="{Binding url}" HorizontalOptions="Fill"  />
+            <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill"  CompressedLayout.IsHeadless="True" Spacing="2">
+            <ffimageloading:CachedImage  
+             VerticalOptions="Start"
+             HorizontalOptions="FillAndExpand"
+             HeightRequest="300"
+             DownsampleToViewSize="True"
+			 CacheType="Memory" 
+             Source="{Binding pUrl}"   />
+                
                     <ListView 
                     ItemsSource="{Binding details}"
                     HorizontalOptions="FillAndExpand"

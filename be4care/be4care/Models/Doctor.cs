@@ -9,7 +9,6 @@ namespace be4care.Models
         private string respectme;
         public string id { get; set; }
         public string fullName { get {
-
                 if (!respectme.Contains("Dr"))
                 {
                     return "Dr " + respectme;

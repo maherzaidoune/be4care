@@ -64,13 +64,13 @@ namespace be4care.PageModels
                     {
                         await _doctorServices.SaveDoctor(doctor);
                         MessagingCenter.Send(this, "doctorupdated");
-                        _dialogSservices.ShowMessage(fullName + " a été ajouté avec succès ");
+                        _dialogSservices.ShowMessage(fullName + " a été ajouté avec succès ",false);
                     }
                 }
                 catch
                 {
                     Console.WriteLine("error adding new Doctor");
-                    _dialogSservices.ShowMessage("Erreur , veuillez essayer plus tard");
+                    _dialogSservices.ShowMessage("Erreur , veuillez essayer plus tard",true);
                 }
                 isBusy = false;
                 isEnabled = true;

@@ -15,6 +15,8 @@ namespace be4care.PageModels
     {
         private IRestServices _restServices;
         private IUserServices _userServices;
+        private IDialogService _dialogServices;
+        private IDocumentServices _documentServices;
         public bool isBusy { get; set; }
         public bool isEnabled { get; set; }
         private User user;
@@ -25,37 +27,42 @@ namespace be4care.PageModels
         {
             isEnabled = false;
             isBusy = true;
-            var url = "nothing  to show";
-            var result = "nothing  to show";
+            var url = string.Empty;
+            var result = string.Empty; ;
             await Task.Run(async () =>
             {
                 try
                 {
                     url = await upload(user);
                     Console.WriteLine("AddDocPageModel "+url);
+                    if (string.IsNullOrEmpty(url))
+                        await Task.Delay(100);
                     result = await analyse(url);
+                    if (string.IsNullOrEmpty(result))
+                        await Task.Delay(100);
                     document = new Document { url = url, text = result };
-                    if(result  != null)
+                    if(!string.IsNullOrEmpty(result))
                     {
                         Device.BeginInvokeOnMainThread(async () =>
                         {
                             await CoreMethods.PushPageModel<DocDetailsPageModel>(document);
                             RaisePropertyChanged();
                         });
+                        _dialogServices.ShowMessage("document ajouté avec succes", false);
                     }
                     else
                     {
                         isBusy = false;
                         isEnabled = true;
+                        _dialogServices.ShowMessage("Erreur : veuillez verifier votre connection internet ", true);
+
                     }
-                    
+
                 }
                 catch (Exception e)
                 {
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
-                        Console.WriteLine("Error add document method " + e.StackTrace);
-                    });
+
+                    _dialogServices.ShowMessage("Erreur : veuillez verifier votre connection internet ", true);
                     isBusy = false;
                     isEnabled = true;
                 }
@@ -67,18 +74,16 @@ namespace be4care.PageModels
         protected override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
-            Task.Run(async () =>
-            {
-                user = await _userServices.GetUser();
-            });
+            
             //addDocument(null);
 
         }
 
-        public  AddDocPageModel(IRestServices _restServices,IUserServices _userServices)
+        public  AddDocPageModel(IRestServices _restServices,IUserServices _userServices,IDialogService _dialogServices,IDocumentServices _documentServices)
         {
                 this._restServices = _restServices;
                this._userServices = _userServices;
+            this._dialogServices = _dialogServices;
         }
 
         public IUserServices _UserServices { get; }
@@ -87,7 +92,10 @@ namespace be4care.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
-            Console.WriteLine("addDocPageModel init method called ! ");
+            Task.Run(async () =>
+            {
+                user = await _userServices.GetUser();
+            });
             isBusy = false;
             isEnabled = true;
         }

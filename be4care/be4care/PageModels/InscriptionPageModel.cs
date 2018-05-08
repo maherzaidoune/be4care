@@ -23,10 +23,10 @@ namespace be4care.PageModels
             var t = Utils.EntryCheck.checkentries(num, email, password, acceptTerms);
             if (!t.Item1)
             {
-                _dialogservices.ShowMessage(t.Item2);
+                _dialogservices.ShowMessage(t.Item2,true);
             } else if (!(passverif.Equals(password)))
             {
-                _dialogservices.ShowMessage("verifiez votre mot de passe");
+                _dialogservices.ShowMessage("Verifiez votre mot de passe",true);
             }
             else
             {
@@ -94,7 +94,7 @@ namespace be4care.PageModels
             base.ViewIsAppearing(sender, e);
             if (!CrossConnectivity.Current.IsConnected)
             {
-                _dialogservices.ShowMessage("verifier votre connection internet");
+                _dialogservices.ShowMessage("Verifier votre connection internet",true);
             }
         }
         public override void Init(object initData)

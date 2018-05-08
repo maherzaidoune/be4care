@@ -69,15 +69,22 @@ namespace be4care.PageModels
                     _hStructServices.saveAllHstruct(st);
                     foreach (HealthStruct d in st)
                     {
-                        foreach (HealthStruct ud in userstruct)
+                        if (userstruct != null && userstruct.Count > 0)
                         {
-                            if (d.id == ud.id)
+                            foreach (HealthStruct ud in userstruct)
                             {
-                                structs.Add(new hList { add = false, hstruct = d, fullName = d.fullName });
-                                break;
+                                if (d.id == ud.id)
+                                {
+                                    structs.Add(new hList { add = false, hstruct = d, fullName = d.fullName });
+                                    break;
+                                }
                             }
+                            structs.Add(new hList { add = true, hstruct = d, fullName = d.fullName });
                         }
-                        structs.Add(new hList { add = true, hstruct = d, fullName = d.fullName });
+                        else
+                        {
+                            structs.Add(new hList { add = true, hstruct = d, fullName = d.fullName });
+                        }
                     }
                 }
 
@@ -118,12 +125,12 @@ namespace be4care.PageModels
                 {
                     await _hStructServices.SaveStruct(d);
                     MessagingCenter.Send(this, "newStructAdd");
-                    _dialogServices.ShowMessage(d.fullName + " a été ajouter a votre liste de contact");
+                    _dialogServices.ShowMessage(d.fullName + " a été ajouter a votre liste de contact",false);
 
                 }
                 else
                 {
-                    _dialogServices.ShowMessage("Erreur");
+                    _dialogServices.ShowMessage("Erreur : Veuillez réessayer plus tard",true);
                 }
                 isBusy = false;
                 isEnabled = true;
@@ -160,6 +167,10 @@ namespace be4care.PageModels
             try
             {
                 userstruct = await _hStructServices.GetStructs();
+                if(userstruct == null || userstruct.Count== 0)
+                {
+                    userstruct = new List<HealthStruct>();
+                }
             }
             catch
             {
@@ -177,15 +188,22 @@ namespace be4care.PageModels
 
                 foreach (HealthStruct d in docs)
                 {
-                    foreach (HealthStruct ud in userstruct)
+                    if (userstruct != null && userstruct.Count > 0)
                     {
-                        if (d.id == ud.id)
+                        foreach (HealthStruct ud in userstruct)
                         {
-                            structs.Add(new hList { add = false, hstruct = d, fullName = d.fullName });
-                            break;
+                            if (d.id == ud.id)
+                            {
+                                structs.Add(new hList { add = false, hstruct = d, fullName = d.fullName });
+                                break;
+                            }
                         }
+                        structs.Add(new hList { add = true, hstruct = d, fullName = d.fullName });
                     }
-                    structs.Add(new hList { add = true, hstruct = d, fullName = d.fullName });
+                    else
+                    {
+                        structs.Add(new hList { add = true, hstruct = d, fullName = d.fullName });
+                    }
                 }
             }
             catch

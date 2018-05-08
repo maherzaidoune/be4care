@@ -12,7 +12,9 @@ namespace be4care.Models
         public DateTime date { get; set; }
         public string doctor { get; set; }
         public String dr { get {
-                return "Dr " + doctor;
+                if(!doctor.Contains("Dr"))
+                    return "Dr " + doctor;
+                return doctor;
             } set {
                 doctor = value;
             } }

@@ -16,10 +16,10 @@
                     <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
                 </Label.GestureRecognizers>
             </Label>
-            <StackLayout Grid.Row="1"  CompressedLayout.IsHeadless="True" >
+            <StackLayout Grid.Row="1"  CompressedLayout.IsHeadless="True" Padding="0,0,0,5">
                 <StackLayout Orientation="Horizontal">
                     <StackLayout >
-                        <Label Text="{Binding name} " FontSize="44" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
+                        <Label Text="{Binding name} " FontSize="36" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
                         <Label Text="{Binding spec}" Font="12" TextColor="Black" HorizontalOptions="Start" />
                     </StackLayout>
                     <Image Source="modifier.png"

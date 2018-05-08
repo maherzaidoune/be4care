@@ -31,7 +31,7 @@
 
             <StackLayout  x:Name="adduserStack" Orientation="Vertical" VerticalOptions="FillAndExpand" >
                 <StackLayout >
-                <Label Text="Saisir vos données" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="Fill" Margin="10" />
+                <Label Text="Saisir vos données" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="CenterAndExpand" Margin="10" />
                 <local:myEntry Placeholder="  username" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding username, Mode=TwoWay}" Keyboard="Text"  />
                 <local:myEntry Placeholder="  Nom" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding nom, Mode=TwoWay}" Keyboard="Text" />
                 <local:myEntry Placeholder="  Prénon" PlaceholderColor="White" FontSize="15" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding prenom, Mode=TwoWay}" Keyboard="Text" />
@@ -53,7 +53,7 @@
                         />
                         </StackLayout>
                     </StackLayout >
-                    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" CompressedLayout.IsHeadless="True"  >
+                    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"   >
                             <ActivityIndicator
                         AbsoluteLayout.LayoutBounds="0,0.5,1,1"
                         AbsoluteLayout.LayoutFlags="All"

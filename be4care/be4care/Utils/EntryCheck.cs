@@ -37,22 +37,22 @@ namespace be4care.Utils
         {
 
             if (!terms)
-                return new Tuple<bool, string>(false, "\r\n Acceptez les conditions d'utilisation");
+                return new Tuple<bool, string>(false, "Acceptez les conditions d'utilisation");
             var msg = "";
             var accepted = true;
 
             if (!checkMail(text)) {
-                msg += "\r\n Email invalid";
+                msg += "Email invalid \r\n";
                 accepted = false;
             }
             if (!(checknum(num)))
             {
-                msg += "\r\n Numéro de telephone invalid";
+                msg += "Numéro de telephone invalid \r\n";
                 accepted = false;
             }
             if (!(checkPass(pass)))
             {
-                msg += "\r\n Password invalid";
+                msg += "Password invalid \r\n ";
                 accepted = false;
             }
 

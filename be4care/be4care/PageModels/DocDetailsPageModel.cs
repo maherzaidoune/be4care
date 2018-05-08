@@ -27,19 +27,19 @@ namespace be4care.PageModels
         {
             isEnabled = false;
             isBusy = true;
-            Task.Run(() => {
+            Task.Run(async () => {
                 try
                 {
                     if ( _restService.addDocument(document))
                     {
-                        _documentServices.SaveDocument(document);
+                        await _documentServices.SaveDocument(document);
                         Console.WriteLine("DocDetails : document  added succefuly" + document.url);
+                        MessagingCenter.Send(this, "documentadded");
                         Device.BeginInvokeOnMainThread(async () =>
                         {
                             await CoreMethods.PushPageModel<DocumentDetailsPageModel>(document);
                             RaisePropertyChanged();
                         });
-                       
                     }
                     isBusy = false;
                     isEnabled = true;

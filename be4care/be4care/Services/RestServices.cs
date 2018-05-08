@@ -130,7 +130,8 @@ namespace be4care.Services
 
             var file = await CrossMedia.Current.TakePhotoAsync(new Plugin.Media.Abstractions.StoreCameraMediaOptions
             {
-                SaveToAlbum = true
+                SaveToAlbum = true,
+                CompressionQuality = 30
             });
 
 

@@ -19,12 +19,12 @@
                 </Label.GestureRecognizers>
             </Label>
 
-            <StackLayout Grid.Row="1" Padding="0,10,0,10" Spacing="10" VerticalOptions="Fill" HorizontalOptions="FillAndExpand">
+            <StackLayout Grid.Row="1" Padding="0,10,0,10" Spacing="10" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
                 <SearchBar Text="{Binding search ,Mode=TwoWay}" Placeholder="Chercher ..." HorizontalOptions="StartAndExpand" />
                 <ListView
                 ItemsSource="{Binding list}"
                 RowHeight="40"
-                VerticalOptions="Center"
+                VerticalOptions="FillAndExpand"
                 HorizontalOptions="StartAndExpand"
                 IsPullToRefreshEnabled="True"
                 RefreshCommand="{Binding refresh}"

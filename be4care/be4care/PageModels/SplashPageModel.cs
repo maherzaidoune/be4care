@@ -31,7 +31,7 @@ namespace be4care.PageModels
             var auth = Settings.AuthToken;
             if (!CrossConnectivity.Current.IsConnected)
             {
-                _dialogServices.ShowMessage("verifier votre connection internet");
+                _dialogServices.ShowMessage("Verifier votre connection internet",true);
             }
             Console.WriteLine("auth : " + auth);
            

@@ -65,15 +65,22 @@ namespace be4care.PageModels
                     _doctorServices.saveAllDoctors(docs);
                     foreach (Doctor d in docs)
                     {
-                        foreach (Doctor ud in userdoctors)
+                        if (userdoctors != null && userdoctors.Count > 0)
                         {
-                            if (d.id == ud.id)
+                            foreach (Doctor ud in userdoctors)
                             {
-                                doctors.Add(new DocList { add = false, doctor = d, fullName = d.fullName });
-                                break;
+                                if (d.id == ud.id)
+                                {
+                                    doctors.Add(new DocList { add = false, doctor = d, fullName = d.fullName });
+                                    break;
+                                }
                             }
+                            doctors.Add(new DocList { add = true, doctor = d, fullName = d.fullName });
                         }
-                        doctors.Add(new DocList { add = true, doctor = d, fullName = d.fullName });
+                        else
+                        {
+                            doctors.Add(new DocList { add = true, doctor = d, fullName = d.fullName });
+                        }
                     }
                 }
 
@@ -100,11 +107,11 @@ namespace be4care.PageModels
 
         public ICommand addDoctor => new Command(addthisDoctor);
 
-        private void addthisDoctor(object obj)
+        private async void addthisDoctor(object obj)
         {
             isEnabled = false;
             isBusy = true;
-            Task.Run(async () =>
+            await Task.Run(async () =>
             {
 
                 var doc = obj as DocList;
@@ -112,12 +119,12 @@ namespace be4care.PageModels
                 if (await _restServices.AddDoctorFromDB(d.id)) {
                     await _doctorServices.SaveDoctor(d);
                     MessagingCenter.Send(this, "newDoctorAdd");
-                    _dialogServices.ShowMessage(d.fullName + " a été ajouter a votre liste de contact");
+                    _dialogServices.ShowMessage(d.fullName + " a été ajouter a votre liste de contact",false);
 
                 }
                 else
                 {
-                    _dialogServices.ShowMessage("Erreur");
+                    _dialogServices.ShowMessage("Erreur : Veuillez réessayer plus tard",true);
                 }
                 isBusy = false;
                 isEnabled = true;
@@ -145,8 +152,7 @@ namespace be4care.PageModels
 
             isBusy = false;
             Task.Run(async () =>
-            {
-                
+            { 
                 await UpdateList();
             });
         }
@@ -156,6 +162,8 @@ namespace be4care.PageModels
             try
             {
                 userdoctors = await _doctorServices.GetDoctors();
+                if (userdoctors == null || userdoctors.Count == 0)
+                    userdoctors = new List<Doctor>();
             }
             catch
             {
@@ -173,15 +181,22 @@ namespace be4care.PageModels
 
                 foreach(Doctor d in docs)
                 {
-                    foreach(Doctor ud in userdoctors)
+                    if (userdoctors != null && userdoctors.Count > 0)
                     {
-                        if(d.id == ud.id)
+                        foreach (Doctor ud in userdoctors)
                         {
-                            doctors.Add(new DocList { add = false, doctor = d, fullName = d.fullName });
-                            break;
+                            if (d.id == ud.id)
+                            {
+                                doctors.Add(new DocList { add = false, doctor = d, fullName = d.fullName });
+                                break;
+                            }
                         }
+                        doctors.Add(new DocList { add = true, doctor = d, fullName = d.fullName });
                     }
-                    doctors.Add(new DocList { add = true, doctor = d, fullName = d.fullName });
+                    else
+                    {
+                        doctors.Add(new DocList { add = true, doctor = d, fullName = d.fullName });
+                    }
                 }
             }
             catch

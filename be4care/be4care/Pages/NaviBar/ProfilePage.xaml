@@ -38,6 +38,7 @@
                             WidthRequest="75"
                             VerticalOptions="Start"
 			                DownsampleToViewSize="true"
+                            CacheType="Memory"
 			                Source="{local:EmbeddedImage resourceId=be4care.SharedImages.stephane.png}">
                         <ffimageloading:CachedImage.Transformations>
                             <fftransformations:CircleTransformation />

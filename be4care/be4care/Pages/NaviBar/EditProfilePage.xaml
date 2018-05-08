@@ -33,8 +33,7 @@
 			                HeightRequest="75"
                             WidthRequest="75"
                             VerticalOptions="Start"
-			                DownsampleToViewSize="true"
-                            FadeAnimationForCachedImages="True"
+                            CacheType="Memory"
 			                Source="{l:EmbeddedImage resourceId=be4care.SharedImages.stephane.png}">
                             <ffimageloading:CachedImage.Transformations>
                                 <fftransformations:CircleTransformation />

@@ -39,32 +39,32 @@ namespace be4care.PageModels
 
         private void hstListCantactUpdated(HstructListPageModel obj)
         {
-            Task.Run(async () =>
+            Task.Run( () =>
             {
-                await updateCantact();
+                 updateCantact();
             });
         }
 
         private void doctorlistupdated(DoctorsListPageModel obj)
         {
-            Task.Run(async () =>
+            Task.Run( () =>
             {
-                await updateCantact();
+                 updateCantact();
             });
         }
 
         private void docCantactUpdated(AddDoctorPageModel obj)
         {
-            Task.Run(async () =>
+            Task.Run( () =>
             {
-                await updateCantact();
+                 updateCantact();
             });
         }
         private void hstCantactUpdated(AddHstructPageModel obj)
         {
-            Task.Run(async () =>
+            Task.Run( () =>
             {
-                await updateCantact();
+                 updateCantact();
             });
         }
 
@@ -98,62 +98,87 @@ namespace be4care.PageModels
         }
 
 
-        protected async override void ViewIsAppearing(object sender, EventArgs e)
+        protected  override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
-            await updateCantact();
+            updateCantact();
         }
 
         public override void Init(object initData)
         {
             base.Init(initData);
-            
             Console.WriteLine("contact  page model init");
 
         }
 
-        public async Task updateCantact()
+        public void updateCantact()
         {
-            await Task.Run(async () =>
+            Task.Run(async () =>
             {
                 try
                 {
                     doctors = await _doctorServices.GetDoctors();
-                    if (doctors == null)
+                    if (doctors == null || doctors.Count ==0)
                     {
                         doctors = await _restServices.GetDoctorsAsync();
-                        _doctorServices.SaveDoctors(doctors);
+                        if (doctors != null && doctors.Count > 0)
+                            _doctorServices.SaveDoctors(doctors);
+                        else
+                            doctors = new List<Doctor>();
                     }
                 }
                 catch
                 {
                     Console.WriteLine("error getting doctors from local database");
                     doctors = await _restServices.GetDoctorsAsync();
-                    if (_doctorServices.SaveDoctors(doctors))
-                        Console.WriteLine("Doctors  saved");
+                    if (doctors != null && doctors.Count > 0)
+                        _doctorServices.SaveDoctors(doctors);
+                    else
+                        doctors = new List<Doctor>();
+
                 }
                 try
                 {
                     healthStructs = await _hStructServices.GetStructs();
-                    if (healthStructs == null)
+                    if (healthStructs == null || healthStructs.Count==0)
                     {
                         healthStructs = await _restServices.GetHealthStructs();
-                        _hStructServices.SaveStructs(healthStructs);
+                        if (healthStructs != null && healthStructs.Count > 0)
+                            _hStructServices.SaveStructs(healthStructs);
+                        else
+                            healthStructs = new List<HealthStruct>();
                     }
                 }
                 catch
                 {
                     Console.WriteLine("error getting health structs from local database");
                     healthStructs = await _restServices.GetHealthStructs();
-                    _hStructServices.SaveStructs(healthStructs);
+                    if(healthStructs != null && healthStructs.Count > 0)
+                        _hStructServices.SaveStructs(healthStructs);
+                    else
+                        healthStructs = new List<HealthStruct>();
                 }
-                var groupDoc = new ContactGroup("Médecin");
-                groupDoc.AddRange(doctors.OrderBy(d => !d.star));
-                var groupHealth = new ContactGroup("Structure de Santé");
-                groupHealth.AddRange(healthStructs.OrderBy(d => !d.star));
-                contacts = new List<ContactGroup>();
-                contacts.Add(groupDoc);
-                contacts.Add(groupHealth);
+                try
+                {
+                    var groupDoc = new ContactGroup("Médecin");
+                    var groupHealth = new ContactGroup("Structure de Santé");
+                    if(doctors.Count>0)
+                        groupDoc.AddRange(doctors.OrderBy(d => !d.star));
+                    if(healthStructs.Count>0)
+                        groupHealth.AddRange(healthStructs.OrderBy(d => !d.star));
+                    contacts = new List<ContactGroup>();
+                    contacts.Add(groupDoc);
+                    contacts.Add(groupHealth);
+                }
+                catch
+                {
+                    Console.WriteLine("contact page model : empty list");
+                    var groupDoc = new ContactGroup("Médecin");
+                    var groupHealth = new ContactGroup("Structure de Santé");
+                    contacts = new List<ContactGroup>();
+                    contacts.Add(groupDoc);
+                    contacts.Add(groupHealth);
+                }
             });
         }
 

@@ -40,7 +40,7 @@ namespace be4care.PageModels
             var t = Utils.EntryCheck.checkentries(user, password);
             if (!t.Item1)
             {
-                _dialogService.ShowMessage(t.Item2);
+                _dialogService.ShowMessage(t.Item2,true);
             }
             else
             {
@@ -61,7 +61,7 @@ namespace be4care.PageModels
                     }
                     else
                     {
-                        _dialogService.ShowMessage("Verifiez vos donné");
+                        _dialogService.ShowMessage("Verifiez vos donnés",true);
                         isBusy = false;
                         isEnabled = true;
                     }
@@ -84,7 +84,7 @@ namespace be4care.PageModels
             base.ViewIsAppearing(sender, e);
             if (!CrossConnectivity.Current.IsConnected)
             {
-                _dialogService.ShowMessage("verifier votre connection internet");
+                _dialogService.ShowMessage("Verifier votre connection internet",true);
             }
         }
 

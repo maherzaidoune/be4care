@@ -24,6 +24,7 @@
                    HeightRequest="30"
                    WidthRequest="30"
                    VerticalOptions="Center"
+                    CacheType="Memory"
                    >
                     <ffimageloading:CachedImage.GestureRecognizers>
                         <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  edit}" />
