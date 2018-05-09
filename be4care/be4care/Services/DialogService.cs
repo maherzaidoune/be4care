@@ -25,7 +25,10 @@ namespace be4care.Services
                 }
                 toastConfig.MessageTextColor = System.Drawing.Color.White;
                 toastConfig.SetPosition(ToastPosition.Bottom);
-                UserDialogs.Instance.Toast(toastConfig);
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    UserDialogs.Instance.Toast(toastConfig);
+                });
             });
             
         }

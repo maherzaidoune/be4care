@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
+using Xamarin.Forms;
 
 namespace be4care.Helpers
 {
@@ -106,6 +108,10 @@ namespace be4care.Helpers
             return s;
         }
 
+
+
+
+        
 
     }
 }

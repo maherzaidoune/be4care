@@ -27,7 +27,7 @@ namespace be4care.Droid
             Rg.Plugins.Popup.Popup.Init(this, bundle);
             global::Xamarin.Forms.Forms.SetFlags("FastRenderers_Experimental");
             global::Xamarin.Forms.Forms.Init(this, bundle);
-            CachedImageRenderer.Init(true);
+            CachedImageRenderer.Init(enableFastRenderer: true);
             LoadApplication(new App());
         }
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)

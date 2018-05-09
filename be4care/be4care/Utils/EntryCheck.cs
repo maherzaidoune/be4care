@@ -38,41 +38,51 @@ namespace be4care.Utils
 
             if (!terms)
                 return new Tuple<bool, string>(false, "Acceptez les conditions d'utilisation");
-            var msg = "";
+
+            var msg = string.Empty;
             var accepted = true;
 
             if (!checkMail(text)) {
-                msg += "Email invalid \r\n";
+                if(string.IsNullOrEmpty(msg))
+                    msg += "Email invalid ";
+                msg += "\r\nEmail invalid";
                 accepted = false;
             }
             if (!(checknum(num)))
             {
-                msg += "Numéro de telephone invalid \r\n";
+                if (string.IsNullOrEmpty(msg))
+                    msg += "Numéro de telephone invalid ";
+                msg += "\r\nNuméro de telephone invalid ";
                 accepted = false;
             }
             if (!(checkPass(pass)))
             {
-                msg += "Password invalid \r\n ";
+                if (string.IsNullOrEmpty(msg))
+                    msg += "Password invalid ";
+                msg += "\r\nPassword invalid ";
                 accepted = false;
             }
-
             return new Tuple<bool, string>(accepted, msg);
 
 
         }
         public static Tuple<bool, string> checkentries(string email, string pass)
         {
-            var msg = "";
+            var msg = string.Empty;
             var accepted = true;
 
             if (!checkMail(email))
             {
-                msg += "\r\n Email invalid";
+                if (string.IsNullOrEmpty(msg))
+                    msg += "Email invalid ";
+                msg += "\r\nEmail invalid";
                 accepted = false;
             }
             if (!(checkPass(pass)))
             {
-                msg += "\r\n Password invalid";
+                if (string.IsNullOrEmpty(msg))
+                    msg += "Password invalid ";
+                msg += "\r\nPassword invalid ";
                 accepted = false;
             }
 

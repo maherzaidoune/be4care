@@ -151,10 +151,17 @@ namespace be4care.PageModels
             base.Init(initData);
 
             isBusy = false;
-            Task.Run(async () =>
-            { 
-                await UpdateList();
-            });
+            try
+            {
+                Task.Run(async () =>
+                {
+                    await UpdateList();
+                });
+            }
+            catch
+            {
+                _dialogServices.ShowMessage("Erreur", true);
+            }
         }
 
         public async Task UpdateList()

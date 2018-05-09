@@ -63,17 +63,14 @@ namespace be4care.PageModels
         public  override void Init(object initData)
         {
             base.Init(initData);
-            Task.Run(() =>
+            views = new List<ViewElement>
             {
-                views = new List<ViewElement>
-                {
-                    new ViewElement{ image = "phonebook.png" , label = "Mon Profile",position= 0},
-                    new ViewElement{ image = "phonebook.png" , label = "Répertoire", position= 1},
-                    new ViewElement{ image = "Hand.png" , label = "A propos", position= 2},
-                    new ViewElement{ image = "file.png" , label = "Mentions Légales", position= 3},
-                    new ViewElement{ image = "bubble.png" , label = "Contacts", position= 4}
-                };
-            });
+                new ViewElement{ image = "phonebook.png" , label = "Mon Profile",position= 0},
+                new ViewElement{ image = "phonebook.png" , label = "Répertoire", position= 1},
+                new ViewElement{ image = "Hand.png" , label = "A propos", position= 2},
+                new ViewElement{ image = "file.png" , label = "Mentions Légales", position= 3},
+                new ViewElement{ image = "bubble.png" , label = "Contacts", position= 4}
+            };
         }
     }
 }
