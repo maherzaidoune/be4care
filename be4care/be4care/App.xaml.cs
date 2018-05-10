@@ -14,8 +14,10 @@ namespace be4care
 	{
 		public App ()
 		{
-            BlobCache.ApplicationName = "AkavacheExperiment";
+            BlobCache.ApplicationName = "be4care";
             BlobCache.EnsureInitialized();
+
+
             SetUpIOC();
 
             //InitializeComponent();
@@ -34,13 +36,13 @@ namespace be4care
         }
         protected override void OnStart ()
 		{
-            // Handle when your app starts
+            //BlobCache.ApplicationName = "be4care";
+            //BlobCache.EnsureInitialized();
         }
 
         protected override void OnSleep ()
 		{
-            //BlobCache.LocalMachine.Dispose();
-            //BlobCache.Shutdown().Wait();
+           // BlobCache.Shutdown().Wait();
         }
 
         protected override void OnResume ()

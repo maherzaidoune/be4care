@@ -11,18 +11,12 @@ namespace be4care.Models
         private string _phNumber;
         private string _email;
 
-        private string _id;
-        public string id { get {
-                if (string.IsNullOrEmpty(_id))
-                    return "non reconnu";
-                return _id;
-            } set {
-                _id = value;
-            } }
+        public string id { get; set; }
+
 
 
         public string fullName { get {
-                if (string.IsNullOrEmpty(fullName))
+                if (string.IsNullOrEmpty(_fullName))
                     return "non reconnu";
                 return _fullName;
             } set => _fullName = value; }

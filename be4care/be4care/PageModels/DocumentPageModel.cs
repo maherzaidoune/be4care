@@ -62,7 +62,10 @@ namespace be4care.PageModels
                 list = hsDocs;
             }
             Application.Current.Properties["tri"] = tri;
-            UpdateView();
+            Task.Run(async () =>
+            {
+                await UpdateView();
+            });
         }
 
         public void InitGroups(IList<Document> documents,string tri)
@@ -70,7 +73,6 @@ namespace be4care.PageModels
 
             if (documents == null || documents.Count == 0)
             {
-                _dialogServices.ShowMessage("Erreur : une erreur se produit", true);
                 return;
 
             }
@@ -207,29 +209,41 @@ namespace be4care.PageModels
             list = new List<DocumentsGroupe>();
         }
 
-        protected  override void ViewIsAppearing(object sender, EventArgs e)
+        protected override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
             Console.WriteLine("viewIsAppearing ");
+        }
+
+        protected override void ViewIsDisappearing(object sender, EventArgs e)
+        {
+            base.ViewIsDisappearing(sender, e);
         }
 
         public override void Init(object initData)
         {
             base.Init(initData);
             MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentadded", update);
-            UpdateView();
+            Task.Run(async () =>
+            {
+                await UpdateView();
+            });
+            // move updatevie w 
             Console.WriteLine("init ");
 
         }
 
         private void update(DocDetailsPageModel obj)
         {
-            UpdateView();
+            Task.Run(async () =>
+            {
+                await UpdateView();
+            });
         }
 
-        public void UpdateView()
+        public async Task UpdateView()
         {
-            Task.Run(async () => {
+            await Task.Run(async () => {
                 try
                 {
                     documents = await _documentSerives.GetDocuments();

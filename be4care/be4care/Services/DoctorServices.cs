@@ -35,7 +35,7 @@ namespace be4care.Services
         {
             try
             {
-                BlobCache.UserAccount.Invalidate("doctors");
+                BlobCache.InMemory.Invalidate("doctors");
                 return true;
             }
             catch
@@ -49,7 +49,7 @@ namespace be4care.Services
             try
             {
                 // need much test
-                var docs = await BlobCache.UserAccount.GetObject<IList<Doctor>>("alldoctors");
+                var docs = await BlobCache.InMemory.GetObject<IList<Doctor>>("alldoctors");
                 return docs;
             }
             catch (Exception e)
@@ -65,7 +65,7 @@ namespace be4care.Services
             try
             {
                 // need much test
-                var docs = await BlobCache.UserAccount.GetObject<IList<Doctor>>("doctors") ;
+                var docs = await BlobCache.InMemory.GetObject<IList<Doctor>>("doctors") ;
                 return docs  ;
             }
             catch (Exception e)
@@ -80,8 +80,8 @@ namespace be4care.Services
         {
             try
             {
-                BlobCache.UserAccount.Invalidate("alldoctors");
-                BlobCache.UserAccount.InsertObject("alldoctors", docs);
+                BlobCache.InMemory.Invalidate("alldoctors");
+                BlobCache.InMemory.InsertObject("alldoctors", docs);
                 return true;
             }
             catch (Exception e)
@@ -113,8 +113,8 @@ namespace be4care.Services
         {
             try
             {
-                BlobCache.UserAccount.Invalidate("doctors");
-                BlobCache.UserAccount.InsertObject("doctors", docs);
+                BlobCache.InMemory.Invalidate("doctors");
+                BlobCache.InMemory.InsertObject("doctors", docs);
                 return true;
             }catch(Exception e)
             {

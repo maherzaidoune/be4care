@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <PackageReference Include="Acr.UserDialogs" Version="7.0.1" />
-    <PackageReference Include="akavache.core" Version="6.0.0-alpha0038" />
     <PackageReference Include="akavache.sqlite3" Version="6.0.0-alpha0038" />
     <PackageReference Include="Ansuria.XFGloss" Version="1.1.3" />
     <PackageReference Include="CarouselView.FormsPlugin" Version="5.2.0" />
@@ -45,7 +44,7 @@
     <PackageReference Include="Xam.Plugin.Media" Version="3.2.1" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.3.6" />
     <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.3.6" />
-    <PackageReference Include="Xamarin.Forms" Version="2.5.1.444934" />
+    <PackageReference Include="Xamarin.Forms" Version="3.0.0.446417" />
     <PackageReference Include="XFControls" Version="1.0.0.6" />
   </ItemGroup>
 

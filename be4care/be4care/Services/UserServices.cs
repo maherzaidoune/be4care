@@ -16,7 +16,7 @@ namespace be4care.Services
         {
             try
             {
-                 BlobCache.UserAccount.Invalidate("user");
+                 BlobCache.InMemory.Invalidate("user");
                  Console.WriteLine("Userservices : user deleted");
             }catch(Exception e)
             {
@@ -32,7 +32,7 @@ namespace be4care.Services
             try
             {
                 Console.WriteLine("Akavache: "+ BlobCache.LocalMachine.GetType());
-                var user = await BlobCache.UserAccount.GetObject<User>("user");
+                var user = await BlobCache.InMemory.GetObject<User>("user");
                 return user;
             }
             catch(Exception e)
@@ -49,7 +49,7 @@ namespace be4care.Services
                 
                 Console.WriteLine("Akavache: " + BlobCache.LocalMachine.GetType());
                 DeleteUser();
-                await BlobCache.UserAccount.InsertObject("user", user);
+                await BlobCache.InMemory.InsertObject("user", user);
                 Console.WriteLine("UserServices : User Saved");
             }catch(Exception e)
             {

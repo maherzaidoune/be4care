@@ -11,6 +11,7 @@ using Acr.UserDialogs;
 using Plugin.CurrentActivity;
 using FFImageLoading.Forms.Droid;
 using Akavache;
+using Xamarin.Forms;
 
 namespace be4care.Droid
 {
@@ -23,10 +24,10 @@ namespace be4care.Droid
             ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
             AsNumAssemblyHelper.HoldAssembly();
-            UserDialogs.Init(this);
+            UserDialogs.Init(() => (Activity)Forms.Context);
             Rg.Plugins.Popup.Popup.Init(this, bundle);
-            global::Xamarin.Forms.Forms.SetFlags("FastRenderers_Experimental");
-            global::Xamarin.Forms.Forms.Init(this, bundle);
+            Forms.SetFlags("FastRenderers_Experimental");
+            Forms.Init(this, bundle);
             CachedImageRenderer.Init(enableFastRenderer: true);
             LoadApplication(new App());
         }
@@ -43,7 +44,7 @@ namespace be4care.Droid
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            //BlobCache.Shutdown().Wait();
+            BlobCache.Shutdown().Wait();
         }
         
         public override void OnBackPressed()

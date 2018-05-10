@@ -39,32 +39,32 @@ namespace be4care.PageModels
 
         private void hstListCantactUpdated(HstructListPageModel obj)
         {
-            Task.Run( () =>
+            Task.Run(async () =>
             {
-                 updateCantact();
+                await updateCantact();
             });
         }
 
         private void doctorlistupdated(DoctorsListPageModel obj)
         {
-            Task.Run( () =>
+            Task.Run(async () =>
             {
-                 updateCantact();
+                await updateCantact();
             });
         }
 
         private void docCantactUpdated(AddDoctorPageModel obj)
         {
-            Task.Run( () =>
+            Task.Run(async () =>
             {
-                 updateCantact();
+                await updateCantact();
             });
         }
         private void hstCantactUpdated(AddHstructPageModel obj)
         {
-            Task.Run( () =>
+            Task.Run( async() =>
             {
-                 updateCantact();
+                 await updateCantact();
             });
         }
 
@@ -101,19 +101,23 @@ namespace be4care.PageModels
         protected  override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
-            updateCantact();
         }
 
         public override void Init(object initData)
         {
             base.Init(initData);
+            Task.Run(async () =>
+            {
+                await updateCantact();
+
+            });
             Console.WriteLine("contact  page model init");
 
         }
 
-        public void updateCantact()
+        public async Task updateCantact()
         {
-            Task.Run(async () =>
+            await Task.Run(async () =>
             {
                 try
                 {
@@ -158,27 +162,17 @@ namespace be4care.PageModels
                     else
                         healthStructs = new List<HealthStruct>();
                 }
-                try
-                {
-                    var groupDoc = new ContactGroup("Médecin");
-                    var groupHealth = new ContactGroup("Structure de Santé");
-                    if(doctors.Count>0)
-                        groupDoc.AddRange(doctors.OrderBy(d => !d.star));
-                    if(healthStructs.Count>0)
-                        groupHealth.AddRange(healthStructs.OrderBy(d => !d.star));
-                    contacts = new List<ContactGroup>();
-                    contacts.Add(groupDoc);
-                    contacts.Add(groupHealth);
-                }
-                catch
-                {
-                    Console.WriteLine("contact page model : empty list");
-                    var groupDoc = new ContactGroup("Médecin");
-                    var groupHealth = new ContactGroup("Structure de Santé");
-                    contacts = new List<ContactGroup>();
-                    contacts.Add(groupDoc);
-                    contacts.Add(groupHealth);
-                }
+                
+            var groupDoc = new ContactGroup("Médecin");
+            var groupHealth = new ContactGroup("Structure de Santé");
+            if(doctors.Count>0)
+                groupDoc.AddRange(doctors.OrderBy(d => !d.star));
+            if(healthStructs.Count>0)
+                groupHealth.AddRange(healthStructs.OrderBy(d => !d.star));
+            contacts = new List<ContactGroup>();
+            contacts.Add(groupDoc);
+            contacts.Add(groupHealth);
+                
             });
         }
 
