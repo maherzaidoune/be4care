@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-            xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              CompressedLayout.IsHeadless="True"
              x:Class="be4care.Pages.ContactPage">
     <ContentPage.Content>
@@ -13,13 +13,16 @@
                 <RowDefinition Height="70" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Label Text="&lt; RETOUR" Grid.Row="0" HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="Medium"  >
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
-                </Label.GestureRecognizers>
-            </Label>
+            <StackLayout Grid.Row="0" HorizontalOptions="FillAndExpand" Orientation="Horizontal" CompressedLayout.IsHeadless="True" BackgroundColor="#fafafa" >
+                <ffimageloading:CachedImage Source="back.png" CacheType="Memory"  VerticalOptions="Center" HorizontalOptions="Start" />
+                <Label Text="RETOUR"  HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="12" VerticalOptions="Center" >
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
             <StackLayout Grid.Row="1" Orientation="Horizontal" Padding="0,0,0,10" CompressedLayout.IsHeadless="True" >
-                <Label Text="Répertoire " FontSize="44" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
+                <Label Text="Répertoire " FontSize="36" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
                 <ffimageloading:CachedImage Source="modifier.png"
                    HeightRequest="30"
                    WidthRequest="30"

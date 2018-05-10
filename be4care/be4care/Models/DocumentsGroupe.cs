@@ -4,7 +4,7 @@ using System.Text;
 
 namespace be4care.Models
 {
-    class DocumentsGroupe
+    class DocumentsGroupe : List<Document>
     {
         public string  title { get; set; }
         public DocumentsGroupe(string title)

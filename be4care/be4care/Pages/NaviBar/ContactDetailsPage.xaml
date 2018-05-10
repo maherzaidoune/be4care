@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              CompressedLayout.IsHeadless="True"
              x:Class="be4care.Pages.ContactDetailsPage">
     <ContentPage.Content>
@@ -11,26 +12,30 @@
                 <RowDefinition Height="auto" 
                                />
             </Grid.RowDefinitions>
-            <Label Text="&lt; RETOUR" Grid.Row="0" HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="Medium"  >
-                <Label.GestureRecognizers>
-                    <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
-                </Label.GestureRecognizers>
-            </Label>
+            <StackLayout Grid.Row="0" HorizontalOptions="FillAndExpand" Orientation="Horizontal" CompressedLayout.IsHeadless="True" BackgroundColor="#fafafa" >
+                <ffimageloading:CachedImage Source="back.png" CacheType="Memory"  VerticalOptions="Center" HorizontalOptions="Start" />
+                <Label Text="RETOUR"  HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="12" VerticalOptions="Center" >
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
             <StackLayout Grid.Row="1"  CompressedLayout.IsHeadless="True" Padding="0,0,0,5">
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Horizontal" CompressedLayout.IsHeadless="True">
                     <StackLayout >
-                        <Label Text="{Binding name} " FontSize="36" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
+                        <Label Text="{Binding name} " FontSize="36" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Start"/>
                         <Label Text="{Binding spec}" Font="12" TextColor="Black" HorizontalOptions="Start" />
                     </StackLayout>
-                    <Image Source="modifier.png"
-                   HeightRequest="30"
-                   WidthRequest="30"
-                   VerticalOptions="Center"
+                    <ffimageloading:CachedImage Source="modifier.png"
+                       HeightRequest="30"
+                       WidthRequest="30"
+                       VerticalOptions="Start"
+                       CacheType="Memory"
                    >
                         <Image.GestureRecognizers>
-                            <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  add}" />
+                            <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  setting}" />
                         </Image.GestureRecognizers>
-                    </Image>
+                    </ffimageloading:CachedImage>
                 </StackLayout>
             </StackLayout>
 

@@ -18,6 +18,7 @@ namespace be4care.PageModels
         public IList<Document> documents { get; set; }
         private IDocumentServices _documentSerives;
         private IRestServices _restServices;
+        private IDialogService _dialogServices;
 
         public string tri { get; set; }
 
@@ -25,6 +26,7 @@ namespace be4care.PageModels
         public IList<DocumentsGroupe> drDocs { get; set; }
         public IList<DocumentsGroupe> typeDocs { get; set; }
         public IList<DocumentsGroupe> hsDocs { get; set; }
+        public IList<DocumentsGroupe> list { get; set; }
 
         public ICommand trichange => new Command(TriOption);
 
@@ -40,19 +42,136 @@ namespace be4care.PageModels
         private void trierpar(TriOptionPageModel arg1, int arg2)
         {
             if (arg2 == 0)
+            {
                 tri = "Date de  Document";
+                list = dateDocs;
+            }
             if (arg2 == 1)
+            {
                 tri = "Professionnel de santé";
+                list = drDocs;
+            }
             if (arg2 == 2)
+            {
                 tri = "Type de document";
+                list = typeDocs;
+            }
             if (arg2 == 3)
+            {
                 tri = "Structure de santé";
+                list = hsDocs;
+            }
             Application.Current.Properties["tri"] = tri;
+            UpdateView();
         }
 
-        public void InitGroups()
+        public void InitGroups(IList<Document> documents,string tri)
         {
 
+            if (documents == null || documents.Count == 0)
+            {
+                _dialogServices.ShowMessage("Erreur : une erreur se produit", true);
+                return;
+
+            }
+
+            if (tri.Equals("Date de  Document"))
+            {
+                DocumentsGroupe group = null;
+                dateDocs = new List<DocumentsGroupe>();
+                DateTime date = DateTime.MinValue;
+                foreach (Document d in documents)
+                {
+                    if (d.date != date)
+                    {
+                        date = d.date;
+                        date.AddMonths(1);
+                        group = new DocumentsGroupe(date.ToString("MM/dd/yyyy"));
+                        foreach (Document docs in documents)
+                        {
+                            if (d.date == docs.date)
+                            {
+                                group.Add(docs);
+                            }
+                        }
+                        dateDocs.Add(group);
+                    }
+                }
+
+                list = dateDocs;
+            }
+            if (tri.Equals("Professionnel de santé"))
+            {
+                DocumentsGroupe group = null;
+                drDocs = new List<DocumentsGroupe>();
+                string dr = string.Empty;
+                foreach (Document d in documents)
+                {
+                    if (!d.dr.Equals(dr))
+                    {
+                        dr = d.dr;
+                        group = new DocumentsGroupe(dr);
+                        foreach (Document docs in documents)
+                        {
+                            if (d.dr.Equals(docs.dr))
+                            {
+                                group.Add(docs);
+                            }
+                        }
+                       drDocs.Add(group);
+                    }
+                }
+
+                list = drDocs;
+            }
+            if (tri.Equals("Type de document"))
+            {
+                DocumentsGroupe group = null;
+                typeDocs = new List<DocumentsGroupe>();
+                string type = string.Empty;
+                foreach (Document d in documents)
+                {
+                    if (!d.type.Equals(type))
+                    {
+                        type = d.type;
+                        group = new DocumentsGroupe(type);
+                        foreach (Document docs in documents)
+                        {
+                            if (d.type.Equals(docs.type))
+                            {
+                                group.Add(docs);
+                            }
+                        }
+                        typeDocs.Add(group);
+                    }
+                }
+
+                list = typeDocs;
+            }
+            if (tri.Equals("Structure de santé"))
+            {
+                DocumentsGroupe group = null;
+                hsDocs = new List<DocumentsGroupe>();
+                string str = string.Empty;
+                foreach (Document d in documents)
+                {
+                    if (!d.HStructure.Equals(str))
+                    {
+                        str = d.HStructure;
+                        group = new DocumentsGroupe(str);
+                        foreach (Document docs in documents)
+                        {
+                            if (d.HStructure.Equals(docs.HStructure))
+                            {
+                                group.Add(docs);
+                            }
+                        }
+                        hsDocs.Add(group);
+                    }
+                }
+
+                list = hsDocs;
+            }
         }
 
 
@@ -71,17 +190,21 @@ namespace be4care.PageModels
         }
 
 
-        public DocumentPageModel(IDocumentServices _documentSerives, IRestServices _restServices)
+        public DocumentPageModel(IDocumentServices _documentSerives, IRestServices _restServices, IDialogService _dialogServices)
         {
             Console.WriteLine("document  page model construct");
             this._documentSerives = _documentSerives;
             this._restServices = _restServices;
+            this._dialogServices = _dialogServices;
             if (Application.Current.Properties.ContainsKey("tri"))
             {
                 tri = Application.Current.Properties["tri"] as string;
             }
+
             if (string.IsNullOrEmpty(tri))
                 tri = "Professionnel de santé";
+            documents = new List<Document>();
+            list = new List<DocumentsGroupe>();
         }
 
         protected  override void ViewIsAppearing(object sender, EventArgs e)
@@ -109,23 +232,22 @@ namespace be4care.PageModels
             Task.Run(async () => {
                 try
                 {
-                    //documents = await _documentSerives.GetDocuments();
-                    //if (documents == null || documents.Count == 0)
-                    //{
+                    documents = await _documentSerives.GetDocuments();
+                    if (documents == null || documents.Count == 0)
+                    {
                         documents = await _restServices.GetDocumentsAsync();
                         if(!(documents == null || documents.Count == 0))
                             _documentSerives.SaveDocuments(documents);
-                    //}
+                    }
                 }
                 catch
                 {
-                    Console.WriteLine("error getting doctors from local database");
+                    Console.WriteLine("error getting documents from local database");
                     documents = await _restServices.GetDocumentsAsync();
                     if (!(documents == null || documents.Count == 0))
                         _documentSerives.SaveDocuments(documents);
                 }
-
-
+                InitGroups(documents, tri);
             });
         }
     }

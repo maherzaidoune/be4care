@@ -43,7 +43,7 @@ namespace be4care.Droid
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            BlobCache.Shutdown().Wait();
+            //BlobCache.Shutdown().Wait();
         }
         
         public override void OnBackPressed()

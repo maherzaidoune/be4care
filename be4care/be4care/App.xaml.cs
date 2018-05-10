@@ -39,13 +39,13 @@ namespace be4care
 
         protected override void OnSleep ()
 		{
-            BlobCache.Shutdown().Wait();
+            //BlobCache.LocalMachine.Dispose();
+            //BlobCache.Shutdown().Wait();
         }
 
         protected override void OnResume ()
 		{
-            // Handle when your app resumes
+            
         }
-       
     }
 }
