@@ -33,6 +33,7 @@ namespace be4care
             FreshMvvm.FreshIOC.Container.Register<IDoctorServices, DoctorServices>();
             FreshMvvm.FreshIOC.Container.Register<IHStructServices, HStructServices>();
             FreshMvvm.FreshIOC.Container.Register<IDocumentServices, DocumentServices>();
+            FreshMvvm.FreshIOC.Container.Register<IFavServices, FavServices>();
         }
         protected override void OnStart ()
 		{

@@ -36,33 +36,35 @@ namespace be4care.PageModels
                     url = await upload(user);
                     Console.WriteLine("AddDocPageModel "+url);
                     if (string.IsNullOrEmpty(url))
-                        await Task.Delay(100);
-                    result = await analyse(url);
-                    if (string.IsNullOrEmpty(result))
-                        await Task.Delay(100);
-                    document = new Document { url = url, text = result };
-                    if(!string.IsNullOrEmpty(result))
                     {
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            await CoreMethods.PushPageModel<DocDetailsPageModel>(document);
-                            RaisePropertyChanged();
-                        });
-                        _dialogServices.ShowMessage("document ajouté avec succes", false);
+                        _dialogServices.ShowMessage("Erreur : veuillez verifier votre connection internet ", true);
                     }
                     else
                     {
-                        isBusy = false;
-                        isEnabled = true;
-                        _dialogServices.ShowMessage("Erreur : veuillez verifier votre connection internet ", true);
-
+                        result = await analyse(url);
+                        if (string.IsNullOrEmpty(result))
+                        {
+                            _dialogServices.ShowMessage("Erreur : Veuillez réessayer plus tard", true);
+                        }
+                        else
+                        {
+                            document = new Document { url = url, text = result };
+                            Device.BeginInvokeOnMainThread(async () =>
+                            {
+                                await CoreMethods.PushPageModel<DocDetailsPageModel>(document);
+                                RaisePropertyChanged();
+                            });
+                        }
                     }
+                    
+                    isBusy = false;
+                    isEnabled = true;
 
                 }
                 catch (Exception e)
                 {
 
-                    _dialogServices.ShowMessage("Erreur : veuillez verifier votre connection internet ", true);
+                    _dialogServices.ShowMessage("Erreur  : Veuillez réessayer plus tard", true);
                     isBusy = false;
                     isEnabled = true;
                 }
@@ -92,10 +94,6 @@ namespace be4care.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
-            Task.Run(async () =>
-            {
-                user = await _userServices.GetUser();
-            });
             isBusy = false;
             isEnabled = true;
         }
@@ -103,8 +101,16 @@ namespace be4care.PageModels
         public async Task<string> upload(User user)
         {
             {
+                if (user == null)
+                {
+                    user = await _userServices.GetUser();
+                    if (user == null)
+                        user = _restServices.GetMyProfile();
+                }
                 try
                 {
+                    if (user == null)
+                        return null;
                     var photo = await _restServices.Upload(user);
                     return photo;
                 }

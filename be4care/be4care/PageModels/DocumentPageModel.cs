@@ -27,6 +27,7 @@ namespace be4care.PageModels
         public IList<DocumentsGroupe> typeDocs { get; set; }
         public IList<DocumentsGroupe> hsDocs { get; set; }
         public IList<DocumentsGroupe> list { get; set; }
+        public IList<DocumentsGroupe> temp { get; set; }
 
         public ICommand trichange => new Command(TriOption);
 
@@ -62,6 +63,7 @@ namespace be4care.PageModels
                 list = hsDocs;
             }
             Application.Current.Properties["tri"] = tri;
+
             Task.Run(async () =>
             {
                 await UpdateView();
@@ -70,7 +72,7 @@ namespace be4care.PageModels
 
         public void InitGroups(IList<Document> documents,string tri)
         {
-
+            list = new List<DocumentsGroupe>();
             if (documents == null || documents.Count == 0)
             {
                 return;
@@ -91,6 +93,11 @@ namespace be4care.PageModels
                         group = new DocumentsGroupe(date.ToString("MM/dd/yyyy"));
                         foreach (Document docs in documents)
                         {
+                            foreach (DocumentsGroupe g in dateDocs)
+                            {
+                                if (g.title.Equals(group.title))
+                                    return;
+                            }
                             if (d.date == docs.date)
                             {
                                 group.Add(docs);
@@ -115,6 +122,11 @@ namespace be4care.PageModels
                         group = new DocumentsGroupe(dr);
                         foreach (Document docs in documents)
                         {
+                            foreach(DocumentsGroupe g in drDocs)
+                            {
+                                if (g.title.Equals(group.title))
+                                    return;
+                            }
                             if (d.dr.Equals(docs.dr))
                             {
                                 group.Add(docs);
@@ -139,6 +151,11 @@ namespace be4care.PageModels
                         group = new DocumentsGroupe(type);
                         foreach (Document docs in documents)
                         {
+                            foreach (DocumentsGroupe g in typeDocs)
+                            {
+                                if (g.title.Equals(group.title))
+                                    return;
+                            }
                             if (d.type.Equals(docs.type))
                             {
                                 group.Add(docs);
@@ -163,6 +180,11 @@ namespace be4care.PageModels
                         group = new DocumentsGroupe(str);
                         foreach (Document docs in documents)
                         {
+                            foreach (DocumentsGroupe g in hsDocs)
+                            {
+                                if (g.title.Equals(group.title))
+                                    return;
+                            }
                             if (d.HStructure.Equals(docs.HStructure))
                             {
                                 group.Add(docs);
@@ -205,8 +227,6 @@ namespace be4care.PageModels
 
             if (string.IsNullOrEmpty(tri))
                 tri = "Professionnel de santé";
-            documents = new List<Document>();
-            list = new List<DocumentsGroupe>();
         }
 
         protected override void ViewIsAppearing(object sender, EventArgs e)
@@ -224,6 +244,7 @@ namespace be4care.PageModels
         {
             base.Init(initData);
             MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentadded", update);
+            MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentnoadded", UpdateAndSave);
             Task.Run(async () =>
             {
                 await UpdateView();
@@ -243,6 +264,7 @@ namespace be4care.PageModels
 
         public async Task UpdateView()
         {
+            documents = new List<Document>();
             await Task.Run(async () => {
                 try
                 {
@@ -264,6 +286,25 @@ namespace be4care.PageModels
                 InitGroups(documents, tri);
             });
         }
+
+        public void UpdateAndSave(DocDetailsPageModel obj)
+        {
+            documents = new List<Document>();
+            Task.Run(async () => {
+                try
+                {
+                    documents = await _restServices.GetDocumentsAsync();
+                    if (!(documents == null || documents.Count == 0))
+                        _documentSerives.SaveDocuments(documents);
+                }
+                catch
+                {
+                    _dialogServices.ShowMessage("Erreur : erreur lors de l'enregistrement du document en  cache", true);
+                }
+                InitGroups(documents, tri);
+            });
+        }
+
     }
 
     

@@ -8,7 +8,7 @@
         <Grid Padding="10,30,10,0" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
-                <RowDefinition Height="80" />
+                <RowDefinition Height="160" />
                 <RowDefinition Height="auto" 
                                />
             </Grid.RowDefinitions>
@@ -20,16 +20,17 @@
                     </Label.GestureRecognizers>
                 </Label>
             </StackLayout>
-            <StackLayout Grid.Row="1"  CompressedLayout.IsHeadless="True" Padding="0,0,0,5">
+            <StackLayout Grid.Row="1"  CompressedLayout.IsHeadless="True" Padding="0,0,0,5" Spacing="1">
                 <StackLayout Orientation="Horizontal" CompressedLayout.IsHeadless="True">
-                    <StackLayout >
-                        <Label Text="{Binding name} " FontSize="36" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Start"/>
+                    <StackLayout  VerticalOptions="StartAndExpand" HorizontalOptions="Start" >
+                        <Label Text="{Binding name} " FontSize="32" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Start"/>
                         <Label Text="{Binding spec}" Font="12" TextColor="Black" HorizontalOptions="Start" />
                     </StackLayout>
                     <ffimageloading:CachedImage Source="modifier.png"
                        HeightRequest="30"
                        WidthRequest="30"
                        VerticalOptions="Start"
+                       HorizontalOptions="Start"
                        CacheType="Memory"
                    >
                         <Image.GestureRecognizers>
@@ -37,9 +38,44 @@
                         </Image.GestureRecognizers>
                     </ffimageloading:CachedImage>
                 </StackLayout>
+                
+                
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Start" Spacing="5" VerticalOptions="EndAndExpand">
+                    
+                    <ffimageloading:CachedImage Source="local.png"
+                       HeightRequest="50"
+                       WidthRequest="50"
+                       CacheType="Memory">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  local}" />
+                        </Image.GestureRecognizers>
+                    </ffimageloading:CachedImage>
+                    
+                    
+                    <ffimageloading:CachedImage Source="call.png"
+                        HeightRequest="50"
+                       WidthRequest="50"
+                       CacheType="Memory">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  call}"  />
+                        </Image.GestureRecognizers>
+                    </ffimageloading:CachedImage>
+                    
+                    
+                    <ffimageloading:CachedImage Source="email.png"
+                        HeightRequest="50"
+                       WidthRequest="50"
+                       CacheType="Memory" >
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  email}" />
+                        </Image.GestureRecognizers>
+                    </ffimageloading:CachedImage>
+                    
+                </StackLayout>
             </StackLayout>
 
             <ListView
+                x:Name="list"
                     Grid.Row="2"
                     ItemsSource="{Binding contact}"
                     HorizontalOptions="FillAndExpand"

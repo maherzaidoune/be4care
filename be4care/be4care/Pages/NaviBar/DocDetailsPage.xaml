@@ -22,11 +22,12 @@
                 </Label>
             </StackLayout>
             <StackLayout Grid.Row="1" Orientation="Horizontal" CompressedLayout.IsHeadless="True">
-                <Label Text="Mon Profile" FontSize="44" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
+                <Label Text="Ajouter un Document" FontSize="32" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
                 <Image Source="modifier.png"
                    HeightRequest="30"
                    WidthRequest="30"
-                   VerticalOptions="Center"
+                   VerticalOptions="End"
+                   HorizontalOptions="Start"
                    >
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  edit}" />

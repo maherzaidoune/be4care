@@ -8,15 +8,17 @@ namespace be4care.Services
 {
     interface IFavServices
     {
-        bool AddFavDoctor(Doctor d);
-        bool AddFavHealthStruct(HealthStruct h);
-        bool AddFavDocument(Document doc);
-        bool DeleteFavs();
-        bool DeleteFavDoctor(Doctor d);
-        bool DeleteFavHealthStruct(HealthStruct h);
-        bool DeleteFavDocument(Document doc);
-        Task<IList<Doctor>> GetFavDoctors();
-        Task<IList<HealthStruct>> GetFavHealthStruct();
-        Task<IList<Document>> GetFavDocument();
+        Task<bool> AddFavDoctorAsync(Doctor d);
+        Task<bool> AddFavHealthStructAsync(HealthStruct h);
+        Task<bool> AddFavDocumentAsync(Document doc);
+        Task<bool> DeleteFavsAsync();
+        Task<bool> DeleteFavDoctorAsync(Doctor d);
+        Task<bool> DeleteFavHealthStructAsync(HealthStruct h);
+        Task<bool> DeleteFavDocumentAsync(Document doc);
+        Task<IList<Doctor>> GetFavDoctorsAsync();
+        Task<IList<HealthStruct>> GetFavHealthStructAsync();
+        Task<IList<Document>> GetFavDocumentAsync();
+
+
     }
 }

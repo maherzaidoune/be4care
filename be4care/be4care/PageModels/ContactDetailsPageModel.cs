@@ -11,6 +11,7 @@ namespace be4care.PageModels
     [AddINotifyPropertyChangedInterface]
     class ContactDetailsPageModel : FreshMvvm.FreshBasePageModel
     {
+        private string _email;
 
         [AddINotifyPropertyChangedInterface]
         public class detail
@@ -19,9 +20,39 @@ namespace be4care.PageModels
             public string info { get; set; }
         }
 
+        private string _number { get; set; }
         public string name { get; set; }
         public string  spec { get; set; }
         public List<detail> contact { get; set; }
+
+        public ICommand call => new Command(makeCall);
+        public ICommand email => new Command(sendEmail);
+
+        private void sendEmail(object obj)
+        {
+            try
+            {
+                DependencyService.Get<ISendEmail>().send(_email);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("error sending email "+ex.Message);
+            }
+        }
+
+        private void makeCall(object obj)
+        {
+            try
+            {
+                DependencyService.Get<IMakeCall>().Call(_number);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("error  making phone call "+e.Message);
+            }
+
+        }
+
         public ICommand backClick => new Command(backClickbutton);
 
         private void backClickbutton(object obj)
@@ -52,6 +83,8 @@ namespace be4care.PageModels
             };
                 name = doc.fullName;
                 spec = doc.specialite;
+                _number = doc.phNumber;
+                _email = doc.email;
             }else if (c is HealthStruct)
             {
                 var h = c as HealthStruct;
@@ -62,6 +95,8 @@ namespace be4care.PageModels
                 new detail{menu = "Email Adresse",info = h.email},
             };
                 name = h.fullName;
+                _number = h.phNumber;
+                _email = h.email;
             }
         }
     }

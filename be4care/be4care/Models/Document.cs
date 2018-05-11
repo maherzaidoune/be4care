@@ -4,7 +4,7 @@ using System.Text;
 
 namespace be4care.Models
 {
-    class Document
+    class Document 
     {
         private string _url;
         private string _id;
@@ -26,7 +26,35 @@ namespace be4care.Models
                     return "non reconnu";
                 return _id;
             } set => _id = value; }
-        public bool star { get; set; }
+        private bool _star;
+        private bool _unstar;
+        public bool star
+        {
+            get
+            {
+                return !_star;
+            }
+            set
+            {
+                _star = value;
+                if (_unstar == value)
+                    _unstar = !value;
+            }
+        }
+        public bool unstar
+        {
+            get
+            {
+                return !star;
+            }
+            set
+            {
+                _unstar = value;
+                if (_star == value)
+                    _star = !value;
+            }
+        }
+
         public DateTime date { get => _date; set => _date = value; }
         public string doctor { get {
                 if (string.IsNullOrEmpty(_doctor))

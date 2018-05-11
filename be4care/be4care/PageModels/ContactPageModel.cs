@@ -94,7 +94,6 @@ namespace be4care.PageModels
             this._restServices = _restServices;
             this._doctorServices = _doctorServices;
             this._hStructServices = _hStructServices;
-            Console.WriteLine("contact  page model construct");
         }
 
 
@@ -111,8 +110,6 @@ namespace be4care.PageModels
                 await updateCantact();
 
             });
-            Console.WriteLine("contact  page model init");
-
         }
 
         public async Task updateCantact()
@@ -169,9 +166,10 @@ namespace be4care.PageModels
                 groupDoc.AddRange(doctors.OrderBy(d => !d.star));
             if(healthStructs.Count>0)
                 groupHealth.AddRange(healthStructs.OrderBy(d => !d.star));
+
             contacts = new List<ContactGroup>();
-            contacts.Add(groupDoc);
-            contacts.Add(groupHealth);
+                contacts.Add(groupDoc);
+                contacts.Add(groupHealth);
                 
             });
         }

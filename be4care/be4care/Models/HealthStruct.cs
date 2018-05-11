@@ -35,6 +35,34 @@ namespace be4care.Models
                     return "non reconnu";
                 return _email;
             } set => _email = value; }
-        public bool star { get; set; }
+        private bool _star;
+        private bool _unstar;
+        public bool star
+        {
+            get
+            {
+                return !_star;
+            }
+            set
+            {
+                _star = value;
+                if (_unstar == value)
+                    _unstar = !value;
+            }
+        }
+        public bool unstar
+        {
+            get
+            {
+                return !star;
+            }
+            set
+            {
+                _unstar = value;
+                if (_star == value)
+                    _star = !value;
+            }
+        }
+
     }
 }

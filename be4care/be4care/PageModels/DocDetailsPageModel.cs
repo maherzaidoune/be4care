@@ -32,21 +32,22 @@ namespace be4care.PageModels
                 {
                     if ( _restService.addDocument(document))
                     {
-                        if(await _documentServices.SaveDocument(document))
+                        if (await _documentServices.SaveDocument(document))
                         {
-                            Console.WriteLine("DocDetails : document  added succefuly" + document.url);
-                            MessagingCenter.Send(this, "documentadded");
-                            Device.BeginInvokeOnMainThread(async () =>
-                            {
-                                await CoreMethods.PushPageModel<DocumentDetailsPageModel>(document);
-                                RaisePropertyChanged();
-                            });
+                             MessagingCenter.Send(this, "documentadded");
+                            _dialogServices.ShowMessage("document ajouté avec succes", false);
                         }
                         else
                         {
-                            _dialogServices.ShowMessage("Erreur : Essayez à nouveau ", true);
+                            MessagingCenter.Send(this, "documentnoadded");
                         }
-                        
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await CoreMethods.PushPageModel<DocumentDetailsPageModel>(document);
+                            CoreMethods.RemoveFromNavigation();
+                            RaisePropertyChanged();
+                        });
+
                     }
                     isBusy = false;
                     isEnabled = true;

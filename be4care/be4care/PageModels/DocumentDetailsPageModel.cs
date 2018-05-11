@@ -21,13 +21,16 @@ namespace be4care.PageModels
 
         public Document doc { get; set; }
         public string pUrl { get; set; }
+        public bool star { get; set; }
+        public bool unstar { get; set; }
         public IList<detail> details { get; set; }
 
         public ICommand backClick => new Command(backClickbutton);
 
         private void backClickbutton(object obj)
         {
-            CoreMethods.PushPageModel<DocumentPageModel>();
+            //CoreMethods.PushPageModel<AddDocPageModel>();
+            CoreMethods.PopPageModel();
             RaisePropertyChanged();
         }
 
@@ -40,6 +43,8 @@ namespace be4care.PageModels
             base.Init(initData);
             doc = initData as Document;
             pUrl = doc.url;
+            star = doc.star;
+            unstar = doc.unstar;
             details = new List<detail>()
             {
                 new detail {menu = "Date de  document" ,  info=doc.date.ToString() },

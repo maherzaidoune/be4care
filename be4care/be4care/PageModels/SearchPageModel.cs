@@ -16,6 +16,19 @@ namespace be4care.PageModels
         public IList<Document> document { get; set; }
         private IDocumentServices _documentSerives;
         private IRestServices _restServices;
+        public Document selected
+        {
+            get
+            {
+                return null;
+            }
+            set
+            {
+                CoreMethods.PushPageModel<DocumentDetailsPageModel>(value);
+                RaisePropertyChanged();
+            }
+        }
+
         public string search { get; set; }
 
         public void OnsearchChanged()
@@ -40,12 +53,6 @@ namespace be4care.PageModels
         protected override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
-            
-        }
-
-        public override void Init(object initData)
-        {
-            base.Init(initData);
             Task.Run(async () => {
                 try
                 {
@@ -70,6 +77,12 @@ namespace be4care.PageModels
                 }
                 document = docs;
             });
+        }
+
+        public override void Init(object initData)
+        {
+            base.Init(initData);
+            
         }
     }
 }

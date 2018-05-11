@@ -42,7 +42,7 @@
                                 <StackLayout Orientation="Horizontal">
                                     <Label Text="{Binding fullName}" TextColor="Black" FontSize="18" HorizontalOptions="Start" VerticalOptions="Center"/>
                                     <AbsoluteLayout HorizontalOptions="EndAndExpand"  VerticalOptions="Fill" IsVisible="{Binding add}"  >
-                                        <Button BorderRadius="5" Text="Add" TextColor="Black" BackgroundColor="#f5f5f5" IsVisible="{Binding  isEnabled}" Command="{Binding Source={x:Reference DoctorsListPage}, Path=BindingContext.addDoctor}" CommandParameter="{Binding .}" />
+                                        <Button BorderRadius="5" Text="Ajouter" TextColor="Black" BackgroundColor="#f5f5f5" IsVisible="{Binding  isEnabled}" Command="{Binding Source={x:Reference DoctorsListPage}, Path=BindingContext.addDoctor}" CommandParameter="{Binding .}" />
                                         <ActivityIndicator
                                         IsEnabled="{Binding isBusy}"
                                         IsRunning="{Binding isBusy}"

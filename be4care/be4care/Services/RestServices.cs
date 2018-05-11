@@ -284,7 +284,8 @@ namespace be4care.Services
             try
             {
                 var token = "?access_token=" + Settings.AuthToken;
-                return (Constant.urlAnalyse + token).PostJsonAsync(new { url = Url }).ReceiveString();
+                var result  = (Constant.urlAnalyse + token).PostJsonAsync(new { url = Url }).ReceiveString();
+                return result;
             }catch(Exception e)
             {
                 Console.WriteLine("Error analysing + " + e.StackTrace);
