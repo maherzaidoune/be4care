@@ -410,6 +410,128 @@ namespace be4care.Services
                 return false;
             }
         }
+
+        public bool UpdateDocument(Document d)
+        {
+            try
+            {
+                var token = "?access_token=" + Settings.AuthToken;
+                var result =   (Constant.urlgetDocuments  + "/" + d.id +  token).PutJsonAsync(d).Result.IsSuccessStatusCode;
+                return result;
+                
+            }
+            catch (FlurlHttpTimeoutException)
+            {
+                Console.WriteLine("Request timed out.");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+            
+        }
+
+        public bool UpdateDoctor(Doctor d)
+        {
+            try
+            {
+                var token = "?access_token=" + Settings.AuthToken;
+                return (Constant.urlgetDoctors + "/" + d.id + token).PutJsonAsync(d).Result.IsSuccessStatusCode;
+
+            }
+            catch (FlurlHttpTimeoutException)
+            {
+                Console.WriteLine("Request timed out.");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public bool UpdateHStruct(HealthStruct h)
+        {
+            try
+            {
+                var token = "?access_token=" + Settings.AuthToken;
+                return (Constant.urlgetHealthStruct + "/" + h.id + token).PutJsonAsync(h).Result.IsSuccessStatusCode;
+
+            }
+            catch (FlurlHttpTimeoutException)
+            {
+                Console.WriteLine("Request timed out.");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public bool DeleteDoctor(Doctor d)
+        {
+            try
+            {
+                var token = "?access_token=" + Settings.AuthToken;
+                return  (Constant.urlgetDoctors + "/" + d.id + token).DeleteAsync().Result.IsSuccessStatusCode;
+
+            }
+            catch (FlurlHttpTimeoutException)
+            {
+                Console.WriteLine("Request timed out.");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public bool DeleteDocument(Document d)
+        {
+            try
+            {
+                var token = "?access_token=" + Settings.AuthToken;
+                return (Constant.urlgetDocuments + "/" + d.id + token).DeleteAsync().Result.IsSuccessStatusCode;
+
+            }
+            catch (FlurlHttpTimeoutException)
+            {
+                Console.WriteLine("Request timed out.");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
+
+        public bool DeleteHstruct(HealthStruct d)
+        {
+            try
+            {
+                var token = "?access_token=" + Settings.AuthToken;
+                return (Constant.urlgetHealthStruct + "/" + d.id + token).DeleteAsync().Result.IsSuccessStatusCode;
+
+            }
+            catch (FlurlHttpTimeoutException)
+            {
+                Console.WriteLine("Request timed out.");
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+        }
     }
     
 }

@@ -245,6 +245,7 @@ namespace be4care.PageModels
             base.Init(initData);
             MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentadded", update);
             MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentnoadded", UpdateAndSave);
+            MessagingCenter.Subscribe<DocumentDetailsPage>(this, "documentupdated", documentUpdated);
             Task.Run(async () =>
             {
                 await UpdateView();
@@ -252,6 +253,14 @@ namespace be4care.PageModels
             // move updatevie w 
             Console.WriteLine("init ");
 
+        }
+
+        private void documentUpdated(DocumentDetailsPage obj)
+        {
+            Task.Run(async () =>
+            {
+                await UpdateView();
+            });
         }
 
         private void update(DocDetailsPageModel obj)

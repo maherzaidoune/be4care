@@ -1,4 +1,6 @@
 ﻿using be4care.Models;
+using be4care.Pages;
+using be4care.Services;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -19,14 +21,72 @@ namespace be4care.PageModels
             public string menu { get; set; }
             public string info { get; set; }
         }
-
+        private IRestServices _restService;
+        private IDoctorServices _doctorService;
+        private IHStructServices _hstructService;
+        private IDialogService _dialogService;
         private string _number { get; set; }
         public string name { get; set; }
         public string  spec { get; set; }
         public List<detail> contact { get; set; }
-
+        public Contact c { get; set; }
         public ICommand call => new Command(makeCall);
         public ICommand email => new Command(sendEmail);
+        public ICommand setting => new Command(editContact);
+
+        private void editContact(object obj)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                MessagingCenter.Subscribe<ContactEditPageModel>(this, "delete", delete);
+                MessagingCenter.Subscribe<ContactEditPageModel>(this, "editcontact", edit);
+                await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new ContactEditPage(c));
+            });
+        }
+
+        private void edit(ContactEditPageModel obj)
+        {
+            if (c is Doctor)
+                CoreMethods.PushPageModel<AddDoctorPageModel>(c as Doctor);
+            if (c is HealthStruct)
+                CoreMethods.PushPageModel<AddHstructPageModel>(c as HealthStruct);
+            RaisePropertyChanged();
+        }
+
+        private void delete(ContactEditPageModel obj)
+        {
+            if(c is Doctor)
+            {
+                if(_restService.DeleteDoctor(c as Doctor))
+                {
+                    _doctorService.DeleteDoctor(c as Doctor);
+                    _dialogService.ShowMessage(c.fullName + "supprimer avec succes", false);
+                }
+                else
+                {
+                    _dialogService.ShowMessage("Erreur", true);
+                }
+            }
+            if(c is HealthStruct)
+            {
+                if(_restService.DeleteHstruct(c as HealthStruct))
+                {
+                    _hstructService.DeleteStruct(c as HealthStruct);
+                    _dialogService.ShowMessage(c.fullName + "supprimer avec succes", false);
+                }
+                else
+                {
+                    _dialogService.ShowMessage("Erreur", true);
+                }
+            }
+
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                CoreMethods.RemoveFromNavigation();
+                await CoreMethods.PushPageModel<ContactPageModel>();
+                RaisePropertyChanged();
+            });
+        }
 
         private void sendEmail(object obj)
         {
@@ -61,14 +121,17 @@ namespace be4care.PageModels
             RaisePropertyChanged();
         }
 
-        public ContactDetailsPageModel()
+        public ContactDetailsPageModel(IRestServices _restService,IDoctorServices _doctorService,IHStructServices _hstructService, IDialogService _dialogService)
         {
-
+            this._doctorService = _doctorService;
+            this._hstructService = _hstructService;
+            this._restService = _restService;
+            this._dialogService = _dialogService;
         }
         public override void Init(object initData)
         {
             base.Init(initData);
-            var c = initData as Contact;
+            c = initData as Contact;
 
             if (c is Doctor)
             {

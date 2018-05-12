@@ -120,5 +120,32 @@ namespace be4care.Services
                 return false;
             }
         }
+
+        public async Task<bool> UpdateHStructAsync(HealthStruct h)
+        {
+            try
+            {
+                int pos = 0;
+                var structs = await GetStructs();
+                if (structs == null)
+                    return false;
+                foreach(HealthStruct healt in structs)
+                {
+                    if(healt.id == h.id)
+                    {
+                        structs.Remove(healt);
+                        structs.Insert(pos, h);
+                        break;
+                    }
+                    pos++;
+                }
+                SaveStructs(structs);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

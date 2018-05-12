@@ -15,5 +15,6 @@ namespace be4care.Services
         bool DeleteStructs();
         bool saveAllHstruct(IList<HealthStruct> s);
         Task<IList<HealthStruct>> GetAllHstrcts();
+        Task<bool> UpdateHStructAsync(HealthStruct h);
     }
 }

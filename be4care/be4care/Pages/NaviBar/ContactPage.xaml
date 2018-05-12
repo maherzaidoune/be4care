@@ -57,8 +57,8 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Orientation="Horizontal" VerticalOptions="Center">
-                                <StackLayout  WidthRequest="30">
-                                <ffimageloading:CachedImage  Source="star.png" IsVisible="{Binding star}" HeightRequest="25" WidthRequest="25"  VerticalOptions="Center" CacheType="Memory" />
+                                <StackLayout  WidthRequest="25" VerticalOptions="Start" Padding="1">
+                                    <ffimageloading:CachedImage Source="star.png" IsVisible="{Binding star}" VerticalOptions="Start" HeightRequest="20" WidthRequest="20" />
                                 </StackLayout>
                                 <Label Text="{Binding fullName}" FontSize="22" TextColor="Black" VerticalOptions="Center" />
                                 <ffimageloading:CachedImage Source="next.png"   HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" CacheType="Memory" />

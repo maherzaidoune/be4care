@@ -22,6 +22,9 @@ namespace be4care.PageModels
         public bool star { get; set; }
         public string specialite { get; set; }
         public string note { get; set; }
+        public string id { get; set; }
+        public bool unstar { get; set; }
+        public bool isEdit { get; set; }
 
         public bool isBusy { get; set; }
         public bool isEnabled { get; set; }
@@ -29,21 +32,37 @@ namespace be4care.PageModels
         private IRestServices _restServices;
         private IDoctorServices _doctorServices;
         private IDialogService _dialogSservices;
+        private IFavServices _favSservices;
 
         public ICommand save => new Command(addDoctor);
         public ICommand backClick => new Command(back);
+        
+        public void OnstarChanged()
+        {
+            unstar = !star;
+        }
 
         private void back(object obj)
         {
-            App.Current.MainPage.Navigation.PopModalAsync();
+            if (!isEdit)
+                App.Current.MainPage.Navigation.PopModalAsync();
+            else
+            { 
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    CoreMethods.RemoveFromNavigation();
+                    await CoreMethods.PushPageModel<ContactPageModel>();
+                    RaisePropertyChanged();
+                });
+            }
         }
+
 
         private void addDoctor(object obj)
         {
 
             isEnabled = false;
             isBusy = true;
-            
             Task.Run(async() =>
             {
                 try
@@ -59,36 +78,97 @@ namespace be4care.PageModels
                         note = note,
                         star = star
                     };
-
-                    if (await _restServices.AddDoctor(doctor))
+                    
+                    if(!isEdit)
                     {
-                        await _doctorServices.SaveDoctor(doctor);
-                        MessagingCenter.Send(this, "doctorupdated");
-                        _dialogSservices.ShowMessage(fullName + " a été ajouté avec succès ",false);
+                        if (await _restServices.AddDoctor(doctor))
+                        {
+                            await _doctorServices.SaveDoctor(doctor);
+                            MessagingCenter.Send(this, "doctorupdated");
+                            if (star)
+                            {
+                                await _favSservices.AddFavDoctorAsync(doctor);
+                            }
+                            if (!star)
+                            {
+                                await _favSservices.DeleteFavDoctorAsync(doctor);
+                            }
+                            _dialogSservices.ShowMessage(fullName + " a été ajouté avec succès ", false);
+                        }
+                        
+                        await App.Current.MainPage.Navigation.PopModalAsync();
                     }
+
+                    if (isEdit)
+                    {
+                        doctor.id = id;
+                        if (_restServices.UpdateDoctor(doctor))
+                        {
+                            await _doctorServices.UpdateDoctor(doctor);
+                            MessagingCenter.Send(this, "doctorupdated");
+                            _dialogSservices.ShowMessage(fullName + " a été modifié avec succès ", false);
+                            if (star)
+                            {
+                                await _favSservices.AddFavDoctorAsync(doctor);
+                            }
+                            if (!star)
+                            {
+                                await _favSservices.DeleteFavDoctorAsync(doctor);
+                            }
+                        }
+                        Device.BeginInvokeOnMainThread(async() =>
+                        {
+                            CoreMethods.RemoveFromNavigation();
+                            await CoreMethods.PushPageModel<ContactPageModel>();
+                            RaisePropertyChanged();
+                        });
+                       
+                    }
+
                 }
-                catch
+                catch(Exception e)
                 {
-                    Console.WriteLine("error adding new Doctor");
+                    Console.WriteLine("error adding new Doctor "+e.Message);
                     _dialogSservices.ShowMessage("Erreur , veuillez essayer plus tard",true);
                 }
                 isBusy = false;
                 isEnabled = true;
-                await App.Current.MainPage.Navigation.PopModalAsync();
+
 
             });
             
         }
 
-        public AddDoctorPageModel(IRestServices _restServices,IDoctorServices _doctorServices,IDialogService _dialogSservices)
+        public AddDoctorPageModel(IFavServices _favSservices, IRestServices _restServices,IDoctorServices _doctorServices,IDialogService _dialogSservices)
         {
             this._doctorServices = _doctorServices;
             this._restServices = _restServices;
             this._dialogSservices = _dialogSservices;
+            this._favSservices = _favSservices;
         }
         public override void Init(object initData)
         {
             base.Init(initData);
+            if(initData != null)
+            {
+                var doctor = initData as Doctor;
+                fullName = doctor.fullName;
+                adress = doctor.adress;
+                phNumber = doctor.phNumber;
+                email = doctor.email;
+                healthStruct = doctor.healthStruct;
+                specialite = doctor.specialite;
+                note = doctor.note;
+                star = doctor.star;
+                unstar = doctor.unstar;
+                id = doctor.id;
+                isEdit = true;
+            }
+            else
+            {
+                isEdit = false;
+                star = false;
+            }
             isBusy = false;
             isEnabled = true;
         }

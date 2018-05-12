@@ -282,9 +282,12 @@
     <BundleResource Include="Resources\call.png" />
   </ItemGroup>
   <ItemGroup>
+    <BundleResource Include="Resources\fav.png" />
+  </ItemGroup>
+  <ItemGroup>
     <BundleResource Include="Resources\unfav.png" />
   </ItemGroup>
   <ItemGroup>
-    <BundleResource Include="Resources\fav.png" />
+    <BundleResource Include="Resources\star.png" />
   </ItemGroup>
 </Project>

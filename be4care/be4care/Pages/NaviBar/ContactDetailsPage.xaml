@@ -29,7 +29,7 @@
                     <ffimageloading:CachedImage Source="modifier.png"
                        HeightRequest="30"
                        WidthRequest="30"
-                       VerticalOptions="Start"
+                       VerticalOptions="Center"
                        HorizontalOptions="Start"
                        CacheType="Memory"
                    >

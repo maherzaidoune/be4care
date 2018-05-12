@@ -123,5 +123,32 @@ namespace be4care.Services
                 return false;
             }
         }
+
+        public async Task<bool> UpdateDoctor(Doctor d)
+        {
+            try
+            {
+                int pos = 0;
+                var docs = await GetDoctors();
+                if (docs == null)
+                    return false;
+                foreach(Doctor doctor in docs)
+                {
+                    if (doctor.id == d.id)
+                    {
+                        docs.Remove(doctor);
+                        docs.Insert(pos, d);
+                        break;
+                    }
+                    pos++;
+                }
+                SaveDoctors(docs);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

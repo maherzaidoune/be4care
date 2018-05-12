@@ -62,7 +62,7 @@ namespace be4care.Models
         private bool _star;
         private bool _unstar;
         public bool star { get {
-                return !_star;
+                return _star;
             } set
             {
                 _star = value;

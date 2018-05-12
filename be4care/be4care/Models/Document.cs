@@ -4,7 +4,7 @@ using System.Text;
 
 namespace be4care.Models
 {
-    class Document 
+    class Document : Favorite
     {
         private string _url;
         private string _id;
@@ -32,7 +32,7 @@ namespace be4care.Models
         {
             get
             {
-                return !_star;
+                return _star;
             }
             set
             {

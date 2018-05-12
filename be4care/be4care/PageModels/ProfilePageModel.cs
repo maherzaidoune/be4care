@@ -110,7 +110,7 @@ namespace be4care.PageModels
                 new detail {menu = "Nom" ,  info= user.name },
                 new detail {menu = "Prenom" ,  info = user.lastName },
                 new detail {menu = "Numéro de telephone" ,  info=user.phNumber },
-                new detail {menu = "Date de naissance" ,  info= user.bDate.ToString() },
+                new detail {menu = "Date de naissance" ,  info= user.bDate.ToString("MM/dd/yyyy") },
                 new detail {menu = "sexe" ,  info=  convertSexe(user.sex)}
             };
             });

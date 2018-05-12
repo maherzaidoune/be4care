@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:ctrls="clr-namespace:AsNum.XFControls;assembly=AsNum.XFControls"
              xmlns:local="clr-namespace:be4care"
              CompressedLayout.IsHeadless="True"
              x:Class="be4care.Pages.AddDoctorPage">
@@ -40,7 +41,18 @@
                     <Entry Text="{Binding specialite,Mode=TwoWay}" FontSize="20" HorizontalOptions="Fill" HeightRequest="40" Margin="5"  />
                     <Label Text="Notes" FontSize="12" TextColor="Black" />
                     <Entry Text="{Binding note,Mode=TwoWay}" FontSize="20" HorizontalOptions="Fill" HeightRequest="40" Margin="5"  />
-
+                <Grid HorizontalOptions="Fill" >
+                    <Label Grid.Row="0" Grid.Column="0" Text="Favouris?" />
+                    <ctrls:CheckBox HorizontalOptions="Start"
+                            Grid.Column="1" 
+                            Grid.Row="0"
+                            ShowLabel="False"
+                            Checked="{Binding star,Mode=TwoWay}"
+                            Size="30"
+                            OnImg="fav.png"       
+                            OffImg="unfav.png"
+                        />
+                </Grid>
             </StackLayout>
 
         </ScrollView>

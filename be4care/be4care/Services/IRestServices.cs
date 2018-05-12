@@ -46,5 +46,17 @@ namespace be4care.Services
         bool Disconnect();
 
         bool Delete();
+
+        bool UpdateDocument(Document d);
+
+        bool UpdateDoctor(Doctor d);
+
+        bool UpdateHStruct(HealthStruct h);
+
+        bool DeleteDoctor(Doctor d);
+
+        bool DeleteDocument(Document d);
+
+        bool DeleteHstruct(HealthStruct d);
     }
 }

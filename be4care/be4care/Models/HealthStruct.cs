@@ -41,7 +41,7 @@ namespace be4care.Models
         {
             get
             {
-                return !_star;
+                return _star;
             }
             set
             {

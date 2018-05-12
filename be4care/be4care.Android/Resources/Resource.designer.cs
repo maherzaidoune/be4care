@@ -10847,11 +10847,11 @@ namespace be4care.Droid
 			// aapt resource value: 0x7f02013e
 			public const int notification_icon_background = 2130837822;
 			
-			// aapt resource value: 0x7f020150
-			public const int notification_template_icon_bg = 2130837840;
-			
 			// aapt resource value: 0x7f020151
-			public const int notification_template_icon_low_bg = 2130837841;
+			public const int notification_template_icon_bg = 2130837841;
+			
+			// aapt resource value: 0x7f020152
+			public const int notification_template_icon_low_bg = 2130837842;
 			
 			// aapt resource value: 0x7f02013f
 			public const int notification_tile_bg = 2130837823;
@@ -10890,19 +10890,22 @@ namespace be4care.Droid
 			public const int splashscreen = 2130837834;
 			
 			// aapt resource value: 0x7f02014b
-			public const int stephaneback = 2130837835;
+			public const int star = 2130837835;
 			
 			// aapt resource value: 0x7f02014c
-			public const int tooltip_frame_dark = 2130837836;
+			public const int stephaneback = 2130837836;
 			
 			// aapt resource value: 0x7f02014d
-			public const int tooltip_frame_light = 2130837837;
+			public const int tooltip_frame_dark = 2130837837;
 			
 			// aapt resource value: 0x7f02014e
-			public const int unfav = 2130837838;
+			public const int tooltip_frame_light = 2130837838;
 			
 			// aapt resource value: 0x7f02014f
-			public const int Up = 2130837839;
+			public const int unfav = 2130837839;
+			
+			// aapt resource value: 0x7f020150
+			public const int Up = 2130837840;
 			
 			static Drawable()
 			{

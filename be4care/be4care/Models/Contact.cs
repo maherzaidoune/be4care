@@ -4,7 +4,7 @@ using System.Text;
 
 namespace be4care.Models
 {
-    public  class Contact
+    public  class Contact : Favorite
     {
         public string fullName { get; set; }
         public bool star { get; set; }

@@ -63,7 +63,7 @@ namespace be4care.Services
             {
                 var docs = await GetDocuments();
                 if (docs == null)
-                    return false;
+                    docs = new List<Document>();
                 docs.Add(doc);
                 SaveDocuments(docs);
                 return true;
@@ -89,6 +89,33 @@ namespace be4care.Services
                 return false;
             }
         }
-    
+
+        public async Task<bool> UpdateDocument(Document d)
+        {
+            try
+            {
+                int pos = 0;
+                var docs = await GetDocuments();
+                if (docs == null)
+                    return false;
+                foreach(Document document in docs)
+                {
+                    if(document.id == d.id)
+                    {
+                        docs.Remove(document);
+                        docs.Insert(pos, d);
+                        break;
+                    }
+                    pos++;
+                }
+
+                SaveDocuments(docs);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

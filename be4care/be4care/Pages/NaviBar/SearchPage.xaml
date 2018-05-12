@@ -4,7 +4,7 @@
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              CompressedLayout.IsHeadless="True"
              x:Class="be4care.Pages.SearchPage">
-    <Grid Padding="10,30,10,10" >
+    <Grid Padding="10,30,10,10"  >
         <Grid.RowDefinitions>
             <RowDefinition Height="100" />
             <RowDefinition Height="auto" />
@@ -14,9 +14,9 @@
             <SearchBar Text="{Binding search ,Mode=TwoWay}" Placeholder="..." HorizontalOptions="Fill"  />
         </StackLayout>
             <ListView
-                Grid.Row="1"
+                Grid.Row="2"
                 ItemsSource="{Binding document}"
-                RowHeight="90"
+                RowHeight="95"
                 SeparatorColor="LightGray"
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="Fill"
@@ -26,23 +26,23 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell >
-                            <StackLayout Orientation="Horizontal" VerticalOptions="Fill" HorizontalOptions="Fill" CompressedLayout.IsHeadless="True"   >
-                                <StackLayout  WidthRequest="30" >
-                                    <ffimageloading:CachedImage  Source="star.png" IsVisible="{Binding star}" HeightRequest="25" WidthRequest="25"  VerticalOptions="Center" />
-                                </StackLayout>
-                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"  >
-                                    <StackLayout HeightRequest="82" WidthRequest="72">
-                                        <ffimageloading:CachedImage  Source="{Binding url}" DownsampleHeight="80"  DownsampleWidth="70"  HeightRequest="80" WidthRequest="70" HorizontalOptions="Start"  VerticalOptions="Center" CacheType="Memory"  />
-                                    </StackLayout>
-                                    <StackLayout >
-                                        <Label Text="{Binding  date ,StringFormat='{}{0:MM/dd/yyyy}'}" FontSize="16" TextColor="Gray"  VerticalOptions="Center" />
-                                        <Label Text="{Binding  type}" FontSize="18" TextColor="Black"  VerticalOptions="Center" />
-                                        <Label Text="{Binding  HStructure}" FontSize="16" TextColor="Gray" VerticalOptions="Center" />
-                                    </StackLayout>
-                                    <ffimageloading:CachedImage  Source="next.png"   HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
-                                </StackLayout>
+                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Fill" CompressedLayout.IsHeadless="True"   >
+                            <StackLayout  WidthRequest="25" VerticalOptions="Start" Padding="0,2,0,0" >
+                                <ffimageloading:CachedImage  Source="star.png" IsVisible="{Binding star}"  VerticalOptions="Start" HeightRequest="20" WidthRequest="20"/>
                             </StackLayout>
-                        </ViewCell>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"  >
+                                <StackLayout VerticalOptions="Center">
+                                    <ffimageloading:CachedImage  Source="{Binding url}" DownsampleHeight="80"  DownsampleWidth="70"  HeightRequest="80" WidthRequest="70" HorizontalOptions="Start"  VerticalOptions="Center" CacheType="Memory"  />
+                                </StackLayout>
+                                <StackLayout  Padding="0,5,0,5">
+                                    <Label Text="{Binding  date,StringFormat='{}{0:MM/dd/yyyy}'}" FontSize="16" TextColor="Gray"  VerticalOptions="Center" />
+                                    <Label Text="{Binding  type}" FontSize="18" TextColor="Black"  VerticalOptions="Center" />
+                                    <Label Text="{Binding  HStructure}" FontSize="16" TextColor="Gray" VerticalOptions="Center" />
+                                </StackLayout>
+                                <ffimageloading:CachedImage  Source="next.png"   HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                            </StackLayout>
+                        </StackLayout>
+                    </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

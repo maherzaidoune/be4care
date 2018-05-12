@@ -18,7 +18,5 @@ namespace be4care.Services
         Task<IList<Doctor>> GetFavDoctorsAsync();
         Task<IList<HealthStruct>> GetFavHealthStructAsync();
         Task<IList<Document>> GetFavDocumentAsync();
-
-
     }
 }

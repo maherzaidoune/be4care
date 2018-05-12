@@ -13,5 +13,6 @@ namespace be4care.Services
         Task<IList<Document>> GetDocuments();
         Task<bool> DeleteDocument(Document doc);
         bool DeleteDocuments();
+        Task<bool> UpdateDocument(Document d);
     }
 }
