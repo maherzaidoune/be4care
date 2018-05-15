@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace be4care.PageModels
 {
@@ -13,62 +14,82 @@ namespace be4care.PageModels
     {
         public IList<FavoriteGroupe> favorites { get; set; }
         public IList<Favorite> favs;
-        private IFavServices _favServices;
-        
+        private  IDocumentServices _documentServices;
+        private IDoctorServices _doctorServices;
+        private IHStructServices _hStructServices;
+        private IRestServices _restServices;
 
-        public FavPageModel(IFavServices _favServices)
+
+        public FavPageModel(IDocumentServices _documentServices,IDoctorServices _doctorServices,IHStructServices _hStructServices,IRestServices _restServices)
         {
             Console.WriteLine("fav  page model construct");
-            this._favServices = _favServices;
+            this._doctorServices = _doctorServices;
+            this._doctorServices = _doctorServices;
+            this._hStructServices = _hStructServices;
+            this._restServices = _restServices;
+
         }
         protected override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
+            initView();
+        }
+        public  override void Init(object initData)
+        {
+            base.Init(initData);
+        }
+        public void initView()
+        {
+            Console.WriteLine("fav  page model init");
             FavoriteGroupe documents = new FavoriteGroupe("Documents");
             FavoriteGroupe doctors = new FavoriteGroupe("Doctors");
             FavoriteGroupe hstructs = new FavoriteGroupe("Health Structs");
-            try
+            Task.Run(async () =>
             {
-                Task.Run(async () =>
+                try
                 {
-                    documents.AddRange(await _favServices.GetFavDocumentAsync());
-                    doctors.AddRange(await _favServices.GetFavDoctorsAsync());
-                    hstructs.AddRange(await _favServices.GetFavHealthStructAsync());
-                });
-            }
-            catch
-            {
-
-            }
+                    var docs = await _documentServices.GetDocuments();
+                    if (docs == null || docs.Count == 0)
+                        docs = new List<Document>();
+                    documents.AddRange(docs.Where(d => d.star));
+                }
+                catch
+                {
+                    var docs = await _restServices.GetDocumentsAsync();
+                    if (!(docs == null))
+                        documents.AddRange(docs.Where(d => d.star));
+                }
+                try
+                {
+                    var docs = await _doctorServices.GetDoctors();
+                    if (docs == null || docs.Count == 0)
+                        docs = new List<Doctor>();
+                    doctors.AddRange(docs.Where(d => d.star));
+                }
+                catch
+                {
+                    var docs = await _restServices.GetDoctorsAsync();
+                    if (!(docs == null))
+                        documents.AddRange(docs.Where(d => d.star));
+                }
+                try
+                {
+                    var docs = await _hStructServices.GetStructs();
+                    if (docs == null || docs.Count == 0)
+                        docs = new List<HealthStruct>();
+                    hstructs.AddRange(docs.Where(d => d.star));
+                }
+                catch
+                {
+                    var docs = await _restServices.GetHealthStructs();
+                    if (!(docs == null))
+                        hstructs.AddRange(docs.Where(d => d.star));
+                }
+            });
             favorites = new List<FavoriteGroupe>();
             favorites.Add(documents);
             favorites.Add(doctors);
             favorites.Add(hstructs);
-        }
-        public override void Init(object initData)
-        {
-            base.Init(initData);
-            Console.WriteLine("fav  page model init");
-            //FavoriteGroupe documents = new FavoriteGroupe("Documents");
-            //FavoriteGroupe doctors = new FavoriteGroupe("Doctors");
-            //FavoriteGroupe hstructs = new FavoriteGroupe("Health Structs");
-            //try
-            //{
-            //    Task.Run(async () =>
-            //    { 
-            //        documents.AddRange(await _favServices.GetFavDocumentAsync());
-            //        doctors.AddRange(await _favServices.GetFavDoctorsAsync());
-            //        hstructs.AddRange(await _favServices.GetFavHealthStructAsync());
-            //    });
-            //}
-            //catch
-            //{
-
-            //}
-            //favorites = new List<FavoriteGroupe>();
-            //favorites.Add(documents);
-            //favorites.Add(doctors);
-            //favorites.Add(hstructs);
         }
     }
 }

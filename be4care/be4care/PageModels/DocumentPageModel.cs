@@ -70,6 +70,18 @@ namespace be4care.PageModels
             });
         }
 
+        public bool checkduplicate(IList<DocumentsGroupe> list,DocumentsGroupe group)
+        {
+            foreach (DocumentsGroupe g in list)
+            {
+                if (list.Count == 0)
+                    return true;
+                if (g.title.Equals(group.title))
+                    return false;
+            }
+            return true;
+        }
+
         public void InitGroups(IList<Document> documents,string tri)
         {
             list = new List<DocumentsGroupe>();
@@ -91,13 +103,12 @@ namespace be4care.PageModels
                         date = d.date;
                         date.AddMonths(1);
                         group = new DocumentsGroupe(date.ToString("MM/dd/yyyy"));
+
+                        if (!checkduplicate(dateDocs, group))
+                            continue;
+
                         foreach (Document docs in documents)
                         {
-                            foreach (DocumentsGroupe g in dateDocs)
-                            {
-                                if (g.title.Equals(group.title))
-                                    return;
-                            }
                             if (d.date == docs.date)
                             {
                                 group.Add(docs);
@@ -120,13 +131,13 @@ namespace be4care.PageModels
                     {
                         dr = d.dr;
                         group = new DocumentsGroupe(dr);
+
+                        if (!checkduplicate(drDocs, group))
+                            continue;
+
                         foreach (Document docs in documents)
                         {
-                            foreach(DocumentsGroupe g in drDocs)
-                            {
-                                if (g.title.Equals(group.title))
-                                    return;
-                            }
+                            
                             if (d.dr.Equals(docs.dr))
                             {
                                 group.Add(docs);
@@ -149,13 +160,11 @@ namespace be4care.PageModels
                     {
                         type = d.type;
                         group = new DocumentsGroupe(type);
+                        if (!checkduplicate(typeDocs, group))
+                            continue;
                         foreach (Document docs in documents)
                         {
-                            foreach (DocumentsGroupe g in typeDocs)
-                            {
-                                if (g.title.Equals(group.title))
-                                    return;
-                            }
+                            
                             if (d.type.Equals(docs.type))
                             {
                                 group.Add(docs);
@@ -178,13 +187,10 @@ namespace be4care.PageModels
                     {
                         str = d.HStructure;
                         group = new DocumentsGroupe(str);
+                        if (!checkduplicate(hsDocs, group))
+                            continue;
                         foreach (Document docs in documents)
                         {
-                            foreach (DocumentsGroupe g in hsDocs)
-                            {
-                                if (g.title.Equals(group.title))
-                                    return;
-                            }
                             if (d.HStructure.Equals(docs.HStructure))
                             {
                                 group.Add(docs);
@@ -245,7 +251,7 @@ namespace be4care.PageModels
             base.Init(initData);
             MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentadded", update);
             MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentnoadded", UpdateAndSave);
-            MessagingCenter.Subscribe<DocumentDetailsPage>(this, "documentupdated", documentUpdated);
+            MessagingCenter.Subscribe<DocumentDetailsPageModel>(this, "documentupdated", documentUpdated);
             Task.Run(async () =>
             {
                 await UpdateView();
@@ -255,7 +261,7 @@ namespace be4care.PageModels
 
         }
 
-        private void documentUpdated(DocumentDetailsPage obj)
+        private void documentUpdated(DocumentDetailsPageModel obj)
         {
             Task.Run(async () =>
             {

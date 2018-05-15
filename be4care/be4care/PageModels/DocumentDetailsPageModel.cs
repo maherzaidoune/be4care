@@ -28,7 +28,6 @@ namespace be4care.PageModels
         public IList<detail> details { get; set; }
         private IRestServices _restService;
         private IDocumentServices _documentServices;
-        private IFavServices _favServices;
         private IDialogService _dialogServices;
 
         public ICommand backClick => new Command(backClickbutton);
@@ -39,8 +38,7 @@ namespace be4care.PageModels
 
         private void backClickbutton()
         {
-            CoreMethods.PushPageModel<DocumentPageModel>();
-            CoreMethods.RemoveFromNavigation();
+            CoreMethods.PopPageModel(); // pop instead of pushing previous page
             RaisePropertyChanged();
         }
 
@@ -54,7 +52,6 @@ namespace be4care.PageModels
                 
                 try
                 {
-                    await _favServices.DeleteFavDocumentAsync(doc);
                     await _documentServices.UpdateDocument(doc);
                     _restService.UpdateDocument(doc);
                     MessagingCenter.Send(this, "documentupdated");
@@ -80,7 +77,7 @@ namespace be4care.PageModels
             {
                 try
                 {
-                    await _favServices.AddFavDocumentAsync(doc);
+                    //await _favServices.AddFavDocumentAsync(doc);
                     await _documentServices.UpdateDocument(doc);
                     _restService.UpdateDocument(doc);
                     MessagingCenter.Send(this, "documentupdated");
@@ -97,11 +94,10 @@ namespace be4care.PageModels
 
         }
 
-        public DocumentDetailsPageModel(IRestServices _restService,IDocumentServices _documentServices,IFavServices _favServices,IDialogService _dialogServices)
+        public DocumentDetailsPageModel(IRestServices _restService,IDocumentServices _documentServices,IDialogService _dialogServices)
         {
             this._restService = _restService;
             this._documentServices = _documentServices;
-            this._favServices = _favServices;
             this._dialogServices = _dialogServices;
         }
         public override void Init(object initData)

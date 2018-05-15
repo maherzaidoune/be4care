@@ -15,6 +15,9 @@ namespace be4care.Models
         private string _place;
         private string _note;
         private string _text;
+        public bool isContact { get {
+                return false;
+            } }
 
         public String url { get {
                 if (string.IsNullOrEmpty(_url))

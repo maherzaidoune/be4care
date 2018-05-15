@@ -29,12 +29,12 @@ namespace be4care.PageModels
             await Task.Delay(3000);
 
             var auth = Settings.AuthToken;
-            if (!CrossConnectivity.Current.IsConnected)
-            {
-                _dialogServices.ShowMessage("Verifier votre connection internet",true);
-            }
-            Console.WriteLine("auth : " + auth);
-           
+            
+            //if (!CrossConnectivity.Current.IsConnected)
+            //{
+            //    _dialogServices.ShowMessage("Verifier votre connection internet",true);
+            //}
+            
             if (string.IsNullOrEmpty(auth))
             {
                 Console.WriteLine("auth empty , user is not connected");

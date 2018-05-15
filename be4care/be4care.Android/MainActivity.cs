@@ -44,9 +44,18 @@ namespace be4care.Droid
         protected override void OnDestroy()
         {
             base.OnDestroy();
-            BlobCache.Shutdown().Wait();
         }
-        
+
+        protected override void OnStart()
+        {
+            base.OnStart();
+        }
+        protected override void OnStop()
+        {
+            base.OnStop();
+
+        }
+
         public override void OnBackPressed()
         {
             // This prevents a user from being able to hit the back button and leave the login page.

@@ -26,7 +26,7 @@
             <Label Text="Ajouter Structure de Santé" FontSize="36" TextColor="Black" HorizontalOptions="Start" VerticalOptions="StartAndExpand"/>
         </StackLayout>
 
-        <ScrollView  Grid.Row="2"  VerticalOptions="FillAndExpand" CompressedLayout.IsHeadless="True">
+        <ScrollView  Grid.Row="2"  VerticalOptions="FillAndExpand" >
             <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0,10,0,10" CompressedLayout.IsHeadless="True">
                 <Label Text="Nom" FontSize="12" TextColor="Black" />
                 <Entry Text="{Binding fullName,Mode=TwoWay}" FontSize="20" HorizontalOptions="Fill"  HeightRequest="40" Margin="5"  />

@@ -34,6 +34,7 @@ namespace be4care.PageModels
         {
             PopupNavigation.Instance.PopAllAsync();
             MessagingCenter.Send(this, "editcontact");
+            Console.WriteLine("editcontact poped , a messege was sent to cantact details page");
         }
 
         public ContactEditPageModel(Contact contact)

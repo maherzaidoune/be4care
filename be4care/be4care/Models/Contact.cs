@@ -8,5 +8,8 @@ namespace be4care.Models
     {
         public string fullName { get; set; }
         public bool star { get; set; }
+        public bool isContact { get {
+                return true;
+            } }
     }
 }

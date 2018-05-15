@@ -5,6 +5,7 @@ using PropertyChanged;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -36,6 +37,7 @@ namespace be4care.PageModels
 
         private void editContact(object obj)
         {
+            Console.WriteLine("edit contact called \n" );
             Device.BeginInvokeOnMainThread(async () =>
             {
                 MessagingCenter.Subscribe<ContactEditPageModel>(this, "delete", delete);
@@ -46,44 +48,82 @@ namespace be4care.PageModels
 
         private void edit(ContactEditPageModel obj)
         {
-            if (c is Doctor)
-                CoreMethods.PushPageModel<AddDoctorPageModel>(c as Doctor);
-            if (c is HealthStruct)
-                CoreMethods.PushPageModel<AddHstructPageModel>(c as HealthStruct);
-            RaisePropertyChanged();
+            MessagingCenter.Unsubscribe<ContactEditPageModel>(this, "editcontact");
+            Console.WriteLine("edit called  "+ obj.contact.fullName +"\n" );
+            if(c != null)
+            {
+                if (c  is Doctor)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await CoreMethods.PushPageModel<AddDoctorPageModel>(c as Doctor);
+                        RaisePropertyChanged();
+                    });
+                    
+                }
+                if (c is HealthStruct)
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await CoreMethods.PushPageModel<AddHstructPageModel>(c as HealthStruct);
+                        RaisePropertyChanged();
+                    });
+                    
+                }
+            }
+            else
+            {
+                _dialogService.ShowMessage("Erreur", true);
+            }
         }
 
         private void delete(ContactEditPageModel obj)
         {
-            if(c is Doctor)
+            MessagingCenter.Unsubscribe<ContactEditPageModel>(this, "delete");
+            if (c != null)
             {
-                if(_restService.DeleteDoctor(c as Doctor))
+                if (c is Doctor)
                 {
-                    _doctorService.DeleteDoctor(c as Doctor);
-                    _dialogService.ShowMessage(c.fullName + "supprimer avec succes", false);
+                    if (_restService.DeleteDoctor(c as Doctor))
+                    {
+                        Task.Run(async () =>
+                        {
+                            if (await _doctorService.DeleteDoctor(c as Doctor))
+                                MessagingCenter.Send(this, "delete");
+                            else
+                                MessagingCenter.Send(this, "deletefromserver");
+                            _dialogService.ShowMessage(c.fullName + "supprimer avec succes", false);
+                        });
+                    }
+                    else
+                    {
+                        _dialogService.ShowMessage("Erreur", true);
+                    }
                 }
-                else
+                if (c is HealthStruct)
                 {
-                    _dialogService.ShowMessage("Erreur", true);
-                }
-            }
-            if(c is HealthStruct)
-            {
-                if(_restService.DeleteHstruct(c as HealthStruct))
-                {
-                    _hstructService.DeleteStruct(c as HealthStruct);
-                    _dialogService.ShowMessage(c.fullName + "supprimer avec succes", false);
-                }
-                else
-                {
-                    _dialogService.ShowMessage("Erreur", true);
-                }
-            }
+                    if (_restService.DeleteHstruct(c as HealthStruct))
+                    {
+                        Task.Run(async () =>
+                        {
+                            if(await _hstructService.DeleteStruct(c as HealthStruct))
+                                MessagingCenter.Send(this, "delete");
+                            else
+                                MessagingCenter.Send(this, "deletefromserver");
+                            _dialogService.ShowMessage(c.fullName + "supprimer avec succes", false);
+                        });
+                    }
+                    else
+                    {
+                        _dialogService.ShowMessage("Erreur", true);
+                    }
 
+                }
+            }
             Device.BeginInvokeOnMainThread(async () =>
             {
-                CoreMethods.RemoveFromNavigation();
                 await CoreMethods.PushPageModel<ContactPageModel>();
+                //CoreMethods.RemoveFromNavigation();
                 RaisePropertyChanged();
             });
         }
@@ -131,8 +171,10 @@ namespace be4care.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
-            c = initData as Contact;
+            if (initData == null)
+                return;
 
+            c = initData as Contact;
             if (c is Doctor)
             {
                 var doc = c as Doctor;
@@ -148,7 +190,8 @@ namespace be4care.PageModels
                 spec = doc.specialite;
                 _number = doc.phNumber;
                 _email = doc.email;
-            }else if (c is HealthStruct)
+            }
+            else if (c is HealthStruct)
             {
                 var h = c as HealthStruct;
                 contact = new List<detail>

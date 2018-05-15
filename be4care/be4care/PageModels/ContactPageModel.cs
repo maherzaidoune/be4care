@@ -26,8 +26,6 @@ namespace be4care.PageModels
 
         private void contactSettings(object obj)
         {
-            MessagingCenter.Subscribe<AddDoctorPageModel>(this, "doctorupdated", docCantactUpdated);
-            MessagingCenter.Subscribe<AddHstructPageModel>(this, "HstructUpdated", hstCantactUpdated);
             MessagingCenter.Subscribe<DoctorsListPageModel>(this, "newDoctorAdd", doctorlistupdated);
             MessagingCenter.Subscribe<HstructListPageModel>(this, "newStructAdd", hstListCantactUpdated);
 
@@ -59,6 +57,7 @@ namespace be4care.PageModels
             {
                 await updateCantact();
             });
+            MessagingCenter.Unsubscribe<AddDoctorPageModel>(this, "doctorupdated");
         }
         private void hstCantactUpdated(AddHstructPageModel obj)
         {
@@ -66,6 +65,7 @@ namespace be4care.PageModels
             {
                  await updateCantact();
             });
+            MessagingCenter.Unsubscribe<AddHstructPageModel>(this, "HstructUpdated");
         }
 
         public Contact selectedContact
@@ -76,10 +76,63 @@ namespace be4care.PageModels
             }
             set
             {
+                MessagingCenter.Subscribe<AddDoctorPageModel>(this, "doctorupdated", docCantactUpdated);
+                MessagingCenter.Subscribe<AddHstructPageModel>(this, "HstructUpdated", hstCantactUpdated);
+                MessagingCenter.Subscribe<ContactDetailsPageModel>(this, "delete", delete);
+                MessagingCenter.Subscribe<ContactDetailsPageModel>(this, "deletefromserver", deletedfromsever);
                 CoreMethods.PushPageModel<ContactDetailsPageModel>(value);
                 RaisePropertyChanged();
             }
         }
+
+        private void deletedfromsever(ContactDetailsPageModel obj)
+        {
+            MessagingCenter.Unsubscribe<ContactDetailsPageModel>(this, "deletefromserver");
+
+            Task.Run(async () =>
+            {
+                try
+                {
+                    doctors = await _restServices.GetDoctorsAsync();
+                    if (doctors != null && doctors.Count > 0)
+                        _doctorServices.SaveDoctors(doctors);
+                    else
+                        doctors = new List<Doctor>();
+                    healthStructs = await _restServices.GetHealthStructs();
+                    if (healthStructs != null && healthStructs.Count > 0)
+                        _hStructServices.SaveStructs(healthStructs);
+                    else
+                        healthStructs = new List<HealthStruct>();
+                    var groupDoc = new ContactGroup("Médecin");
+                    var groupHealth = new ContactGroup("Structure de Santé");
+                    if (doctors.Count > 0)
+                        groupDoc.AddRange(doctors.OrderBy(d => !d.star));
+                    if (healthStructs.Count > 0)
+                        groupHealth.AddRange(healthStructs.OrderBy(d => !d.star));
+
+                    contacts = new List<ContactGroup>();
+                    contacts.Add(groupDoc);
+                    contacts.Add(groupHealth);
+                }
+                catch
+                {
+                    await Task.Run(async () =>
+                    {
+                        await updateCantact();
+                    });
+                }
+            });
+        }
+
+        private void delete(ContactDetailsPageModel obj)
+        {
+            Task.Run(async () =>
+            {
+                await updateCantact();
+            });
+            MessagingCenter.Unsubscribe<ContactDetailsPageModel>(this, "delete");
+        }
+
         public ICommand backClick => new Command(backClickbutton);
 
         private void backClickbutton(object obj)

@@ -32,7 +32,6 @@ namespace be4care.PageModels
         private IRestServices _restServices;
         private IDoctorServices _doctorServices;
         private IDialogService _dialogSservices;
-        private IFavServices _favSservices;
 
         public ICommand save => new Command(addDoctor);
         public ICommand backClick => new Command(back);
@@ -60,14 +59,12 @@ namespace be4care.PageModels
 
         private void addDoctor(object obj)
         {
-
-            isEnabled = false;
-            isBusy = true;
-            Task.Run(async() =>
+            Device.BeginInvokeOnMainThread(() =>
             {
-                try
-                {
-                    var doctor = new Doctor()
+                isEnabled = false;
+                isBusy = true;
+            });
+             var doctor = new Doctor()
                     {
                         fullName = fullName,
                         adress = adress,
@@ -78,80 +75,80 @@ namespace be4care.PageModels
                         note = note,
                         star = star
                     };
-                    
-                    if(!isEdit)
+            if(!isEdit)
+            {
+                Task.Run(async () =>
+                {
+                   
+                    try
                     {
                         if (await _restServices.AddDoctor(doctor))
                         {
                             await _doctorServices.SaveDoctor(doctor);
                             MessagingCenter.Send(this, "doctorupdated");
-                            if (star)
-                            {
-                                await _favSservices.AddFavDoctorAsync(doctor);
-                            }
-                            if (!star)
-                            {
-                                await _favSservices.DeleteFavDoctorAsync(doctor);
-                            }
                             _dialogSservices.ShowMessage(fullName + " a été ajouté avec succès ", false);
                         }
-                        
-                        await App.Current.MainPage.Navigation.PopModalAsync();
                     }
-
-                    if (isEdit)
+                    catch
                     {
-                        doctor.id = id;
+                        Console.WriteLine("error adding new Doctor " );
+                        _dialogSservices.ShowMessage("Erreur , veuillez essayer plus tard", true);
+                    }
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await App.Current.MainPage.Navigation.PopModalAsync();
+                    });
+                });  
+            }
+
+            if (isEdit)
+            {
+                Task.Run(async () =>
+                {
+                    doctor.id = id;
+                    try
+                    {
+
                         if (_restServices.UpdateDoctor(doctor))
                         {
                             await _doctorServices.UpdateDoctor(doctor);
                             MessagingCenter.Send(this, "doctorupdated");
                             _dialogSservices.ShowMessage(fullName + " a été modifié avec succès ", false);
-                            if (star)
-                            {
-                                await _favSservices.AddFavDoctorAsync(doctor);
-                            }
-                            if (!star)
-                            {
-                                await _favSservices.DeleteFavDoctorAsync(doctor);
-                            }
                         }
-                        Device.BeginInvokeOnMainThread(async() =>
-                        {
-                            CoreMethods.RemoveFromNavigation();
-                            await CoreMethods.PushPageModel<ContactPageModel>();
-                            RaisePropertyChanged();
-                        });
-                       
                     }
+                    catch
+                    {
+                        Console.WriteLine("error editing doctor ");
+                        _dialogSservices.ShowMessage("Erreur , veuillez essayer plus tard", true);
+                    }
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await CoreMethods.PushPageModel<ContactPageModel>();
+                        CoreMethods.RemoveFromNavigation();
+                        RaisePropertyChanged();
+                    });
+                });  
+            }
+            isBusy = false;
+            isEnabled = true;
 
-                }
-                catch(Exception e)
-                {
-                    Console.WriteLine("error adding new Doctor "+e.Message);
-                    _dialogSservices.ShowMessage("Erreur , veuillez essayer plus tard",true);
-                }
-                isBusy = false;
-                isEnabled = true;
-
-
-            });
-            
         }
+            
+                       
 
-        public AddDoctorPageModel(IFavServices _favSservices, IRestServices _restServices,IDoctorServices _doctorServices,IDialogService _dialogSservices)
+        public AddDoctorPageModel( IRestServices _restServices,IDoctorServices _doctorServices,IDialogService _dialogSservices)
         {
             this._doctorServices = _doctorServices;
             this._restServices = _restServices;
             this._dialogSservices = _dialogSservices;
-            this._favSservices = _favSservices;
         }
         public override void Init(object initData)
         {
             base.Init(initData);
+            Console.WriteLine( "init method called addDoctorPageModel \n");
             if(initData != null)
             {
-                var doctor = initData as Doctor;
+                var doctor = initData as Doctor; 
                 fullName = doctor.fullName;
                 adress = doctor.adress;
                 phNumber = doctor.phNumber;
@@ -162,7 +159,7 @@ namespace be4care.PageModels
                 star = doctor.star;
                 unstar = doctor.unstar;
                 id = doctor.id;
-                isEdit = true;
+                isEdit = true; 
             }
             else
             {

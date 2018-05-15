@@ -16,7 +16,6 @@ namespace be4care.PageModels
         private IRestServices _restServices;
         private IHStructServices _hStructServices;
         private IDialogService _dialogSservices;
-        private IFavServices _favServices;
 
         public string fullName { get; set; }
         public string adress { get; set; }
@@ -41,92 +40,107 @@ namespace be4care.PageModels
 
         private void back(object obj)
         {
-            App.Current.MainPage.Navigation.PopModalAsync();
+            if (!isEdit)
+                App.Current.MainPage.Navigation.PopModalAsync();
+            else
+            {
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    CoreMethods.RemoveFromNavigation();
+                    await CoreMethods.PushPageModel<ContactPageModel>();
+                    RaisePropertyChanged();
+                });
+            }
         }
 
         private void addHstruct(object obj)
         {
-            isEnabled = false;
-            isBusy = true;
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                isEnabled = false;
+                isBusy = true;
+            });
+            var hstruct = new HealthStruct()
+            {
+                fullName = fullName,
+                adress = adress,
+                phNumber = phNumber,
+                email = email,
+                star = star
+            };
 
+            if (!isEdit)
+            {
             Task.Run(async () =>
             {
                 try
                 {
-                    var hstruct = new HealthStruct()
+                    if (await _restServices.AddHealthStruct(hstruct))
                     {
-                        fullName = fullName,
-                        adress = adress,
-                        phNumber = phNumber,
-                        email = email,
-                        star = star
-                    };
-                    if (!isEdit)
-                    {
-                        if (await _restServices.AddHealthStruct(hstruct))
-                        {
-                            await _hStructServices.SaveStruct(hstruct);
-                            MessagingCenter.Send(this, "HstructUpdated");
-                            _dialogSservices.ShowMessage(fullName + " a été ajouté avec succès ", false);
-                            if (star)
-                            {
-                                await _favServices.AddFavHealthStructAsync(hstruct);
-                            }
-                            if (!star)
-                            {
-                                await _favServices.DeleteFavHealthStructAsync(hstruct);
-                            }
-                            await App.Current.MainPage.Navigation.PopModalAsync();
-                        }
-                    }
-                    if (isEdit)
-                    {
-                        hstruct.id = id;
-                        if (_restServices.UpdateHStruct(hstruct))
-                        {
-                            await _hStructServices.UpdateHStructAsync(hstruct);
-                            MessagingCenter.Send(this, "HstructUpdated");
-                            _dialogSservices.ShowMessage(fullName + " a été modifié avec succès ", false);
-                            if (star)
-                            {
-                                await _favServices.AddFavHealthStructAsync(hstruct);
-                            }
-                            if (!star)
-                            {
-                                await _favServices.DeleteFavHealthStructAsync(hstruct);
-                            }
-                        }
+                        await _hStructServices.SaveStruct(hstruct);
+                        MessagingCenter.Send(this, "HstructUpdated");
+                        _dialogSservices.ShowMessage(fullName + " a été ajouté avec succès ", false);
+                       
                         Device.BeginInvokeOnMainThread(async () =>
                         {
-                            CoreMethods.RemoveFromNavigation();
-                            await CoreMethods.PushPageModel<ContactPageModel>();
-                            RaisePropertyChanged();
+                            await App.Current.MainPage.Navigation.PopModalAsync();
                         });
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("error adding new hstruct");
+                    _dialogSservices.ShowMessage("Erreur , veuillez essayer plus tard", true);
+                }
+            });
+                   
+            }
+            if (isEdit)
+            {
+                Task.Run(async () =>
+                {
+                hstruct.id = id;
+                try
+                {
+                   
+                    if (_restServices.UpdateHStruct(hstruct))
+                    {
+                        await _hStructServices.UpdateHStructAsync(hstruct);
+                        MessagingCenter.Send(this, "HstructUpdated");
+                        _dialogSservices.ShowMessage(fullName + " a été modifié avec succès ", false);
+                        
                     }
                     
                 }
                 catch
                 {
-                    Console.WriteLine("error adding new Doctor");
-                    _dialogSservices.ShowMessage("Erreur , veuillez essayer plus tard",true);
+                    Console.WriteLine("error adding new hstruct");
+                    _dialogSservices.ShowMessage("Erreur , veuillez essayer plus tard", true);
                 }
-                isBusy = false;
-                isEnabled = true;
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await CoreMethods.PushPageModel<ContactPageModel>();
+                    CoreMethods.RemoveFromNavigation();
+                    RaisePageWasPopped();
+                    RaisePropertyChanged();
+                });
+                });
+            }  
 
-            });
+            isBusy = false;
+            isEnabled = true;
 
         }
 
-        public AddHstructPageModel(IFavServices _favServices,IRestServices _restServices, IHStructServices _hStructServices, IDialogService _dialogSservices)
+        public AddHstructPageModel(IRestServices _restServices, IHStructServices _hStructServices, IDialogService _dialogSservices)
         {
             this._dialogSservices = _dialogSservices;
             this._hStructServices = _hStructServices;
             this._restServices = _restServices;
-            this._favServices = _favServices;
         }
         public override void Init(object initData)
         {
-            base.Init(initData);
+            base.Init(initData); 
             if (initData != null)
             {
                 var hstruct = initData as HealthStruct;
