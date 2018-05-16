@@ -17,7 +17,15 @@ namespace be4care.Services
                 var structs = await GetStructs();
                 if (structs == null)
                     structs = new List<HealthStruct>();
-                structs.Remove(s);
+                foreach(HealthStruct h in structs)
+                {
+                    if(h.id == s.id)
+                    {
+                        structs.Remove(h);
+                        break;
+                    }
+                }
+                
                 SaveStructs(structs);
                 return true;
             }

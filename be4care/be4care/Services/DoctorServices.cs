@@ -21,7 +21,14 @@ namespace be4care.Services
                 var docs = await GetDoctors();
                 if (docs == null)
                     docs = new List<Doctor>();
-                docs.Remove(doc);
+                foreach (Doctor d in docs)
+                {
+                    if (d.id == doc.id)
+                    {
+                        docs.Remove(d);
+                        break;
+                    }
+                }
                 SaveDoctors(docs);
                 return true;
             }

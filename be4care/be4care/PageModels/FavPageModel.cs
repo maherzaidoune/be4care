@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
+using Xamarin.Forms;
 
 namespace be4care.PageModels
 {
@@ -20,11 +21,42 @@ namespace be4care.PageModels
         private IRestServices _restServices;
 
 
+        public Favorite selected
+        {
+            get
+            {
+                return null;
+            }
+            set
+            {
+                if (value != null)
+                {
+                    if (value is Contact)
+                    {
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await CoreMethods.PushPageModel<ContactDetailsPageModel>(value);
+                            RaisePropertyChanged();
+                        });
+                    }
+                    else if (value is Document)
+                    {
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await CoreMethods.PushPageModel<DocumentDetailsPageModel>(value);
+                            RaisePropertyChanged();
+                        });
+                    }
+                }
+            }
+        }
+
+
         public FavPageModel(IDocumentServices _documentServices,IDoctorServices _doctorServices,IHStructServices _hStructServices,IRestServices _restServices)
         {
             Console.WriteLine("fav  page model construct");
             this._doctorServices = _doctorServices;
-            this._doctorServices = _doctorServices;
+            this._documentServices = _documentServices;
             this._hStructServices = _hStructServices;
             this._restServices = _restServices;
 
@@ -32,26 +64,62 @@ namespace be4care.PageModels
         protected override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
-            initView();
+            MessagingCenter.Unsubscribe<DocumentPageModel>(this, "DocumentareUpdated");
+            MessagingCenter.Unsubscribe<ContactPageModel>(this, "Contactupdated");
         }
+        protected override void ViewIsDisappearing(object sender, EventArgs e)
+        {
+            base.ViewIsDisappearing(sender, e);
+            MessagingCenter.Subscribe<DocumentPageModel>(this, "DocumentareUpdated",updateDocs);
+            MessagingCenter.Subscribe<ContactPageModel>(this, "Contactupdated", updateContact);
+            selected = null;
+        }
+
+        private void updateContact(ContactPageModel obj)
+        {
+            Task.Run(async () =>
+            {
+                await initView();
+            });
+        }
+
+        private void updateDocs(DocumentPageModel obj)
+        {
+            Task.Run(async () =>
+            {
+                await initView();
+            });
+        }
+
         public  override void Init(object initData)
         {
             base.Init(initData);
+            Task.Run(async () =>
+            {
+                await initView();
+            });
         }
-        public void initView()
+
+
+
+        public async Task initView()
         {
             Console.WriteLine("fav  page model init");
             FavoriteGroupe documents = new FavoriteGroupe("Documents");
-            FavoriteGroupe doctors = new FavoriteGroupe("Doctors");
-            FavoriteGroupe hstructs = new FavoriteGroupe("Health Structs");
-            Task.Run(async () =>
+            FavoriteGroupe doctors = new FavoriteGroupe("Médecin");
+            FavoriteGroupe hstructs = new FavoriteGroupe("Structures de santé");
+            await Task.Run(async () =>
             {
                 try
                 {
                     var docs = await _documentServices.GetDocuments();
                     if (docs == null || docs.Count == 0)
+                    {
                         docs = new List<Document>();
-                    documents.AddRange(docs.Where(d => d.star));
+                        docs = await _restServices.GetDocumentsAsync();
+                    }
+                    if(docs != null)
+                        documents.AddRange(docs.Where(d => d.star));
                 }
                 catch
                 {
@@ -63,8 +131,12 @@ namespace be4care.PageModels
                 {
                     var docs = await _doctorServices.GetDoctors();
                     if (docs == null || docs.Count == 0)
+                    {
                         docs = new List<Doctor>();
-                    doctors.AddRange(docs.Where(d => d.star));
+                        docs = await _restServices.GetDoctorsAsync();
+                    }
+                    if(docs != null)
+                        doctors.AddRange(docs.Where(d => d.star));
                 }
                 catch
                 {
@@ -76,8 +148,12 @@ namespace be4care.PageModels
                 {
                     var docs = await _hStructServices.GetStructs();
                     if (docs == null || docs.Count == 0)
+                    {
                         docs = new List<HealthStruct>();
-                    hstructs.AddRange(docs.Where(d => d.star));
+                        docs = await _restServices.GetHealthStructs();
+                    }
+                    if(docs  != null)
+                        hstructs.AddRange(docs.Where(d => d.star));
                 }
                 catch
                 {
@@ -86,6 +162,7 @@ namespace be4care.PageModels
                         hstructs.AddRange(docs.Where(d => d.star));
                 }
             });
+
             favorites = new List<FavoriteGroupe>();
             favorites.Add(documents);
             favorites.Add(doctors);

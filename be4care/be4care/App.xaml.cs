@@ -42,7 +42,7 @@ namespace be4care
 
         protected override void OnSleep ()
 		{
-            BlobCache.Shutdown().Wait();
+            //BlobCache.Shutdown().Wait();
         }
         protected override void OnResume ()
 		{

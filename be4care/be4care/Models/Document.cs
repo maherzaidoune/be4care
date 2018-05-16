@@ -6,6 +6,9 @@ namespace be4care.Models
 {
     class Document : Favorite
     {
+        public int heigh { get {
+                return 95;
+            } }
         private string _url;
         private string _id;
         private DateTime _date;
@@ -15,8 +18,8 @@ namespace be4care.Models
         private string _place;
         private string _note;
         private string _text;
-        public bool isContact { get {
-                return false;
+        public bool isDocument { get {
+                return true;
             } }
 
         public String url { get {

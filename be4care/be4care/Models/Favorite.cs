@@ -12,6 +12,8 @@ namespace be4care.Models
         string type { get; set; }
         string hstruct { get; set; }
         bool star { get; set; }
-        bool isContact {get;set;}
+        public bool isContact {get;set;}
+        public bool isDocument { get; set; }
+        public int heigh { get; set; }
     }
 }

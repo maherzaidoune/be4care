@@ -40,7 +40,7 @@ namespace be4care.PageModels
             Task.Run(async () =>
             {
                 await updateCantact();
-            });
+            }).Wait();
         }
 
         private void doctorlistupdated(DoctorsListPageModel obj)
@@ -48,7 +48,7 @@ namespace be4care.PageModels
             Task.Run(async () =>
             {
                 await updateCantact();
-            });
+            }).Wait();
         }
 
         private void docCantactUpdated(AddDoctorPageModel obj)
@@ -149,12 +149,6 @@ namespace be4care.PageModels
             this._hStructServices = _hStructServices;
         }
 
-
-        protected  override void ViewIsAppearing(object sender, EventArgs e)
-        {
-            base.ViewIsAppearing(sender, e);
-        }
-
         public override void Init(object initData)
         {
             base.Init(initData);
@@ -223,8 +217,8 @@ namespace be4care.PageModels
             contacts = new List<ContactGroup>();
                 contacts.Add(groupDoc);
                 contacts.Add(groupHealth);
-                
             });
+            MessagingCenter.Send(this,"Contactupdated");
         }
 
     }

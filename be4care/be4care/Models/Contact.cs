@@ -11,5 +11,12 @@ namespace be4care.Models
         public bool isContact { get {
                 return true;
             } }
+        public int heigh
+        {
+            get
+            {
+                return 40;
+            }
+        }
     }
 }

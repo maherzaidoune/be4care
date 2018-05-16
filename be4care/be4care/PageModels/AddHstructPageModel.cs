@@ -47,7 +47,7 @@ namespace be4care.PageModels
                 Device.BeginInvokeOnMainThread(async () =>
                 {
                     CoreMethods.RemoveFromNavigation();
-                    await CoreMethods.PushPageModel<ContactPageModel>();
+                    await CoreMethods.PopPageModel();
                     RaisePropertyChanged();
                 });
             }
@@ -119,9 +119,7 @@ namespace be4care.PageModels
                 }
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    await CoreMethods.PushPageModel<ContactPageModel>();
-                    CoreMethods.RemoveFromNavigation();
-                    RaisePageWasPopped();
+                    await CoreMethods.PopPageModel();
                     RaisePropertyChanged();
                 });
                 });

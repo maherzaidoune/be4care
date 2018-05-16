@@ -29,46 +29,44 @@ namespace be4care.PageModels
             isBusy = true;
             var url = string.Empty;
             var result = string.Empty; ;
-            await Task.Run(async () =>
+            
+            try
             {
-                try
+                url = await upload(user);
+                Console.WriteLine("AddDocPageModel "+url);
+                if (string.IsNullOrEmpty(url))
                 {
-                    url = await upload(user);
-                    Console.WriteLine("AddDocPageModel "+url);
-                    if (string.IsNullOrEmpty(url))
+                    _dialogServices.ShowMessage("Erreur : veuillez verifier votre connection internet ", true);
+                }
+                else
+                {
+                    result = await analyse(url);
+                    if (string.IsNullOrEmpty(result))
                     {
-                        _dialogServices.ShowMessage("Erreur : veuillez verifier votre connection internet ", true);
+                        _dialogServices.ShowMessage("Erreur : Veuillez réessayer plus tard", true);
                     }
                     else
                     {
-                        result = await analyse(url);
-                        if (string.IsNullOrEmpty(result))
+                        document = new Document { url = url, text = result };
+                        Device.BeginInvokeOnMainThread(async () =>
                         {
-                            _dialogServices.ShowMessage("Erreur : Veuillez réessayer plus tard", true);
-                        }
-                        else
-                        {
-                            document = new Document { url = url, text = result };
-                            Device.BeginInvokeOnMainThread(async () =>
-                            {
-                                await CoreMethods.PushPageModel<DocDetailsPageModel>(document);
-                                RaisePropertyChanged();
-                            });
-                        }
+                            await CoreMethods.PushPageModel<DocDetailsPageModel>(document);
+                            RaisePropertyChanged();
+                        });
                     }
+                }
                     
-                    isBusy = false;
-                    isEnabled = true;
+                isBusy = false;
+                isEnabled = true;
 
-                }
-                catch (Exception e)
-                {
+            }
+            catch (Exception e)
+            {
 
-                    _dialogServices.ShowMessage("Erreur  : Veuillez réessayer plus tard", true);
-                    isBusy = false;
-                    isEnabled = true;
-                }
-            });
+                _dialogServices.ShowMessage("Erreur  : Veuillez réessayer plus tard", true);
+                isBusy = false;
+                isEnabled = true;
+            }
            
 
         }

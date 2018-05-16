@@ -45,25 +45,25 @@ namespace be4care.PageModels
             if (arg2 == 0)
             {
                 tri = "Date de  Document";
-                list = dateDocs;
+                //list = dateDocs;
             }
             if (arg2 == 1)
             {
                 tri = "Professionnel de santé";
-                list = drDocs;
+                //list = drDocs;
             }
             if (arg2 == 2)
             {
                 tri = "Type de document";
-                list = typeDocs;
+                //list = typeDocs;
             }
             if (arg2 == 3)
             {
                 tri = "Structure de santé";
-                list = hsDocs;
+                //list = hsDocs;
             }
-            Application.Current.Properties["tri"] = tri;
 
+            Application.Current.Properties["tri"] = tri;
             Task.Run(async () =>
             {
                 await UpdateView();
@@ -88,7 +88,6 @@ namespace be4care.PageModels
             if (documents == null || documents.Count == 0)
             {
                 return;
-
             }
 
             if (tri.Equals("Date de  Document"))
@@ -117,7 +116,7 @@ namespace be4care.PageModels
                         dateDocs.Add(group);
                     }
                 }
-
+                list = new List<DocumentsGroupe>();
                 list = dateDocs;
             }
             if (tri.Equals("Professionnel de santé"))
@@ -146,7 +145,7 @@ namespace be4care.PageModels
                        drDocs.Add(group);
                     }
                 }
-
+                list = new List<DocumentsGroupe>();
                 list = drDocs;
             }
             if (tri.Equals("Type de document"))
@@ -173,7 +172,7 @@ namespace be4care.PageModels
                         typeDocs.Add(group);
                     }
                 }
-
+                list = new List<DocumentsGroupe>();
                 list = typeDocs;
             }
             if (tri.Equals("Structure de santé"))
@@ -199,7 +198,7 @@ namespace be4care.PageModels
                         hsDocs.Add(group);
                     }
                 }
-
+                list = new List<DocumentsGroupe>();
                 list = hsDocs;
             }
         }
@@ -299,6 +298,7 @@ namespace be4care.PageModels
                         _documentSerives.SaveDocuments(documents);
                 }
                 InitGroups(documents, tri);
+                MessagingCenter.Send(this, "DocumentareUpdated");
             });
         }
 

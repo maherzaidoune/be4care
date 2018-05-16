@@ -18,7 +18,14 @@ namespace be4care.Services
                 var docs = await GetDocuments();
                 if (docs == null || docs.Count == 0)
                     return false;
-                docs.Remove(doc);
+                foreach(Document  d in docs)
+                {
+                    if(d.id== doc.id)
+                    {
+                        docs.Remove(d);
+                        break;
+                    }
+                }
                 SaveDocuments(docs);
                 return true;
             }

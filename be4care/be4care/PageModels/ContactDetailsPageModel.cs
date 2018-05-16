@@ -57,6 +57,7 @@ namespace be4care.PageModels
                     Device.BeginInvokeOnMainThread(async () =>
                     {
                         await CoreMethods.PushPageModel<AddDoctorPageModel>(c as Doctor);
+                        CoreMethods.RemoveFromNavigation();
                         RaisePropertyChanged();
                     });
                     
@@ -66,6 +67,7 @@ namespace be4care.PageModels
                     Device.BeginInvokeOnMainThread(async () =>
                     {
                         await CoreMethods.PushPageModel<AddHstructPageModel>(c as HealthStruct);
+                        CoreMethods.RemoveFromNavigation();
                         RaisePropertyChanged();
                     });
                     
@@ -93,7 +95,7 @@ namespace be4care.PageModels
                             else
                                 MessagingCenter.Send(this, "deletefromserver");
                             _dialogService.ShowMessage(c.fullName + "supprimer avec succes", false);
-                        });
+                        }).Wait();
                     }
                     else
                     {
@@ -111,7 +113,7 @@ namespace be4care.PageModels
                             else
                                 MessagingCenter.Send(this, "deletefromserver");
                             _dialogService.ShowMessage(c.fullName + "supprimer avec succes", false);
-                        });
+                        }).Wait();
                     }
                     else
                     {
@@ -122,8 +124,8 @@ namespace be4care.PageModels
             }
             Device.BeginInvokeOnMainThread(async () =>
             {
-                await CoreMethods.PushPageModel<ContactPageModel>();
-                //CoreMethods.RemoveFromNavigation();
+                //await CoreMethods.PushPageModel<ContactPageModel>();
+                await CoreMethods.PopPageModel();
                 RaisePropertyChanged();
             });
         }

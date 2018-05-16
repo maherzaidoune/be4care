@@ -3,8 +3,6 @@ using FreshMvvm;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace be4care.PageModels
@@ -12,7 +10,6 @@ namespace be4care.PageModels
     [AddINotifyPropertyChangedInterface]
     class AccountPageModel : FreshBasePageModel
     {
-        [AddINotifyPropertyChangedInterface]
         public  class ViewElement
         {
             public string image { get; set; }
@@ -29,17 +26,36 @@ namespace be4care.PageModels
             }
             set
             {
-                if(value.position == 0)
-                    CoreMethods.PushPageModel<ProfilePageModel>();
+                if (value.position == 0)
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await CoreMethods.PushPageModel<ProfilePageModel>();
+                        RaisePropertyChanged();
+                    });
                 if (value.position == 1)
-                    CoreMethods.PushPageModel<ContactPageModel>();
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await CoreMethods.PushPageModel<ContactPageModel>();
+                        RaisePropertyChanged();
+                    });
                 if (value.position == 2)
-                    CoreMethods.PushPageModel<AboutPageModel>();
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await CoreMethods.PushPageModel<AboutPageModel>();
+                        RaisePropertyChanged();
+                    });
                 if (value.position == 3)
-                    CoreMethods.PushPageModel<LegalPageModel>();
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await CoreMethods.PushPageModel<LegalPageModel>();
+                        RaisePropertyChanged();
+                    });
                 if (value.position == 4)
-                    CoreMethods.PushPageModel<AboutDevPageModel>();
-                RaisePropertyChanged();
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await CoreMethods.PushPageModel<AboutDevPageModel>();
+                        RaisePropertyChanged();
+                    });
             }
         }
 
@@ -47,17 +63,6 @@ namespace be4care.PageModels
         public AccountPageModel()
         {
 
-        }
-
-        protected  override void ViewIsAppearing(object sender, EventArgs e)
-        {
-            base.ViewIsAppearing(sender, e);
-            
-        }
-
-        protected override void ViewIsDisappearing(object sender, EventArgs e)
-        {
-            base.ViewIsDisappearing(sender, e);
         }
 
         public  override void Init(object initData)

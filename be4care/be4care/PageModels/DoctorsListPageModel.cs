@@ -83,9 +83,8 @@ namespace be4care.PageModels
                         }
                     }
                 }
-
-                list = doctors;
                 IsRefreshing = false;
+                list = doctors;
                 
             });
             
