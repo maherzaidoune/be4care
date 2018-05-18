@@ -2,8 +2,6 @@
 using be4care.Services;
 using PropertyChanged;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;

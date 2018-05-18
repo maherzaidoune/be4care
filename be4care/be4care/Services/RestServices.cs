@@ -324,7 +324,10 @@ namespace be4care.Services
             try
             {
                 var token = "?access_token=" + Settings.AuthToken;
-                return (Constant.urlDisconnect + token).PostJsonAsync(new { }).Result.IsSuccessStatusCode;
+                var result = (Constant.urlDisconnect + token).PostJsonAsync(new { }).Result.IsSuccessStatusCode;
+                if (result)
+                    Settings.AuthToken = null;
+                return result;
             }
             catch
             {

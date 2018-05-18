@@ -42,7 +42,7 @@ namespace be4care.PageModels
             user.sex = sex.Equals("Homme");
             user.bDate = date;
             user.username = username;
-            await Task.Run( async () =>
+            await Task.Run(  () =>
             {
                 if(!(_restServices.UpdateProfile(user)))
                 {
@@ -52,7 +52,7 @@ namespace be4care.PageModels
                     isEnabled = true;
                 }
                 _userServices.SaveUser(user);
-                await ButtonBar.initBar();
+                ButtonBar.initBar();
             });
         }
 
@@ -65,9 +65,9 @@ namespace be4care.PageModels
             this._userServices = _userServices;
         }
 
-        private async void closebutton(object obj)
+        private void closebutton(object obj)
         {
-            await ButtonBar.initBar();
+             ButtonBar.initBar();
         }
 
         

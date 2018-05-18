@@ -46,7 +46,7 @@ namespace be4care.PageModels
             {
                 isEnabled = false;
                 isBusy = true;
-                await Task.Run(async () =>
+                await Task.Run( () =>
                 {
                     if (_restServices.GetAccessToken(user, password))
                     {
@@ -57,7 +57,7 @@ namespace be4care.PageModels
                         _doctorServices.DeleteDoctors();
                         _hstructServices.DeleteStructs();
                         _documentServices.DeleteDocuments();
-                        await ButtonBar.initBar();
+                         ButtonBar.initBar();
                     }
                     else
                     {

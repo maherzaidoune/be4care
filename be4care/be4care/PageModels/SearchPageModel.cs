@@ -83,7 +83,6 @@ namespace be4care.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
-            
         }
     }
 }

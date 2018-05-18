@@ -39,7 +39,7 @@ namespace be4care.Services
         {
             try
             {
-                BlobCache.InMemory.Invalidate("documents");
+                BlobCache.UserAccount.Invalidate("documents");
                 return true;
             }
             catch
@@ -53,7 +53,7 @@ namespace be4care.Services
             try
             {
                 // need much test
-                var docs = await BlobCache.InMemory.GetObject<IList<Document>>("documents");
+                var docs = await BlobCache.UserAccount.GetObject<IList<Document>>("documents");
                 return docs;
             }
             catch (Exception e)
@@ -85,8 +85,8 @@ namespace be4care.Services
         {
             try
             {
-                BlobCache.InMemory.Invalidate("documents");
-                BlobCache.InMemory.InsertObject("documents", docs);
+                BlobCache.UserAccount.Invalidate("documents");
+                BlobCache.UserAccount.InsertObject("documents", docs);
                 return true;
             }
             catch (Exception e)

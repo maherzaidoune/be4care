@@ -5,7 +5,7 @@
              CompressedLayout.IsHeadless="True"
              x:Class="be4care.Pages.AccountPage">
     <StackLayout Padding="15,30,15,10" Spacing="40" CompressedLayout.IsHeadless="True">
-        <Label Text="Mon Compte" TextColor="Black" FontSize="44" HorizontalOptions="StartAndExpand" VerticalOptions="Start"/>
+        <Label Text="Mon Compte" TextColor="Black" FontSize="36" HorizontalOptions="StartAndExpand" VerticalOptions="Start"/>
             <ListView 
                 ItemsSource="{Binding views}"
                 SelectedItem="{Binding selected}"
@@ -17,7 +17,7 @@
                     <ViewCell>
                         <StackLayout Orientation="Horizontal" >
                             <ffimageloading:CachedImage Source="{Binding image}" HorizontalOptions="Start" HeightRequest="35" WidthRequest="35"  VerticalOptions="Center" CacheType="Memory" />
-                                <Label Text="{Binding label}" FontSize="20" TextColor="Black" VerticalOptions="Center"/>
+                            <Label Text="{Binding label}" FontSize="20" TextColor="Black" VerticalOptions="Center"/>
                             <ffimageloading:CachedImage Source="next.png"  HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" CacheType="Memory"  />
                         </StackLayout>
                     </ViewCell>

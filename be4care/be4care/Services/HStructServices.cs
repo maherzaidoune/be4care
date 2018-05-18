@@ -39,7 +39,7 @@ namespace be4care.Services
         {
             try
             {
-                BlobCache.InMemory.Invalidate("struct");
+                BlobCache.UserAccount.Invalidate("struct");
                 return true;
             }
             catch
@@ -53,7 +53,7 @@ namespace be4care.Services
             try
             {
                 // need much test
-                var s = await BlobCache.InMemory.GetObject<IList<HealthStruct>>("allstruct");
+                var s = await BlobCache.UserAccount.GetObject<IList<HealthStruct>>("allstruct");
                 return s;
             }
             catch (Exception e)
@@ -69,7 +69,7 @@ namespace be4care.Services
             try
             {
                 // need much test
-                var s = await BlobCache.InMemory.GetObject<IList<HealthStruct>>("struct") ;
+                var s = await BlobCache.UserAccount.GetObject<IList<HealthStruct>>("struct") ;
                 return s;
             }
             catch (Exception e)
@@ -84,8 +84,8 @@ namespace be4care.Services
         {
             try
             {
-                BlobCache.InMemory.Invalidate("allstruct");
-                BlobCache.InMemory.InsertObject("allstruct", s);
+                BlobCache.UserAccount.Invalidate("allstruct");
+                BlobCache.UserAccount.InsertObject("allstruct", s);
                 return true;
             }
             catch (Exception e)
@@ -117,8 +117,8 @@ namespace be4care.Services
         {
             try
             {
-                BlobCache.InMemory.Invalidate("struct");
-                BlobCache.InMemory.InsertObject("struct", s);
+                BlobCache.UserAccount.Invalidate("struct");
+                BlobCache.UserAccount.InsertObject("struct", s);
                 return true;
             }
             catch (Exception e)

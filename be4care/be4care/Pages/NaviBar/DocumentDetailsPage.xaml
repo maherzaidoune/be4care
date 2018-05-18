@@ -56,7 +56,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <StackLayout Padding="5,5,5,5" HorizontalOptions="Fill" VerticalOptions="FillAndExpand" >
+                                    <StackLayout Padding="5,5,5,5" HorizontalOptions="Fill" VerticalOptions="Fill" >
                                         <Label Text="{Binding menu}" FontSize="12" TextColor="Gray" Margin="1"/>
                                         <Label Text="{Binding  info}" FontSize="16" TextColor="Black"  />
                                     </StackLayout>

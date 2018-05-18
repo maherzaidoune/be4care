@@ -9,9 +9,9 @@ using Android.OS;
 using AsNum.XFControls.Droid;
 using Acr.UserDialogs;
 using Plugin.CurrentActivity;
-using FFImageLoading.Forms.Droid;
 using Akavache;
 using Xamarin.Forms;
+using FFImageLoading.Forms.Droid;
 
 namespace be4care.Droid
 {
@@ -28,7 +28,7 @@ namespace be4care.Droid
             Rg.Plugins.Popup.Popup.Init(this, bundle);
             Forms.SetFlags("FastRenderers_Experimental");
             Forms.Init(this, bundle);
-            CachedImageRenderer.Init(enableFastRenderer: true);
+            CachedImageRenderer.Init(enableFastRenderer: false);
             LoadApplication(new App());
         }
         public void OnActivityCreated(Activity activity, Bundle savedInstanceState)

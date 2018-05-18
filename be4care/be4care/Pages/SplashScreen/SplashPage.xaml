@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="be4care.Pages.SplashPage"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:local="clr-namespace:be4care.MarkupExtensions"
              xmlns:xfg="clr-namespace:XFGloss;assembly=XFGloss">
     <xfg:ContentPageGloss.BackgroundGradient>
@@ -13,7 +14,7 @@
     </xfg:ContentPageGloss.BackgroundGradient>
   
     <StackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand"  BackgroundColor="Transparent" >
-        <Image Source="{local:EmbeddedImage resourceId=be4care.SharedImages.be4care.png}"  x:Name="image" />
+        <ffimageloading:CachedImage Source="{local:EmbeddedImage resourceId=be4care.SharedImages.be4care.png}" CacheType="Memory" />
         <Label Text="Be4Care"
                    FontSize="44"
                TextColor="White"
