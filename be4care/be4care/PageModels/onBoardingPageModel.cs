@@ -12,7 +12,15 @@ namespace be4care.PageModels
 
         public bool isBack { get; set; }
         public int myPosition { get; set; }
-        public Xamarin.Forms.View[] viewList { get; set; }
+        private Xamarin.Forms.View[] _viewList { get; set; }
+        public Xamarin.Forms.View[] viewList { get {
+                return _viewList ?? (_viewList = new Xamarin.Forms.View[]
+            {
+                new Pages.onBoarding.FirstPage(),
+                new Pages.onBoarding.SecondPage(),
+                new Pages.onBoarding.ThirdPage()
+            });
+            } }
         public string image { get; set; }
 
         public ICommand CarousalPositionChanged => new Xamarin.Forms.Command(PositionChanged);
@@ -56,12 +64,7 @@ namespace be4care.PageModels
            
             myPosition = 0;
             
-            viewList = new Xamarin.Forms.View[]
-            {
-                new Pages.onBoarding.FirstPage(),
-                new Pages.onBoarding.SecondPage(),
-                new Pages.onBoarding.ThirdPage()
-            };
+            
         }
        
 

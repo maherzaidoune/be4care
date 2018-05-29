@@ -21,7 +21,7 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <Label Text="IGNORER X" Grid.Row="0" HorizontalOptions="StartAndExpand" TextColor="White" FontSize="14" VerticalOptions="Center"  >
+        <Label Text="IGNORER X " Grid.Row="0" HorizontalOptions="StartAndExpand" TextColor="White" FontSize="13" VerticalOptions="Center"  >
             <Label.GestureRecognizers>
                 <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  close}" />
             </Label.GestureRecognizers>

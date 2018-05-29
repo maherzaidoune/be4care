@@ -67,15 +67,10 @@ namespace be4care.PageModels
                     {
                         if (userdoctors != null && userdoctors.Count > 0)
                         {
-                            foreach (Doctor ud in userdoctors)
-                            {
-                                if (d.id == ud.id)
-                                {
-                                    doctors.Add(new DocList { add = false, doctor = d, fullName = d.fullName });
-                                    break;
-                                }
-                            }
-                            doctors.Add(new DocList { add = true, doctor = d, fullName = d.fullName });
+                            if (alredyadded(d, userdoctors))
+                                doctors.Add(new DocList { add = false, doctor = d, fullName = d.fullName });
+                            else
+                                doctors.Add(new DocList { add = true, doctor = d, fullName = d.fullName });
                         }
                         else
                         {
@@ -168,42 +163,35 @@ namespace be4care.PageModels
             try
             {
                 userdoctors = await _doctorServices.GetDoctors();
-                if (userdoctors == null || userdoctors.Count == 0)
-                    userdoctors = new List<Doctor>();
             }
             catch
             {
                 Console.WriteLine("can't get user doctor list");
-                userdoctors = null;
+                userdoctors = new List<Doctor>();
             }
             try
             {
                 var docs = await _doctorServices.GetAllDoctors();
-                if (docs == null)
+                if (docs == null || docs.Count  == 0)
                 {
                     docs = await _restServices.GetAllDoctors();
-                    _doctorServices.saveAllDoctors(docs);
                 }
 
                 foreach(Doctor d in docs)
                 {
                     if (userdoctors != null && userdoctors.Count > 0)
                     {
-                        foreach (Doctor ud in userdoctors)
-                        {
-                            if (d.id == ud.id)
-                            {
-                                doctors.Add(new DocList { add = false, doctor = d, fullName = d.fullName });
-                                break;
-                            }
-                        }
-                        doctors.Add(new DocList { add = true, doctor = d, fullName = d.fullName });
+                        if(alredyadded(d,userdoctors))
+                            doctors.Add(new DocList { add = false, doctor = d, fullName = d.fullName });
+                        else
+                            doctors.Add(new DocList { add = true, doctor = d, fullName = d.fullName });
                     }
                     else
                     {
                         doctors.Add(new DocList { add = true, doctor = d, fullName = d.fullName });
                     }
                 }
+                _doctorServices.saveAllDoctors(docs);
             }
             catch
             {
@@ -229,6 +217,18 @@ namespace be4care.PageModels
             isEnabled = true;
             list = doctors;
             
+        }
+        public bool alredyadded(Doctor d,IList<Doctor> userdoctors)
+        {
+            foreach (Doctor ud in userdoctors)
+            {
+                if (d.id == ud.id)
+                {
+
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

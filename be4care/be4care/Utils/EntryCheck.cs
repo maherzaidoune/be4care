@@ -73,22 +73,15 @@ namespace be4care.Utils
 
             if (!checkMail(email))
             {
-                if (string.IsNullOrEmpty(msg))
-                    msg += "Email invalid ";
-                msg += "\r\nEmail invalid";
+                msg += "Email invalid ";
                 accepted = false;
             }
             if (!(checkPass(pass)))
             {
-                if (string.IsNullOrEmpty(msg))
-                    msg += "Password invalid ";
                 msg += "\r\nPassword invalid ";
                 accepted = false;
             }
-
             return new Tuple<bool, string>(accepted, msg);
-
-
         }
     }
 }

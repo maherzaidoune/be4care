@@ -14,7 +14,7 @@ namespace be4care.Services
             Xamarin.Forms.Device.BeginInvokeOnMainThread(() =>
             {
                 var toastConfig = new ToastConfig(message);
-                toastConfig.SetDuration(2000);
+                toastConfig.SetDuration(1500);
                 if (error)
                 {
                     toastConfig.SetBackgroundColor(System.Drawing.Color.Red);

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="be4care.Pages.checkLoginPage">
+    <StackLayout VerticalOptions="Center" HorizontalOptions="Center" CompressedLayout.IsHeadless="True">
+        <ActivityIndicator 
+            VerticalOptions="Center" HorizontalOptions="Center" 
+            Color="Orange" HeightRequest="50" WidthRequest="50" 
+            IsRunning="{Binding refresh}" IsVisible="{Binding refresh}" IsEnabled="{Binding refresh}" />
+    </StackLayout>
+</ContentPage>

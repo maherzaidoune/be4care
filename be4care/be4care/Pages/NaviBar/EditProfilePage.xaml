@@ -17,8 +17,12 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
             <StackLayout Grid.Row="0" HorizontalOptions="FillAndExpand" Orientation="Horizontal" CompressedLayout.IsHeadless="True" BackgroundColor="#fafafa" >
-                <ffimageloading:CachedImage Source="back.png" CacheType="Memory"  VerticalOptions="Center" HorizontalOptions="Start" />
-                <Label Text="RETOUR"  HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="12" VerticalOptions="Center" >
+                <ffimageloading:CachedImage Source="back.png" CacheType="Memory"  VerticalOptions="Center" HorizontalOptions="Start" >
+                    <ffimageloading:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
+                    </ffimageloading:CachedImage.GestureRecognizers>
+                </ffimageloading:CachedImage>
+                <Label Text="RETOUR "  HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="13" VerticalOptions="Center" >
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
                     </Label.GestureRecognizers>
@@ -60,8 +64,8 @@
                             ItemsSource="{Binding Data}"
                             SelectedItem="{Binding sex,Mode=TwoWay}"
                             TextColor="Black"
-                        Margin="5"
-                            HorizontalOptions="StartAndExpand"
+                            Margin="5"
+                            HorizontalOptions="Fill"
                             BackgroundColor="Transparent"  />
                 </StackLayout>
                     

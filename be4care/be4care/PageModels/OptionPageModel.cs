@@ -6,6 +6,8 @@ using Xamarin.Forms;
 using Rg.Plugins.Popup.Services;
 using be4care.Pages;
 using FreshMvvm;
+using System.Threading.Tasks;
+using be4care.Helpers;
 
 namespace be4care.PageModels
 {
@@ -21,31 +23,50 @@ namespace be4care.PageModels
 
         private  void annulerpopup(object obj)
         {
-             PopupNavigation.Instance.PopAllAsync();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await PopupNavigation.Instance.PopAllAsync();
+            });
         }
 
         private void deleteme(object obj)
         {
-            if (_restServices.Delete())
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                Console.WriteLine("Account deleted");
-                PopupNavigation.Instance.PopAllAsync();
-                //App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<LoginPopupPageModel>());
-                var rootPage = FreshPageModelResolver.ResolvePageModel<SplashPageModel>();
-                App.Current.MainPage = new FreshNavigationContainer(rootPage);
-            }
+                await PopupNavigation.Instance.PopAllAsync();
+                await Task.Run(() =>
+                {
+                    _restServices.Delete();
+                });
+                Settings.AuthToken = string.Empty;
+                App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<LoginPopupPageModel>(false));
+            });
+            //if ()
+            //{
+                
+            //    //var rootPage = FreshPageModelResolver.ResolvePageModel<SplashPageModel>();
+            //    //App.Current.MainPage = new FreshNavigationContainer(rootPage);
+            //}
         }
 
         private void deconnecter(object obj)
         {
-            if (_restServices.Disconnect())
+            Device.BeginInvokeOnMainThread(async () =>
             {
-                Console.WriteLine("Disconnected");
-                PopupNavigation.Instance.PopAllAsync();
-                //App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<LoginPopupPageModel>());
-                var rootPage = FreshPageModelResolver.ResolvePageModel<LoginPopupPageModel>();
-                App.Current.MainPage = new FreshNavigationContainer(rootPage);
-            }
+                await PopupNavigation.Instance.PopAllAsync();
+                await Task.Run(() =>
+                {
+                    _restServices.Disconnect();
+                });
+                Settings.AuthToken = string.Empty;
+                App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<LoginPopupPageModel>(false));
+            });
+            //if ()
+            //{
+                
+            //    //var rootPage = FreshPageModelResolver.ResolvePageModel<LoginPopupPageModel>();
+            //    //App.Current.MainPage = new FreshNavigationContainer(rootPage);
+            //}
 
         }
 

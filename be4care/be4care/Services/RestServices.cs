@@ -4,11 +4,15 @@ using be4care.Utils;
 using Firebase.Storage;
 using Flurl.Http;
 using Newtonsoft.Json;
+using Plugin.Connectivity;
 using Plugin.Media;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace be4care.Services
 {
@@ -40,10 +44,12 @@ namespace be4care.Services
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
             }
             return false;
         }
+
         public bool GetAccessToken(string data, string pass)
         {
 
@@ -58,6 +64,7 @@ namespace be4care.Services
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
             }
             return false;
@@ -68,14 +75,17 @@ namespace be4care.Services
             try
             {
                 var token = "?access_token=" + Settings.AuthToken;
-                return (Constant.urlme + "/exists" + token).GetAsync().Result.IsSuccessStatusCode;
+                var result =  (Constant.urlme + "/exists" + token).GetAsync().Result.IsSuccessStatusCode;
+                return result;
             }
-            catch (FlurlHttpTimeoutException)
+            catch (FlurlHttpException)
             {
-                Console.WriteLine("Request timed out.");
+                userNotAuth();
+                return false;
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
             }
             return false;
@@ -88,12 +98,13 @@ namespace be4care.Services
                 var token = "?access_token=" + Settings.AuthToken;
                 return (Constant.urlgetDocuments + token).GetJsonAsync<IList<Document>>();
             }
-            catch (FlurlHttpTimeoutException)
+            catch (FlurlHttpException)
             {
-                Console.WriteLine("Request timed out.");
+                userNotAuth();
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
             }
             return null;
@@ -107,12 +118,13 @@ namespace be4care.Services
                 return (Constant.urlgetDoctors + token).GetJsonAsync<IList<Doctor>>();
 
             }
-            catch (FlurlHttpTimeoutException)
+            catch (FlurlHttpException)
             {
-                Console.WriteLine("Request timed out.");
+                userNotAuth();
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
             }
             return null;
@@ -122,7 +134,7 @@ namespace be4care.Services
         public async Task<string> Upload(User user)
         {
             await CrossMedia.Current.Initialize();
-
+            
             if (!CrossMedia.Current.IsCameraAvailable || !CrossMedia.Current.IsTakePhotoSupported)
             {
                 return null;
@@ -133,7 +145,6 @@ namespace be4care.Services
                 SaveToAlbum = true,
                 CompressionQuality = 30
             });
-
 
             if (file == null)
                 return null;
@@ -156,13 +167,12 @@ namespace be4care.Services
             }
             catch (Exception e)
             {
+                noInternetConnection();
                 Console.WriteLine("restServoces error add document" + e.StackTrace);
                 return null;
             }
 
-
         }
-
 
         public User GetMyProfile()
         {
@@ -171,12 +181,13 @@ namespace be4care.Services
                 var token = "?access_token=" + Settings.AuthToken;
                 return (Constant.urlme + token).GetJsonAsync<User>().Result;
             }
-            catch (FlurlHttpTimeoutException)
+            catch (FlurlHttpException)
             {
-                Console.WriteLine("Request timed out.");
+                userNotAuth();
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
             }
             return null;
@@ -199,17 +210,18 @@ namespace be4care.Services
                           Result;
                 return result.IsSuccessStatusCode;
             }
-            catch (FlurlHttpTimeoutException)
+            catch (FlurlHttpException)
             {
-                Console.WriteLine("Request timed out.");
+                userNotAuth();
+                return false;
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
             }
             return false;
         }
-
 
         public async Task<bool> AddDoctor(Doctor d)
         {
@@ -230,8 +242,14 @@ namespace be4care.Services
                 var result = await (Constant.urlgetDoctors + token).PostJsonAsync(doc);
                 return result.IsSuccessStatusCode;
             }
+            catch (FlurlHttpException)
+            {
+                userNotAuth();
+                return false;
+            }
             catch (Exception e)
             {
+                noInternetConnection();
                 Console.WriteLine("error adding  Doctor : " + e.StackTrace);
                 return false;
             }
@@ -244,12 +262,13 @@ namespace be4care.Services
                 var token = "?access_token=" + Settings.AuthToken;
                 return (Constant.urlgetHealthStruct + token).GetJsonAsync<IList<HealthStruct>>();
             }
-            catch (FlurlHttpTimeoutException)
+            catch (FlurlHttpException)
             {
-                Console.WriteLine("Request timed out.");
+                userNotAuth();
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
             }
             return null;
@@ -272,22 +291,35 @@ namespace be4care.Services
                 var result = await (Constant.urlgetHealthStruct + token).PostJsonAsync(str);
                 return result.IsSuccessStatusCode;
             }
+            catch (FlurlHttpException)
+            {
+                userNotAuth();
+                return false;
+            }
             catch (Exception e)
             {
+                noInternetConnection();
                 Console.WriteLine("error adding  Healthstruct : " + e.StackTrace);
                 return false;
             }
         }
 
-        public Task<string> Analyse(string Url)
+        public string Analyse(string Url)
         {
             try
             {
                 var token = "?access_token=" + Settings.AuthToken;
-                var result  = (Constant.urlAnalyse + token).PostJsonAsync(new { url = Url }).ReceiveString();
+                var result  =  (Constant.urlAnalyse + token).PostJsonAsync(new { url = Url }).ReceiveJson<Ocr>().Result.response;
                 return result;
-            }catch(Exception e)
+            }
+            catch (FlurlHttpException)
             {
+                userNotAuth();
+                return null;
+            }
+            catch (Exception e)
+            {
+                noInternetConnection();
                 Console.WriteLine("Error analysing + " + e.StackTrace);
                 return null;
             }
@@ -312,8 +344,14 @@ namespace be4care.Services
                 var token = "?access_token=" + Settings.AuthToken;
                 return  (Constant.urlgetDocuments + token).PostJsonAsync(doc).Result.IsSuccessStatusCode;
             }
+            catch (FlurlHttpException)
+            {
+                userNotAuth();
+                return false;
+            }
             catch (Exception e)
             {
+                noInternetConnection();
                 Console.WriteLine("Eroor adding doc "+e.StackTrace);
                 return false;
             }
@@ -325,12 +363,18 @@ namespace be4care.Services
             {
                 var token = "?access_token=" + Settings.AuthToken;
                 var result = (Constant.urlDisconnect + token).PostJsonAsync(new { }).Result.IsSuccessStatusCode;
-                if (result)
-                    Settings.AuthToken = null;
+                Settings.AuthToken = string.Empty;
                 return result;
+            }
+            catch (FlurlHttpException)
+            {
+                userNotAuth();
+                return false;
             }
             catch
             {
+                noInternetConnection();
+                Settings.AuthToken = string.Empty;
                 return false;
             }
         }
@@ -340,10 +384,19 @@ namespace be4care.Services
             try
             {
                 var token = "?access_token=" + Settings.AuthToken;
-                return (Constant.urlme + token).DeleteAsync().Result.IsSuccessStatusCode;
+                var result =  (Constant.urlme + token).DeleteAsync().Result.IsSuccessStatusCode;
+                if(result)
+                    Settings.AuthToken = string.Empty;
+                return result;
+            }
+            catch (FlurlHttpException)
+            {
+                userNotAuth();
+                return false;
             }
             catch
             {
+                noInternetConnection();
                 return false;
             }
         }
@@ -355,12 +408,13 @@ namespace be4care.Services
                 var token = "?access_token=" + Settings.AuthToken;
                 return (Constant.urlAllDoctors + token).GetJsonAsync<IList<Doctor>>();
             }
-            catch (FlurlHttpTimeoutException)
+            catch (FlurlHttpException)
             {
-                Console.WriteLine("Request timed out.");
+                userNotAuth();
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
             }
             return null;
@@ -373,12 +427,13 @@ namespace be4care.Services
                 var token = "?access_token=" + Settings.AuthToken;
                 return (Constant.urlAllHstruct + token).GetJsonAsync<IList<HealthStruct>>();
             }
-            catch (FlurlHttpTimeoutException)
+            catch (FlurlHttpException)
             {
-                Console.WriteLine("Request timed out.");
+                userNotAuth();
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
             }
             return null;
@@ -392,8 +447,14 @@ namespace be4care.Services
                 var result = await (Constant.urlAddDocFromDb + token).PostJsonAsync(new { doctorId  = id});
                 return result.IsSuccessStatusCode;
             }
+            catch (FlurlHttpException)
+            {
+                userNotAuth();
+                return false;
+            }
             catch (Exception e)
             {
+                noInternetConnection();
                 Console.WriteLine("error adding  Healthstruct : " + e.StackTrace);
                 return false;
             }
@@ -407,8 +468,14 @@ namespace be4care.Services
                 var result = await (Constant.urlAddHstruct + token).PostJsonAsync(new { healthStructId = id });
                 return result.IsSuccessStatusCode;
             }
+            catch (FlurlHttpException)
+            {
+                userNotAuth();
+                return false;
+            }
             catch (Exception e)
             {
+                noInternetConnection();
                 Console.WriteLine("error adding  Healthstruct : " + e.StackTrace);
                 return false;
             }
@@ -423,13 +490,14 @@ namespace be4care.Services
                 return result;
                 
             }
-            catch (FlurlHttpTimeoutException)
+            catch (FlurlHttpException)
             {
-                Console.WriteLine("Request timed out.");
+                userNotAuth();
                 return false;
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
                 return false;
             }
@@ -444,13 +512,14 @@ namespace be4care.Services
                 return (Constant.urlgetDoctors + "/" + d.id + token).PutJsonAsync(d).Result.IsSuccessStatusCode;
 
             }
-            catch (FlurlHttpTimeoutException)
+            catch (FlurlHttpException)
             {
-                Console.WriteLine("Request timed out.");
+                userNotAuth();
                 return false;
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
                 return false;
             }
@@ -464,13 +533,14 @@ namespace be4care.Services
                 return (Constant.urlgetHealthStruct + "/" + h.id + token).PutJsonAsync(h).Result.IsSuccessStatusCode;
 
             }
-            catch (FlurlHttpTimeoutException)
+            catch (FlurlHttpException)
             {
-                Console.WriteLine("Request timed out.");
+                userNotAuth();
                 return false;
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
                 return false;
             }
@@ -484,13 +554,14 @@ namespace be4care.Services
                 return  (Constant.urlgetDoctors + "/" + d.id + token).DeleteAsync().Result.IsSuccessStatusCode;
 
             }
-            catch (FlurlHttpTimeoutException)
+            catch (FlurlHttpException)
             {
-                Console.WriteLine("Request timed out.");
+                userNotAuth();
                 return false;
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
                 return false;
             }
@@ -504,13 +575,14 @@ namespace be4care.Services
                 return (Constant.urlgetDocuments + "/" + d.id + token).DeleteAsync().Result.IsSuccessStatusCode;
 
             }
-            catch (FlurlHttpTimeoutException)
+            catch (FlurlHttpException)
             {
-                Console.WriteLine("Request timed out.");
+                userNotAuth();
                 return false;
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
                 return false;
             }
@@ -524,17 +596,40 @@ namespace be4care.Services
                 return (Constant.urlgetHealthStruct + "/" + d.id + token).DeleteAsync().Result.IsSuccessStatusCode;
 
             }
-            catch (FlurlHttpTimeoutException)
+            catch (FlurlHttpException)
             {
-                Console.WriteLine("Request timed out.");
+                userNotAuth();
                 return false;
             }
             catch (Exception ex)
             {
+                noInternetConnection();
                 Console.WriteLine(ex.Message);
                 return false;
             }
         }
+
+        public void noInternetConnection()
+        {
+            if (!CrossConnectivity.Current.IsConnected)
+            {
+                var _dialog = new DialogService();
+                _dialog.ShowMessage("Verifier votre connection internet", true);
+            }
+        }
+
+        public void userNotAuth()
+        {
+            var _dialog = new DialogService();
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.LoginPopupPageModel>();
+                App.Current.MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
+            });
+            Settings.AuthToken = string.Empty;
+            _dialog.ShowMessage("vous devez vous authentifier tout d'abord", true);
+        }
+
     }
     
 }

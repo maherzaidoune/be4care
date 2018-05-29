@@ -19,7 +19,10 @@ namespace be4care.PageModels
         private IRestServices _restServices;
         private IDialogService _dialogService;
         private IUserServices _userServices;
-        public User user { get; set; }
+        private User _user { get; set; }
+        public User user { get {
+                return _user ?? (_user = GetUser());
+            } }
         public string email { get; set; }
         public string nom { get; set; }
         public string prenom { get; set; }
@@ -29,6 +32,7 @@ namespace be4care.PageModels
         public string username { get; set; }
         public bool isBusy { get; set; }
         public bool isEnabled { get; set; }
+        public bool isVisible { get; set; }
 
         public ICommand save => new Command(saveButton);
         public ICommand backClick => new Command(back);
@@ -38,6 +42,50 @@ namespace be4care.PageModels
             App.Current.MainPage.Navigation.PopModalAsync();
         }
 
+
+        protected override void ViewIsAppearing(object sender, EventArgs e)
+        {
+            base.ViewIsAppearing(sender, e);
+            if (isVisible)
+            {
+                isVisible = false;
+            }
+        }
+        protected override void ViewIsDisappearing(object sender, EventArgs e)
+        {
+            base.ViewIsDisappearing(sender, e);
+            isVisible = true;
+        }
+
+        public User GetUser()
+        {
+            Task.Run(async () =>
+            {
+                try
+                {
+                    _user = await _userServices.GetUser();
+                }
+                catch
+                {
+                    _dialogService.ShowMessage("Erreur", true);
+                    await App.Current.MainPage.Navigation.PopModalAsync();
+                }
+                email = user.email;
+                nom = user.name;
+                prenom = user.lastName;
+                num = user.phNumber;
+                date = user.bDate;
+                username = user.username;
+                if (user.sex)
+                {
+                    sex = "Homme"; }
+                else
+                {
+                    sex = "Femme";
+                }
+            }).Wait();
+            return _user;
+        }
         private void saveButton(object obj)
         {
             isEnabled = false;
@@ -53,21 +101,21 @@ namespace be4care.PageModels
                 sex = sex.Equals("Homme")
             };
              Task.Run(async () =>
-            {
-                if (!(_restServices.UpdateProfile(user)))
                 {
-                    //Console.WriteLine("error updating  profile , user save for  local db");
-                    _dialogService.ShowMessage("Erreur : Veuillez réessayer plus tard",true);
-                    isBusy = false;
-                    isEnabled = true;
-                }
-                else
-                {
-                    _userServices.SaveUser(user);
-                    MessagingCenter.Send(this, "Doctorupdated");
-                    await App.Current.MainPage.Navigation.PopModalAsync();
-                }
-            });
+                    if (!(_restServices.UpdateProfile(user)))
+                    {
+                        //Console.WriteLine("error updating  profile , user save for  local db");
+                        _dialogService.ShowMessage("Erreur : Veuillez réessayer plus tard",true);
+                        isBusy = false;
+                        isEnabled = true;
+                    }
+                    else
+                    {
+                        _userServices.SaveUser(user);
+                        MessagingCenter.Send(this, "updateProfile");
+                        await App.Current.MainPage.Navigation.PopModalAsync();
+                    }
+                });
             
         }
 
@@ -76,35 +124,14 @@ namespace be4care.PageModels
             this._dialogService = _dialogService;
             this._restServices = _restServices;
             this._userServices = _userServices;
-            Console.WriteLine("edit profile  page model construct");
-
         }
         public override void Init(object initData)
         {
             base.Init(initData);
-            Console.WriteLine("edit profile  page model init");
-
-            Task.Run(async () =>
-            {
-                user = await _userServices.GetUser();
-                email = user.email;
-                nom = user.name;
-                prenom = user.lastName;
-                num = user.phNumber;
-                date = user.bDate;
-                username = user.username;
-                if (user.sex)
-                { sex = "Homme"; }
-                else
-                {
-                    sex = "Femme";
-                }
-            });
-            
+            _user = GetUser();
+            isVisible = true;
             isBusy = false;
             isEnabled = true;
-
-
         }
     }
 }

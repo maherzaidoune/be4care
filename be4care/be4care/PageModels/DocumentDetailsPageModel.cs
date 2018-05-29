@@ -33,8 +33,12 @@ namespace be4care.PageModels
         public ICommand backClick => new Command(backClickbutton);
         public ICommand fav => new Command(makenonfav);
         public ICommand unfav => new Command(makefav);
+        public ICommand progress => new Command(progreechanged);
 
-
+        private void progreechanged(object obj)
+        {
+            Console.WriteLine(obj);
+        }
 
         private void backClickbutton()
         {

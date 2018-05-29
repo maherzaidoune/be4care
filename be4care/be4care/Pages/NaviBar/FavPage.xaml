@@ -21,6 +21,7 @@
                         SeparatorColor="LightGray"
                         IsGroupingEnabled="true"
                         HasUnevenRows="true"
+                        IsRefreshing="{Binding isrefresh}"
                         VerticalOptions="Fill"
                         >
             <ListView.GroupHeaderTemplate>
@@ -37,12 +38,12 @@
                     <ViewCell>
                         <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Fill" HeightRequest="{Binding heigh}"  >
                             <StackLayout  WidthRequest="25" VerticalOptions="Start" Padding="0,2,0,0" >
-                                <ffimageloading:CachedImage  Source="star.png" IsVisible="{Binding star}"  VerticalOptions="Start" HeightRequest="20" WidthRequest="20"/>
+                                <ffimageloading:CachedImage  Source="star.png" IsVisible="{Binding star}"  VerticalOptions="Center" HeightRequest="20" WidthRequest="20"/>
                             </StackLayout>
                             <AbsoluteLayout  >
                                 <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                                     <StackLayout VerticalOptions="Center" IsVisible="{Binding isDocument}" IsEnabled="{Binding isDocument}" >
-                                        <ffimageloading:CachedImage  Source="{Binding url}" DownsampleHeight="80"  DownsampleWidth="70"  HeightRequest="80" WidthRequest="70" HorizontalOptions="Start"  VerticalOptions="Center" CacheType="Memory"  />
+                                        <ffimageloading:CachedImage  Source="{Binding url}" DownsampleHeight="80"  DownsampleWidth="70"  HeightRequest="80" WidthRequest="70" HorizontalOptions="Start"  VerticalOptions="Center" CacheType="Memory" LoadingPlaceholder="placeholder.png" FadeAnimationForCachedImages="True" FadeAnimationEnabled="True"  />
                                     </StackLayout>
                                     <StackLayout  Padding="0,5,0,5" VerticalOptions="FillAndExpand">
                                         <Label IsVisible="{Binding isDocument}" IsEnabled="{Binding isDocument}" Text="{Binding  date,StringFormat='{}{0:MM/dd/yyyy}'}" FontSize="16" TextColor="Gray"  VerticalOptions="Center" />
@@ -50,7 +51,7 @@
                                         <Label IsVisible="{Binding isDocument}" IsEnabled="{Binding isDocument}" Text="{Binding  HStructure}" FontSize="16" TextColor="Gray" VerticalOptions="Center" />
                                     </StackLayout>
                                 </StackLayout>
-                                <Label AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding isContact}" IsEnabled="{Binding isContact}" Text="{Binding fullName}" FontSize="22" TextColor="Black" VerticalOptions="Start" ></Label>
+                                <Label AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" IsVisible="{Binding isContact}" IsEnabled="{Binding isContact}" Text="{Binding fullName}" FontSize="18" TextColor="Black" VerticalOptions="Center" ></Label>
                             </AbsoluteLayout>
                             <ffimageloading:CachedImage  Source="next.png"   HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
                         </StackLayout>

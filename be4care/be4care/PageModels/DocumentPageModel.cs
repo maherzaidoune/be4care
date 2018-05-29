@@ -4,6 +4,7 @@ using be4care.Services;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -21,6 +22,7 @@ namespace be4care.PageModels
         private IDialogService _dialogServices;
 
         public string tri { get; set; }
+        public bool visible { get; set; }
 
         public IList<DocumentsGroupe> dateDocs { get; set; }
         public IList<DocumentsGroupe> drDocs { get; set; }
@@ -64,6 +66,7 @@ namespace be4care.PageModels
             }
 
             Application.Current.Properties["tri"] = tri;
+            Application.Current.SavePropertiesAsync();
             Task.Run(async () =>
             {
                 await UpdateView();
@@ -82,7 +85,7 @@ namespace be4care.PageModels
             return true;
         }
 
-        public void InitGroups(IList<Document> documents,string tri)
+        public void InitGroups(string tri)
         {
             list = new List<DocumentsGroupe>();
             if (documents == null || documents.Count == 0)
@@ -95,7 +98,7 @@ namespace be4care.PageModels
                 DocumentsGroupe group = null;
                 dateDocs = new List<DocumentsGroupe>();
                 DateTime date = DateTime.MinValue;
-                foreach (Document d in documents)
+                foreach (Document d in documents.OrderByDescending(doc => doc.date))
                 {
                     if (d.date != date)
                     {
@@ -238,26 +241,35 @@ namespace be4care.PageModels
         {
             base.ViewIsAppearing(sender, e);
             Console.WriteLine("viewIsAppearing ");
+            
+            if (visible)
+            {
+                
+                visible = false;
+                MessagingCenter.Unsubscribe<DocDetailsPageModel>(this, "documentadded");
+                MessagingCenter.Unsubscribe<DocDetailsPageModel>(this, "documentnoadded");
+                MessagingCenter.Unsubscribe<DocumentDetailsPageModel>(this, "documentupdated");
+                
+            }
         }
 
         protected override void ViewIsDisappearing(object sender, EventArgs e)
         {
             base.ViewIsDisappearing(sender, e);
+            visible = true;
+            MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentadded", update);
+            MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentnoadded", UpdateAndSave);
+            MessagingCenter.Subscribe<DocumentDetailsPageModel>(this, "documentupdated", documentUpdated);
         }
 
         public override void Init(object initData)
         {
             base.Init(initData);
-            MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentadded", update);
-            MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentnoadded", UpdateAndSave);
-            MessagingCenter.Subscribe<DocumentDetailsPageModel>(this, "documentupdated", documentUpdated);
             Task.Run(async () =>
             {
                 await UpdateView();
+                visible = true;
             });
-            // move updatevie w 
-            Console.WriteLine("init ");
-
         }
 
         private void documentUpdated(DocumentDetailsPageModel obj)
@@ -297,7 +309,7 @@ namespace be4care.PageModels
                     if (!(documents == null || documents.Count == 0))
                         _documentSerives.SaveDocuments(documents);
                 }
-                InitGroups(documents, tri);
+                InitGroups(tri);
                 MessagingCenter.Send(this, "DocumentareUpdated");
             });
         }
@@ -316,7 +328,7 @@ namespace be4care.PageModels
                 {
                     _dialogServices.ShowMessage("Erreur : erreur lors de l'enregistrement du document en  cache", true);
                 }
-                InitGroups(documents, tri);
+                InitGroups(tri);
             });
         }
 

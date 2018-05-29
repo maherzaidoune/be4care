@@ -1,13 +1,8 @@
 ﻿using Akavache;
-using Akavache.Sqlite3;
 using be4care.Helpers;
-using be4care.PageModels;
 using be4care.Services;
-using PropertyChanged;
+using Plugin.Connectivity;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -15,68 +10,19 @@ namespace be4care
 {
     public partial class App : Application
 	{
-        private IRestServices _restServices;
-
         public App ()
 		{
             BlobCache.ApplicationName = "be4care";
             BlobCache.EnsureInitialized();
+            InitializeComponent();
             SetUpIOC();
-            //InitializeComponent();
-            _restServices = new RestServices();
-
-            var auth = Settings.AuthToken;
-
-            //if (!CrossConnectivity.Current.IsConnected)
-            //{
-            //    _dialogServices.ShowMessage("Verifier votre connection internet", true);
-            //}
-
-            if (string.IsNullOrEmpty(auth))
+            Device.BeginInvokeOnMainThread(() =>
             {
-                if (auth == null)
-                {
-                    Device.BeginInvokeOnMainThread( () =>
-                    {
-                        //await CoreMethods.PushPageModel<LoginPopupPageModel>();
-                        //RaisePropertyChanged();
-                        var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.LoginPopupPageModel>();
-                        MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
-                    });
-                }
-                else
-                {
-                    Console.WriteLine("auth empty , user is not connected");
-                    Device.BeginInvokeOnMainThread( () =>
-                    {
-                        //await CoreMethods.PushPageModel<onBoardingPageModel>();
-                        //RaisePropertyChanged();
-                        var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.onBoardingPageModel>();
-                        MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
-                    });
-                } 
-            }
-            else
-            {
-                     if (_restServices.Init())
-                    {
-                        Console.WriteLine("Token : " + auth);
-                        ButtonBar.initBar();
-                    }
-                    else { 
-                    Settings.AuthToken = String.Empty;
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.LoginPopupPageModel>();
-                        MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
-                    });
-
-                     }
-                }
-
-
-
-            }
+                var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<PageModels.checkLoginPageModel>();
+                MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
+            });
+            
+        }
 
         void SetUpIOC()
         {

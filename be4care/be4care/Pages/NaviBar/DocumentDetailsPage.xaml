@@ -4,19 +4,22 @@
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              CompressedLayout.IsHeadless="True"
              x:Class="be4care.Pages.DocumentDetailsPage">
-    <Grid Padding="10,30,10,10" >
+    <Grid Padding="10,30,10,0" >
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="140" />
-            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
         <StackLayout Grid.Row="0" HorizontalOptions="FillAndExpand" Orientation="Horizontal" CompressedLayout.IsHeadless="True" BackgroundColor="#fafafa" >
-            <ffimageloading:CachedImage Source="back.png" CacheType="Memory"  VerticalOptions="Center" HorizontalOptions="Start" />
-            <Label Text="RETOUR"  HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="12" VerticalOptions="Center" >
+            <ffimageloading:CachedImage Source="back.png" CacheType="Memory"  VerticalOptions="Center" HorizontalOptions="Start" >
+                <ffimageloading:CachedImage.GestureRecognizers>
+                    <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
+                </ffimageloading:CachedImage.GestureRecognizers>
+            </ffimageloading:CachedImage>
+            <Label Text="RETOUR "  HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="13" VerticalOptions="Center" >
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
                 </Label.GestureRecognizers>
@@ -36,35 +39,39 @@
                 <TapGestureRecognizer Command="{Binding unfav}" />
             </Image.GestureRecognizers>
         </ffimageloading:CachedImage>
-        <ScrollView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Padding="10" >
-            <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill"  CompressedLayout.IsHeadless="True" Spacing="2">
-                <Label Text="votre document scanné" HorizontalOptions="Start" Font="12" />
-                <ffimageloading:CachedImage  
-             VerticalOptions="Start"
-             HorizontalOptions="FillAndExpand"
-             HeightRequest="300"
-             DownsampleToViewSize="True"
-			 CacheType="Memory" 
-             Source="{Binding pUrl}"   />
-                
-                    <ListView 
+        <ListView 
                     ItemsSource="{Binding details}"
                     HorizontalOptions="FillAndExpand"
-                    VerticalOptions="FillAndExpand"
-                    HasUnevenRows="True"
+                    VerticalOptions="Fill"
+                    HasUnevenRows="True"           
+                    RowHeight="-1"
+                    CachingStrategy="RecycleElement"
+                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="5" 
                     >
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <StackLayout Padding="5,5,5,5" HorizontalOptions="Fill" VerticalOptions="Fill" >
-                                        <Label Text="{Binding menu}" FontSize="12" TextColor="Gray" Margin="1"/>
-                                        <Label Text="{Binding  info}" FontSize="16" TextColor="Black"  />
-                                    </StackLayout>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+            <ListView.Header>
+                <StackLayout >
+                    <Label Text="votre document scanné" HorizontalOptions="Start" FontSize="12" TextColor="Gray" Margin="1" />
+                    <ffimageloading:CachedImage  
+                 VerticalOptions="Start"
+                 HorizontalOptions="Center"
+                 DownsampleHeight="350"
+                 DownsampleWidth="250"
+                 HeightRequest="350"
+                 WidthRequest="250"
+			     CacheType="All" 
+                 Source="{Binding pUrl}" LoadingPlaceholder="placeholder.png" FadeAnimationForCachedImages="True" FadeAnimationEnabled="True"  />
                 </StackLayout>
-        </ScrollView>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <StackLayout  HorizontalOptions="Fill" VerticalOptions="FillAndExpand"  >
+                            <Label Text="{Binding menu}" FontSize="12" TextColor="Gray" Margin="1"/>
+                            <Label Text="{Binding  info}" FontSize="16" TextColor="Black" VerticalOptions="StartAndExpand" HorizontalOptions="StartAndExpand"/>
+                        </StackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </Grid>
 </ContentPage>

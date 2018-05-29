@@ -1,5 +1,6 @@
 ﻿using be4care.Models;
 using be4care.Services;
+using Plugin.Connectivity;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
@@ -29,31 +30,42 @@ namespace be4care.PageModels
             isBusy = true;
             var url = string.Empty;
             var result = string.Empty; ;
-            
             try
             {
                 url = await upload(user);
                 Console.WriteLine("AddDocPageModel "+url);
                 if (string.IsNullOrEmpty(url))
                 {
-                    _dialogServices.ShowMessage("Erreur : veuillez verifier votre connection internet ", true);
-                }
-                else
-                {
-                    result = await analyse(url);
-                    if (string.IsNullOrEmpty(result))
+                    if (!CrossConnectivity.Current.IsConnected)
                     {
-                        _dialogServices.ShowMessage("Erreur : Veuillez réessayer plus tard", true);
+                        _dialogServices.ShowMessage("Erreur : veuillez verifier votre connection internet ", true);
                     }
                     else
                     {
-                        document = new Document { url = url, text = result };
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            await CoreMethods.PushPageModel<DocDetailsPageModel>(document);
-                            RaisePropertyChanged();
-                        });
+                        _dialogServices.ShowMessage("Erreur  ", true);
                     }
+                    
+                }
+                else
+                {
+                    await Task.Run( () =>
+                    {
+                        result = analyse(url);
+                        if (string.IsNullOrEmpty(result))
+                        {
+                            _dialogServices.ShowMessage("Erreur : Veuillez réessayer plus tard", true);
+                        }
+                        else
+                        {
+                            document = new Document { url = url, text = result };
+                            Device.BeginInvokeOnMainThread(async () =>
+                            {
+                                await CoreMethods.PushPageModel<DocDetailsPageModel>(document);
+                                RaisePropertyChanged();
+                            });
+                        }
+                    });
+                    
                 }
                     
                 isBusy = false;
@@ -82,8 +94,8 @@ namespace be4care.PageModels
         public  AddDocPageModel(IRestServices _restServices,IUserServices _userServices,IDialogService _dialogServices,IDocumentServices _documentServices)
         {
                 this._restServices = _restServices;
-               this._userServices = _userServices;
-            this._dialogServices = _dialogServices;
+                this._userServices = _userServices;
+                this._dialogServices = _dialogServices;
         }
 
         public IUserServices _UserServices { get; }
@@ -92,6 +104,10 @@ namespace be4care.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
+            Task.Run(async () =>
+            {
+                user = await _userServices.GetUser();
+            });
             isBusy = false;
             isEnabled = true;
         }
@@ -101,14 +117,20 @@ namespace be4care.PageModels
             {
                 if (user == null)
                 {
-                    user = await _userServices.GetUser();
-                    if (user == null)
-                        user = _restServices.GetMyProfile();
+                    try
+                    {
+                        user = await _userServices.GetUser();
+                        if (user == null)
+                            user = _restServices.GetMyProfile();
+                    }
+                    catch
+                    {
+                        user = null;
+                    }
+                    
                 }
                 try
                 {
-                    if (user == null)
-                        return null;
                     var photo = await _restServices.Upload(user);
                     return photo;
                 }
@@ -119,12 +141,12 @@ namespace be4care.PageModels
                 }
             }
         }
-        public async Task<string> analyse(string url)
+        public  string analyse(string url)
         {
             {
                 try
                 {
-                    var photo = await _restServices.Analyse(url);
+                    var photo =  _restServices.Analyse(url);
                     return photo;
                 }
                 catch (Exception e)

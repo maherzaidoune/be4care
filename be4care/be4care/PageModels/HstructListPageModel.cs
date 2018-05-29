@@ -71,15 +71,10 @@ namespace be4care.PageModels
                     {
                         if (userstruct != null && userstruct.Count > 0)
                         {
-                            foreach (HealthStruct ud in userstruct)
-                            {
-                                if (d.id == ud.id)
-                                {
-                                    structs.Add(new hList { add = false, hstruct = d, fullName = d.fullName });
-                                    break;
-                                }
-                            }
-                            structs.Add(new hList { add = true, hstruct = d, fullName = d.fullName });
+                            if (alreadyAdded(d, userstruct))
+                                structs.Add(new hList { add = false, hstruct = d, fullName = d.fullName });
+                            else
+                                structs.Add(new hList { add = true, hstruct = d, fullName = d.fullName });
                         }
                         else
                         {
@@ -190,15 +185,10 @@ namespace be4care.PageModels
                 {
                     if (userstruct != null && userstruct.Count > 0)
                     {
-                        foreach (HealthStruct ud in userstruct)
-                        {
-                            if (d.id == ud.id)
-                            {
-                                structs.Add(new hList { add = false, hstruct = d, fullName = d.fullName });
-                                break;
-                            }
-                        }
-                        structs.Add(new hList { add = true, hstruct = d, fullName = d.fullName });
+                       if(alreadyAdded(d,userstruct))
+                            structs.Add(new hList { add = false, hstruct = d, fullName = d.fullName });
+                       else
+                            structs.Add(new hList { add = true, hstruct = d, fullName = d.fullName });
                     }
                     else
                     {
@@ -230,6 +220,18 @@ namespace be4care.PageModels
             isEnabled = true;
             list = structs;
 
+        }
+
+        public bool alreadyAdded(HealthStruct d,IList<HealthStruct> userstruct)
+        {
+            foreach (HealthStruct ud in userstruct)
+            {
+                if (d.id == ud.id)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
     }

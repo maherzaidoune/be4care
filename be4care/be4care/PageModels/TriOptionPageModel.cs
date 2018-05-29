@@ -1,10 +1,13 @@
-﻿using PropertyChanged;
+﻿using Akavache;
+using PropertyChanged;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
+using System.Reactive.Linq;
 
 namespace be4care.PageModels
 {
@@ -48,24 +51,28 @@ namespace be4care.PageModels
         {
             MessagingCenter.Send(this, "triepar", 1);
             Application.Current.Properties["trimode"] = "prof";
+            Application.Current.SavePropertiesAsync();
             PopupNavigation.Instance.PopAllAsync();
         }
         private void partype(object obj)
         {
             MessagingCenter.Send(this, "triepar", 2);
             Application.Current.Properties["trimode"] = "type";
+            Application.Current.SavePropertiesAsync();
             PopupNavigation.Instance.PopAllAsync();
         }
         private void parstruct(object obj)
         {
             MessagingCenter.Send(this, "triepar", 3);
             Application.Current.Properties["trimode"] = "struct";
+            Application.Current.SavePropertiesAsync();
             PopupNavigation.Instance.PopAllAsync();
         }
         private void pardate(object obj)
         {
             MessagingCenter.Send(this, "triepar",0);
             Application.Current.Properties["trimode"] = "date";
+            Application.Current.SavePropertiesAsync();
             PopupNavigation.Instance.PopAllAsync();
         }
 
@@ -78,7 +85,6 @@ namespace be4care.PageModels
 
         public TriOptionPageModel()
         {
-            Console.WriteLine("PopUp tri option page constructor");
             if (Application.Current.Properties.ContainsKey("trimode"))
             {
                 trimode = Application.Current.Properties["trimode"] as string;
@@ -89,7 +95,6 @@ namespace be4care.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
-            Console.WriteLine("PopUp tri option page init");
             
         }
 

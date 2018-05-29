@@ -20,12 +20,21 @@ namespace be4care.PageModels
             public string menu { get; set; }
             public string info { get; set; }
         }
-
-
-
         public ICommand photochange => new Command(photoclicked);
         public ICommand edit => new Command(editUser);
         public ICommand backClick => new Command(backClickbutton);
+        public bool isVisible { get; set; }
+        private IUserServices _userServices;
+        private IRestServices _restServices;
+        private IDialogService _dialogServices;
+        private IList<detail> _details { get; set; }
+        public IList<detail> details
+        {
+            get
+            {
+                return _details ?? (_details = GetDetails());
+            }
+        }
 
         private void backClickbutton(object obj)
         {
@@ -37,7 +46,6 @@ namespace be4care.PageModels
 
         private void editUser(object obj)
         {
-            MessagingCenter.Subscribe<EditProfilePageModel>(this, "updateProfile", updateProfile);
             Device.BeginInvokeOnMainThread(async () =>
             {
                 await Rg.Plugins.Popup.Services.PopupNavigation.Instance.PushAsync(new OptionPage("profile"));
@@ -46,7 +54,11 @@ namespace be4care.PageModels
 
         public void updateProfile(EditProfilePageModel editProfilePage)
         {
-            initView();
+            //Task.Run(async () =>
+            //{
+            //    await initView();
+            //});
+            _details = GetDetails();
         }
 
         private void photoclicked(object obj)
@@ -54,10 +66,7 @@ namespace be4care.PageModels
             Console.WriteLine("photclicked !");
         }
 
-        private IUserServices _userServices;
-        private IRestServices _restServices;
-        private IDialogService _dialogServices;
-        public IList<detail> details { get; set; }
+        
 
         public ProfilePageModel(IUserServices _userServices, IRestServices _restServices,IDialogService _dialogServices)
         {
@@ -76,50 +85,54 @@ namespace be4care.PageModels
         protected override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
-            initView();
-
+            if (isVisible)
+            {
+                MessagingCenter.Unsubscribe<EditProfilePageModel>(this, "updateProfile");
+                isVisible = false;
+            }
+        }
+        protected override void ViewIsDisappearing(object sender, EventArgs e)
+        {
+            base.ViewIsDisappearing(sender, e);
+            MessagingCenter.Subscribe<EditProfilePageModel>(this, "updateProfile", updateProfile);
+            isVisible = true;
         }
 
         public override  void Init(object initData)
         {
             base.Init(initData);
+            isVisible = true;
         }
 
-        public void initView()
+        public List<detail>  GetDetails()
         {
-            Task.Run(async () =>
+            try
             {
-                try
+                Task.Run(async () =>
                 {
                     user = await _userServices.GetUser();
-                    if(user == null)
+                    if (user == null)
                     {
                         user = _restServices.GetMyProfile();
                         _userServices.SaveUser(user);
                     }
-                }
-                catch
-                {
-                    Console.WriteLine("cant get user from db");
-                    user = _restServices.GetMyProfile();
-                    _userServices.SaveUser(user);
-                }
-                details = new List<detail>()
+                }).Wait(); 
+            }
+            catch
             {
-                new detail {menu = "Identifiant" ,  info=user.email },
-                new detail {menu = "Nom" ,  info= user.name },
-                new detail {menu = "Prenom" ,  info = user.lastName },
-                new detail {menu = "Numéro de telephone" ,  info=user.phNumber },
-                new detail {menu = "Date de naissance" ,  info= user.bDate.ToString("MM/dd/yyyy") },
-                new detail {menu = "sexe" ,  info=  convertSexe(user.sex)}
-            };
-            });
-        }
-
-        public override void ReverseInit(object returnedData)
-        {
-            base.ReverseInit(returnedData);
-            Console.WriteLine("ReverseInit");
+                Console.WriteLine("cant get user from db");
+                user = _restServices.GetMyProfile();
+                _userServices.SaveUser(user);
+            }
+            return new List<detail>()
+                {
+                    new detail {menu = "Identifiant" ,  info=user.email },
+                    new detail {menu = "Nom" ,  info= user.name },
+                    new detail {menu = "Prenom" ,  info = user.lastName },
+                    new detail {menu = "Numéro de telephone" ,  info=user.phNumber },
+                    new detail {menu = "Date de naissance" ,  info= user.bDate.ToString("MM/dd/yyyy") },
+                    new detail {menu = "sexe" ,  info=  convertSexe(user.sex)}
+                };
         }
     }
 }

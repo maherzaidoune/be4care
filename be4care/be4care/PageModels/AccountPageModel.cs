@@ -17,7 +17,18 @@ namespace be4care.PageModels
             public int position { get; set; }
         }
 
-        public IList<ViewElement> views { get; set; }
+        //public bool isVisible { get; set; }
+        private IList<ViewElement> _views { get; set; }
+        public IList<ViewElement> views { get {
+                return _views ?? (_views  = new List<ViewElement>
+                    {
+                        new ViewElement{ image = "phonebook.png" , label = "Mon Profile",position= 0},
+                        new ViewElement{ image = "phonebook.png" , label = "Répertoire", position= 1},
+                        new ViewElement{ image = "Hand.png" , label = "A propos", position= 2},
+                        new ViewElement{ image = "file.png" , label = "Mentions Légales", position= 3},
+                        new ViewElement{ image = "bubble.png" , label = "Contacts", position= 4}
+                    });
+            }  }
         public  ViewElement selected
         {
             get
@@ -56,9 +67,27 @@ namespace be4care.PageModels
                         await CoreMethods.PushPageModel<AboutDevPageModel>();
                         RaisePropertyChanged();
                     });
+
             }
         }
 
+        protected override void ViewIsAppearing(object sender, EventArgs e)
+        {
+            base.ViewIsAppearing(sender, e);
+            //if (isVisible)
+            //{
+            //    //if(views == null)
+            //    //{
+                    
+            //    //}
+            //    isVisible = false;
+            //}
+        }
+        protected override void ViewIsDisappearing(object sender, EventArgs e)
+        {
+            base.ViewIsDisappearing(sender, e);
+            //isVisible = true;
+        }
 
         public AccountPageModel()
         {
@@ -68,14 +97,8 @@ namespace be4care.PageModels
         public  override void Init(object initData)
         {
             base.Init(initData);
-            views = new List<ViewElement>
-            {
-                new ViewElement{ image = "phonebook.png" , label = "Mon Profile",position= 0},
-                new ViewElement{ image = "phonebook.png" , label = "Répertoire", position= 1},
-                new ViewElement{ image = "Hand.png" , label = "A propos", position= 2},
-                new ViewElement{ image = "file.png" , label = "Mentions Légales", position= 3},
-                new ViewElement{ image = "bubble.png" , label = "Contacts", position= 4}
-            };
+            //isVisible = true;
+            
         }
     }
 }

@@ -24,13 +24,14 @@
                 SeparatorColor="LightGray"
                 VerticalOptions="Fill"
                 IsGroupingEnabled="true"
+                CachingStrategy="RecycleElement"
                 HorizontalOptions="Fill"
                 HasUnevenRows="True"
                         >
             <ListView.GroupHeaderTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout HeightRequest="30"  HorizontalOptions="Fill" BackgroundColor="#f5f5f5" Padding="0,2,0,2">
+                        <StackLayout HeightRequest="30"  HorizontalOptions="Fill" BackgroundColor="#f5f5f5" Padding="0,2,0,2" CompressedLayout.IsHeadless="True">
                             <Label Text="{Binding title}" FontSize="18" TextColor="Black" Margin="5" HorizontalOptions="Start" VerticalOptions="Center"/>
                         </StackLayout>
                     </ViewCell>
@@ -40,19 +41,19 @@
                 <DataTemplate>
                     <ViewCell >
                         <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Fill" CompressedLayout.IsHeadless="True"   >
-                            <StackLayout  WidthRequest="25" VerticalOptions="Start" Padding="0,2,0,0" >
-                                <ffimageloading:CachedImage  Source="star.png" IsVisible="{Binding star}"  VerticalOptions="Start" HeightRequest="20" WidthRequest="20"/>
+                            <StackLayout  WidthRequest="25" VerticalOptions="Start" Margin="1" >
+                                <ffimageloading:CachedImage  Source="star.png" IsVisible="{Binding star}"  VerticalOptions="Start" HeightRequest="20" WidthRequest="20" CacheType="All" />
                             </StackLayout>
                             <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand"  >
                                 <StackLayout VerticalOptions="Center">
-                                    <ffimageloading:CachedImage  Source="{Binding url}" DownsampleHeight="80"  DownsampleWidth="70" FadeAnimationEnabled="True"  HeightRequest="80" WidthRequest="70" HorizontalOptions="Start"  VerticalOptions="Center" CacheType="Memory"  />
+                                    <ffimageloading:CachedImage  Source="{Binding url}" DownsampleHeight="80"  DownsampleWidth="70"  HeightRequest="80" WidthRequest="70" HorizontalOptions="Start"  VerticalOptions="Center" CacheType="All"  LoadingPlaceholder="placeholder.png" FadeAnimationForCachedImages="True" FadeAnimationEnabled="True"  />
                                 </StackLayout>
-                                <StackLayout  Padding="0,5,0,5">
+                                <StackLayout  Margin="3">
                                     <Label Text="{Binding  date,StringFormat='{}{0:MM/dd/yyyy}'}" FontSize="16" TextColor="Gray"   VerticalOptions="Center" />
                                     <Label Text="{Binding  type}" FontSize="18" TextColor="Black"  VerticalOptions="Center" />
                                     <Label Text="{Binding  HStructure}" FontSize="16" TextColor="Gray" VerticalOptions="Center" />
                                 </StackLayout>
-                                <ffimageloading:CachedImage  Source="next.png"   HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" />
+                                <ffimageloading:CachedImage  Source="next.png"   HorizontalOptions="EndAndExpand" HeightRequest="20" WidthRequest="20" VerticalOptions="Center" CacheType="All"  />
                             </StackLayout>
                         </StackLayout>
                     </ViewCell>

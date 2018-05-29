@@ -61,9 +61,9 @@ namespace be4care.PageModels
         }
         private void hstCantactUpdated(AddHstructPageModel obj)
         {
-            Task.Run( async() =>
+            Task.Run(async () =>
             {
-                 await updateCantact();
+                await updateCantact();
             });
             MessagingCenter.Unsubscribe<AddHstructPageModel>(this, "HstructUpdated");
         }
@@ -142,7 +142,7 @@ namespace be4care.PageModels
         }
 
 
-        public ContactPageModel(IRestServices _restServices,IDoctorServices _doctorServices,IHStructServices _hStructServices)
+        public ContactPageModel(IRestServices _restServices, IDoctorServices _doctorServices, IHStructServices _hStructServices)
         {
             this._restServices = _restServices;
             this._doctorServices = _doctorServices;
@@ -166,7 +166,7 @@ namespace be4care.PageModels
                 try
                 {
                     doctors = await _doctorServices.GetDoctors();
-                    if (doctors == null || doctors.Count ==0)
+                    if (doctors == null || doctors.Count == 0)
                     {
                         doctors = await _restServices.GetDoctorsAsync();
                         if (doctors != null && doctors.Count > 0)
@@ -188,7 +188,7 @@ namespace be4care.PageModels
                 try
                 {
                     healthStructs = await _hStructServices.GetStructs();
-                    if (healthStructs == null || healthStructs.Count==0)
+                    if (healthStructs == null || healthStructs.Count == 0)
                     {
                         healthStructs = await _restServices.GetHealthStructs();
                         if (healthStructs != null && healthStructs.Count > 0)
@@ -201,24 +201,24 @@ namespace be4care.PageModels
                 {
                     Console.WriteLine("error getting health structs from local database");
                     healthStructs = await _restServices.GetHealthStructs();
-                    if(healthStructs != null && healthStructs.Count > 0)
+                    if (healthStructs != null && healthStructs.Count > 0)
                         _hStructServices.SaveStructs(healthStructs);
                     else
                         healthStructs = new List<HealthStruct>();
                 }
-                
-            var groupDoc = new ContactGroup("Médecin");
-            var groupHealth = new ContactGroup("Structure de Santé");
-            if(doctors.Count>0)
-                groupDoc.AddRange(doctors.OrderBy(d => !d.star));
-            if(healthStructs.Count>0)
-                groupHealth.AddRange(healthStructs.OrderBy(d => !d.star));
 
-            contacts = new List<ContactGroup>();
+                var groupDoc = new ContactGroup("Médecin");
+                var groupHealth = new ContactGroup("Structure de Santé");
+                if (doctors.Count > 0)
+                    groupDoc.AddRange(doctors.OrderBy(d => !d.star));
+                if (healthStructs.Count > 0)
+                    groupHealth.AddRange(healthStructs.OrderBy(d => !d.star));
+
+                contacts = new List<ContactGroup>();
                 contacts.Add(groupDoc);
                 contacts.Add(groupHealth);
             });
-            MessagingCenter.Send(this,"Contactupdated");
+            MessagingCenter.Send(this, "Contactupdated");
         }
 
     }

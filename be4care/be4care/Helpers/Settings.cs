@@ -22,9 +22,9 @@ namespace be4care.Helpers
                 }
                 catch
                 {
-                    return String.Empty;
+                    return null;
                 }
-                 }
+              }
 
             set {
 

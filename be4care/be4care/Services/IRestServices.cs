@@ -33,7 +33,7 @@ namespace be4care.Services
 
         Task<string> Upload(User user);
 
-        Task<string> Analyse(string Url);
+        string Analyse(string Url);
 
         bool GetAccessToken(string username, string password);
 
