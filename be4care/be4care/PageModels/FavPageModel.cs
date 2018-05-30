@@ -15,7 +15,6 @@ namespace be4care.PageModels
     class FavPageModel : FreshMvvm.FreshBasePageModel
     {
         public IList<FavoriteGroupe> favorites { get; set; }
-        public IList<Favorite> favs;
         private IDocumentServices _documentServices;
         private IDoctorServices _doctorServices;
         private IHStructServices _hStructServices;
@@ -55,23 +54,23 @@ namespace be4care.PageModels
 
         public FavPageModel(IDocumentServices _documentServices, IDoctorServices _doctorServices, IHStructServices _hStructServices, IRestServices _restServices)
         {
-            Console.WriteLine("fav  page model construct");
             this._doctorServices = _doctorServices;
             this._documentServices = _documentServices;
             this._hStructServices = _hStructServices;
             this._restServices = _restServices;
 
         }
-        protected override void ViewIsAppearing(object sender, EventArgs e)
+        protected override async void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
             if (isVisible)
             {
+                //await initView();
                 isVisible = false;
                 MessagingCenter.Unsubscribe<DocumentPageModel>(this, "DocumentareUpdated");
                 MessagingCenter.Unsubscribe<ContactPageModel>(this, "Contactupdated");
             }
-            
+
         }
         protected override void ViewIsDisappearing(object sender, EventArgs e)
         {
@@ -82,104 +81,108 @@ namespace be4care.PageModels
             isVisible = true;
         }
 
-        private void updateContact(ContactPageModel obj)
+        private async void updateContact(ContactPageModel obj)
         {
-            Task.Run(async () =>
-            {
-                await initView();
-            });
+           
+              await initView();
+            
         }
 
-        private void updateDocs(DocumentPageModel obj)
+        private async void updateDocs(DocumentPageModel obj)
         {
-            Task.Run(async () =>
-            {
-                await initView();
-            });
+              await initView();
         }
 
         public override void Init(object initData)
         {
             base.Init(initData);
             isVisible = true;
-            Task.Run(async () =>
-            {
-                await initView();
-            });
+            initView();
+            
         }
 
-        public ICommand initViewCommand => new Command(async () => await ExecuteInitView());
-
-        private Task ExecuteInitView()
+        
+        private async Task<IList<Document>> GetDocuments()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var docs = await _documentServices.GetDocuments();
+                if (docs == null || docs.Count == 0)
+                {
+                    //docs = new List<Document>();
+                    docs = await _restServices.GetDocumentsAsync();
+                }
+                return docs;
+            }
+            catch
+            {
+                return null;
+            }
+            
+        }
+        private async Task<IList<HealthStruct>> GetHealthStructs()
+        {
+            try
+            {
+                var docs = await _hStructServices.GetStructs();
+                if (docs == null || docs.Count == 0)
+                {
+                    docs = await _restServices.GetHealthStructs();
+                }
+                return docs;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        private async Task<IList<Doctor>> GetDoctors()
+        {
+            try
+            {
+                var docs = await _doctorServices.GetDoctors();
+                if (docs == null || docs.Count == 0)
+                {
+                    docs = await _restServices.GetDoctorsAsync();
+                }
+                return docs;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
-        public async Task initView()
+        private async Task<IList<FavoriteGroupe>> GetFavorites()
         {
-            FavoriteGroupe documents = new FavoriteGroupe("Documents");
-            FavoriteGroupe doctors = new FavoriteGroupe("Médecin");
-            FavoriteGroupe hstructs = new FavoriteGroupe("Structures de santé");
-            
-            await Task.Run(async () =>
+            var documents = await GetDocuments();
+            var doctors = await GetDoctors();
+            var healthstructs = await GetHealthStructs();
+            var documentFav = new FavoriteGroupe("Documents");
+            var doctorFav = new FavoriteGroupe("Médecin");
+            var hstructsFav = new FavoriteGroupe("Structures de santé");
+            // ? operator
+            documentFav.AddRange(documents?.Where(d => d.star));
+            doctorFav.AddRange(doctors?.Where(d => d.star));
+            hstructsFav.AddRange(healthstructs?.Where(d => d.star));
+            return new List<FavoriteGroupe>()
             {
-                try
-                {
-                    var docs = await _documentServices.GetDocuments();
-                    if (docs == null || docs.Count == 0)
-                    {
-                        docs = new List<Document>();
-                        docs = await _restServices.GetDocumentsAsync();
-                    }
-                    if (docs != null)
-                        documents.AddRange(docs.Where(d => d.star));
-                }
-                catch
-                {
-                    var docs = await _restServices.GetDocumentsAsync();
-                    if (!(docs == null))
-                        documents.AddRange(docs.Where(d => d.star));
-                }
-                try
-                {
-                    var docs = await _doctorServices.GetDoctors();
-                    if (docs == null || docs.Count == 0)
-                    {
-                        docs = new List<Doctor>();
-                        docs = await _restServices.GetDoctorsAsync();
-                    }
-                    if (docs != null)
-                        doctors.AddRange(docs.Where(d => d.star));
-                }
-                catch
-                {
-                    var docs = await _restServices.GetDoctorsAsync();
-                    if (!(docs == null))
-                        documents.AddRange(docs.Where(d => d.star));
-                }
-                try
-                {
-                    var docs = await _hStructServices.GetStructs();
-                    if (docs == null || docs.Count == 0)
-                    {
-                        docs = new List<HealthStruct>();
-                        docs = await _restServices.GetHealthStructs();
-                    }
-                    if (docs != null)
-                        hstructs.AddRange(docs.Where(d => d.star));
-                }
-                catch
-                {
-                    var docs = await _restServices.GetHealthStructs();
-                    if (!(docs == null))
-                        hstructs.AddRange(docs.Where(d => d.star));
-                }
-            });
-            
-            favorites = new List<FavoriteGroupe>();
-            favorites.Add(documents);
-            favorites.Add(doctors);
-            favorites.Add(hstructs);
+                documentFav,doctorFav,hstructsFav
+            };
+        }
+        private Task refresh;
+
+        async Task Refresh()
+        {
+            favorites = await GetFavorites();
+        }
+        public Task initView()
+        {
+            if (refresh?.IsCompleted ?? true)
+            {
+                refresh = Refresh();
+            }
+            return refresh;
         }
     }
 }

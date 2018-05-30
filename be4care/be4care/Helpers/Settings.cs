@@ -27,10 +27,7 @@ namespace be4care.Helpers
               }
 
             set {
-
                 CrossSecureStorage.Current.SetValue("token", value);
-                //authToken = value;
-                Console.WriteLine("token saved to db as  : " +value);
             }
         }
     }

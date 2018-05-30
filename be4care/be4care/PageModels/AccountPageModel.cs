@@ -3,6 +3,7 @@ using FreshMvvm;
 using PropertyChanged;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace be4care.PageModels
@@ -18,17 +19,7 @@ namespace be4care.PageModels
         }
 
         //public bool isVisible { get; set; }
-        private IList<ViewElement> _views { get; set; }
-        public IList<ViewElement> views { get {
-                return _views ?? (_views  = new List<ViewElement>
-                    {
-                        new ViewElement{ image = "phonebook.png" , label = "Mon Profile",position= 0},
-                        new ViewElement{ image = "phonebook.png" , label = "Répertoire", position= 1},
-                        new ViewElement{ image = "Hand.png" , label = "A propos", position= 2},
-                        new ViewElement{ image = "file.png" , label = "Mentions Légales", position= 3},
-                        new ViewElement{ image = "bubble.png" , label = "Contacts", position= 4}
-                    });
-            }  }
+        public IList<ViewElement> views { get; set; }
         public  ViewElement selected
         {
             get
@@ -94,11 +85,39 @@ namespace be4care.PageModels
 
         }
 
+        private Task refresh;
+
+        async Task Refresh()
+        {
+            views = GetViews();
+        }
+        public Task initView()
+        {
+            if (refresh?.IsCompleted ?? true)
+            {
+                refresh = Refresh();
+            }
+            return refresh;
+        }
+
+        private  IList<ViewElement> GetViews()
+        {
+            return new List<ViewElement>
+                    {
+                        new ViewElement{ image = "phonebook.png" , label = "Mon Profile",position= 0},
+                        new ViewElement{ image = "phonebook.png" , label = "Répertoire", position= 1},
+                        new ViewElement{ image = "Hand.png" , label = "A propos", position= 2},
+                        new ViewElement{ image = "file.png" , label = "Mentions Légales", position= 3},
+                        new ViewElement{ image = "bubble.png" , label = "Contacts", position= 4}
+                    };
+        }
+
         public  override void Init(object initData)
         {
             base.Init(initData);
             //isVisible = true;
             
+             initView();
         }
     }
 }

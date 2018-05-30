@@ -31,15 +31,15 @@ namespace be4care.PageModels
 
         private void deleteme(object obj)
         {
+            Settings.AuthToken = string.Empty;
             Device.BeginInvokeOnMainThread(async () =>
             {
                 await PopupNavigation.Instance.PopAllAsync();
+                App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<checkLoginPageModel>());
                 await Task.Run(() =>
                 {
                     _restServices.Delete();
                 });
-                Settings.AuthToken = string.Empty;
-                App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<LoginPopupPageModel>(false));
             });
             //if ()
             //{
@@ -51,15 +51,15 @@ namespace be4care.PageModels
 
         private void deconnecter(object obj)
         {
+            Settings.AuthToken = string.Empty;
             Device.BeginInvokeOnMainThread(async () =>
             {
                 await PopupNavigation.Instance.PopAllAsync();
+                App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<checkLoginPageModel>());
                 await Task.Run(() =>
                 {
                     _restServices.Disconnect();
                 });
-                Settings.AuthToken = string.Empty;
-                App.Current.MainPage = new FreshNavigationContainer(FreshPageModelResolver.ResolvePageModel<LoginPopupPageModel>(false));
             });
             //if ()
             //{

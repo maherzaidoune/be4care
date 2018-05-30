@@ -12,15 +12,8 @@ namespace be4care.PageModels
     [AddINotifyPropertyChangedInterface]
     class SearchPageModel : FreshMvvm.FreshBasePageModel
     {
-        public bool loading { get; set; }
-        public IList<Document> docs { get; set; }
         private IList<Document> _document { get; set; }
-        public IList<Document> document {
-            get
-            {
-                return _document ?? (_document = getDocuments());
-            }
-        }
+        public IList<Document> document { get; set; }
         private IDocumentServices _documentSerives;
         private IRestServices _restServices;
         public Document selected
@@ -43,17 +36,16 @@ namespace be4care.PageModels
             
             if (string.IsNullOrEmpty(search))
             {
-                _document = docs;
+                document = _document;
             }
             else
             {
-                _document = docs.Where(d =>  (d.doctor != null  && d.doctor.Contains(search)) ||( d.HStructure != null && d.HStructure.Contains(search)) || (d.note != null && d.note.Contains(search)) || (d.place != null && d.place.Contains(search))).ToList();
+                document = _document.Where(d =>  (d.doctor != null  && d.doctor.Contains(search)) ||( d.HStructure != null && d.HStructure.Contains(search)) || (d.note != null && d.note.Contains(search)) || (d.place != null && d.place.Contains(search))).ToList();
             }
         }
 
         public SearchPageModel(IDocumentServices _documentSerives, IRestServices _restServices)
         {
-            //docs = new List<Document>();
             this._documentSerives = _documentSerives;
             this._restServices = _restServices;
         }
@@ -62,41 +54,51 @@ namespace be4care.PageModels
             base.ViewIsAppearing(sender, e); 
         }
 
-        public IList<Document> getDocuments()
+        public async Task<IList<Document>> GetDocuments()
         {
-            Task.Run(async () => {
-                try
-                {
-                    docs = await _documentSerives.GetDocuments();
+            var docs = await _documentSerives.GetDocuments();
+            try
+            {
                     if (docs == null || docs.Count == 0)
                     {
-                        loading = true;
                         docs = await _restServices.GetDocumentsAsync();
                         if (!(docs == null || docs.Count == 0))
                             _documentSerives.SaveDocuments(docs);
                         else
-                            return;
-                        loading = false;
+                            return null;
                     }
                 }
                 catch
                 {
-                    loading = true;
-                    Console.WriteLine("error getting documents from local database");
                     docs = await _restServices.GetDocumentsAsync();
                     if (!(docs == null || docs.Count == 0))
                         _documentSerives.SaveDocuments(docs);
                     else
-                        return;
-                    loading = false;
+                        return null;
                 }
-            }).Wait();
             return docs;
+        }
+
+        private Task refresh;
+
+        async Task Refresh()
+        {
+            _document = await GetDocuments();
+            document = _document;
+        }
+        public Task initView()
+        {
+            if (refresh?.IsCompleted ?? true)
+            {
+                refresh = Refresh();
+            }
+            return refresh;
         }
 
         public override void Init(object initData)
         {
             base.Init(initData);
+            initView();
         }
     }
 }

@@ -22,7 +22,6 @@ namespace be4care.PageModels
         private IDialogService _dialogServices;
 
         public string tri { get; set; }
-        public bool visible { get; set; }
 
         public IList<DocumentsGroupe> dateDocs { get; set; }
         public IList<DocumentsGroupe> drDocs { get; set; }
@@ -224,7 +223,6 @@ namespace be4care.PageModels
 
         public DocumentPageModel(IDocumentServices _documentSerives, IRestServices _restServices, IDialogService _dialogServices)
         {
-            Console.WriteLine("document  page model construct");
             this._documentSerives = _documentSerives;
             this._restServices = _restServices;
             this._dialogServices = _dialogServices;
@@ -240,23 +238,18 @@ namespace be4care.PageModels
         protected override void ViewIsAppearing(object sender, EventArgs e)
         {
             base.ViewIsAppearing(sender, e);
-            Console.WriteLine("viewIsAppearing ");
-            
-            if (visible)
+            if (true)
             {
-                
-                visible = false;
+
                 MessagingCenter.Unsubscribe<DocDetailsPageModel>(this, "documentadded");
                 MessagingCenter.Unsubscribe<DocDetailsPageModel>(this, "documentnoadded");
                 MessagingCenter.Unsubscribe<DocumentDetailsPageModel>(this, "documentupdated");
-                
             }
         }
 
         protected override void ViewIsDisappearing(object sender, EventArgs e)
         {
             base.ViewIsDisappearing(sender, e);
-            visible = true;
             MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentadded", update);
             MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentnoadded", UpdateAndSave);
             MessagingCenter.Subscribe<DocumentDetailsPageModel>(this, "documentupdated", documentUpdated);
@@ -268,7 +261,6 @@ namespace be4care.PageModels
             Task.Run(async () =>
             {
                 await UpdateView();
-                visible = true;
             });
         }
 

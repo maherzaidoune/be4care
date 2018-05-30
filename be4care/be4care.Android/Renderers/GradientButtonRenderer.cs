@@ -13,12 +13,13 @@ using be4care.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
-
 [assembly: ExportRenderer(typeof(be4care.GradientButton), typeof(GradientButtonRenderer))]
 namespace be4care.Droid.Renderers
 {
     public class GradientButtonRenderer : VisualElementRenderer<StackLayout> {
-    
+        protected GradientButtonRenderer(Context context) : base(context)
+        {
+        }
 
         private Color StartColor
         {

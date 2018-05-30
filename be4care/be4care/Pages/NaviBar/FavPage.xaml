@@ -43,7 +43,7 @@
                             <AbsoluteLayout  >
                                 <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                                     <StackLayout VerticalOptions="Center" IsVisible="{Binding isDocument}" IsEnabled="{Binding isDocument}" >
-                                        <ffimageloading:CachedImage  Source="{Binding url}" DownsampleHeight="80"  DownsampleWidth="70"  HeightRequest="80" WidthRequest="70" HorizontalOptions="Start"  VerticalOptions="Center" CacheType="Memory" LoadingPlaceholder="placeholder.png" FadeAnimationForCachedImages="True" FadeAnimationEnabled="True"  />
+                                        <ffimageloading:CachedImage  Source="{Binding url}" DownsampleHeight="80"  DownsampleWidth="70"  HeightRequest="80" WidthRequest="70" HorizontalOptions="Start"  VerticalOptions="Center" LoadingPlaceholder="placeholder.png" FadeAnimationForCachedImages="True" FadeAnimationEnabled="True"  />
                                     </StackLayout>
                                     <StackLayout  Padding="0,5,0,5" VerticalOptions="FillAndExpand">
                                         <Label IsVisible="{Binding isDocument}" IsEnabled="{Binding isDocument}" Text="{Binding  date,StringFormat='{}{0:MM/dd/yyyy}'}" FontSize="16" TextColor="Gray"  VerticalOptions="Center" />

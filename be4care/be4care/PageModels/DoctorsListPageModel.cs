@@ -24,6 +24,10 @@ namespace be4care.PageModels
         private IRestServices _restServices;
         private IDoctorServices _doctorServices;
         private IHStructServices _hStructServices;
+        public IList<DocList> doctors { get; set; }
+        public IList<DocList> list { get; set; }
+        public IList<Doctor> userdoctors { get; set; }
+        private IDialogService _dialogServices;
         public bool isBusy { get; set; }
         public bool isEnabled { get; set; }
         public DocList selected { get; set; }
@@ -40,7 +44,7 @@ namespace be4care.PageModels
 
 
         public string search { get; set; }
-        private bool _isRefreshing = false;
+        private bool _isRefreshing ;
         public bool IsRefreshing
         {
             get { return _isRefreshing; }
@@ -103,18 +107,19 @@ namespace be4care.PageModels
 
         private async void addthisDoctor(object obj)
         {
-            isEnabled = false;
-            isBusy = true;
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                isEnabled = false;
+                isBusy = true;
+            });
             await Task.Run(async () =>
             {
-
                 var doc = obj as DocList;
                 var d = doc.doctor;
                 if (await _restServices.AddDoctorFromDB(d.id)) {
                     await _doctorServices.SaveDoctor(d);
                     MessagingCenter.Send(this, "newDoctorAdd");
                     _dialogServices.ShowMessage(d.fullName + " a été ajouter a votre liste de contact",false);
-
                 }
                 else
                 {
@@ -127,10 +132,7 @@ namespace be4care.PageModels
             });
         }
 
-        public IList<DocList> doctors { get; set; }
-        public IList<DocList> list { get; set; }
-        public IList<Doctor> userdoctors { get; set; }
-        private IDialogService _dialogServices;
+        
 
         public DoctorsListPageModel(IDialogService _dialogServices,IRestServices _restServices, IDoctorServices _doctorServices, IHStructServices _hStructServices)
         {
@@ -144,7 +146,7 @@ namespace be4care.PageModels
         {
             base.Init(initData);
 
-            isBusy = false;
+            //isBusy = false;
             try
             {
                 Task.Run(async () =>
@@ -195,7 +197,6 @@ namespace be4care.PageModels
             }
             catch
             {
-                Console.WriteLine("error getting doctors from local database");
                 var docs = await _restServices.GetAllDoctors();
                 if (_doctorServices.saveAllDoctors(docs))
                     Console.WriteLine("Doctors  saved");

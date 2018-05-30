@@ -14,7 +14,7 @@
     </xfg:ContentPageGloss.BackgroundGradient>
   
     <StackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand"  BackgroundColor="Transparent" >
-        <ffimageloading:CachedImage Source="{local:EmbeddedImage resourceId=be4care.SharedImages.be4care.png}" CacheType="Memory" />
+        <ffimageloading:CachedImage Source="{local:EmbeddedImage resourceId=be4care.SharedImages.be4care.png}"  />
         <Label Text="Be4Care"
                    FontSize="44"
                TextColor="White"

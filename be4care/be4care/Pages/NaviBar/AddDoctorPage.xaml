@@ -14,7 +14,7 @@
             <RowDefinition Height="50" />
         </Grid.RowDefinitions>
         <StackLayout Grid.Row="0" HorizontalOptions="FillAndExpand" Orientation="Horizontal" CompressedLayout.IsHeadless="True" BackgroundColor="#fafafa" >
-            <ffimageloading:CachedImage Source="back.png" CacheType="Memory"  VerticalOptions="Center" HorizontalOptions="Start" >
+            <ffimageloading:CachedImage Source="back.png"   VerticalOptions="Center" HorizontalOptions="Start" >
                 <ffimageloading:CachedImage.GestureRecognizers>
                     <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
                 </ffimageloading:CachedImage.GestureRecognizers>

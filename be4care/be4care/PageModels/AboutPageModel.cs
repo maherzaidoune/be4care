@@ -14,8 +14,11 @@ namespace be4care.PageModels
 
         private void backClickbutton(object obj)
         {
-            CoreMethods.PushPageModel<AccountPageModel>();
-            RaisePropertyChanged();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await CoreMethods.PopPageModel();
+                RaisePropertyChanged();
+            });
         }
         public AboutPageModel()
         {

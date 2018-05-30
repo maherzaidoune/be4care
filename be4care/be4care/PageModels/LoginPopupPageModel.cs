@@ -52,22 +52,22 @@ namespace be4care.PageModels
                 isBusy = true;
                 Task.Run(async () =>
                 {
+                    await Task.Run(() =>
+                    {
+                        _doctorServices.DeleteDoctors();
+                        _hstructServices.DeleteStructs();
+                        _documentServices.DeleteDocuments();
+                    });
                     if (_restServices.GetAccessToken(user, password))
                     {
                         await Task.Run(() =>
                         {
-                            var _user = _restServices.GetMyProfile();
-                            _userServices.SaveUser(_user);
-                            _doctorServices.DeleteDoctors();
-                            _hstructServices.DeleteStructs();
-                            _documentServices.DeleteDocuments();
-                        });
-                        await Task.Run(() =>
-                        {
                             ButtonBar.initBar();
                         });
-                        password = String.Empty;
                         _dialogService.ShowMessage("Connecté", false);
+                        var _user = _restServices.GetMyProfile();
+                        _userServices.SaveUser(_user);
+                        password = String.Empty;
                     }
                     else
                     {
@@ -83,8 +83,12 @@ namespace be4care.PageModels
 
         private  void inscriptionButton(object obj)
         {
-            CoreMethods.PushPageModel<InscriptionPageModel>();
-            RaisePageWasPopped();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await CoreMethods.PushPageModel<InscriptionPageModel>();
+                RaisePageWasPopped();
+            });
+            
         }
 
 

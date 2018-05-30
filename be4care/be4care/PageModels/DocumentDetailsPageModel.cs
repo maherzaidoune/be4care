@@ -42,8 +42,11 @@ namespace be4care.PageModels
 
         private void backClickbutton()
         {
-            CoreMethods.PopPageModel(); // pop instead of pushing previous page
-            RaisePropertyChanged();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await CoreMethods.PopPageModel();
+                RaisePropertyChanged();
+            });
         }
 
         private void makenonfav(Object obj)

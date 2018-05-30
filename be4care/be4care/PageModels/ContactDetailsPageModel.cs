@@ -111,7 +111,9 @@ namespace be4care.PageModels
                             if(await _hstructService.DeleteStruct(c as HealthStruct))
                                 MessagingCenter.Send(this, "delete");
                             else
-                                MessagingCenter.Send(this, "deletefromserver");
+                            {
+                                //object not deleted from local
+                            }
                             _dialogService.ShowMessage(c.fullName + "supprimer avec succes", false);
                         }).Wait();
                     }
@@ -159,8 +161,11 @@ namespace be4care.PageModels
 
         private void backClickbutton(object obj)
         {
-            CoreMethods.PopPageModel();
-            RaisePropertyChanged();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await CoreMethods.PopPageModel();
+                RaisePropertyChanged();
+            });
         }
 
         public ContactDetailsPageModel(IRestServices _restService,IDoctorServices _doctorService,IHStructServices _hstructService, IDialogService _dialogService)

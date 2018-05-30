@@ -21,11 +21,12 @@ namespace be4care.Droid
     {
         protected override void OnCreate(Bundle bundle)
         {
-            TabLayoutResource = Resource.Layout.Tabbar;
-            ToolbarResource = Resource.Layout.Toolbar;
+            //TabLayoutResource = Resource.Layout.Tabbar;
+            //ToolbarResource = Resource.Layout.Toolbar;
             base.OnCreate(bundle);
             AsNumAssemblyHelper.HoldAssembly();
-            UserDialogs.Init(() => (Activity)Forms.Context);
+            //UserDialogs.Init(this);
+            UserDialogs.Init(() => (Activity)this);
             CrossCurrentActivity.Current.Init(this, bundle);
             Rg.Plugins.Popup.Popup.Init(this, bundle);
             Forms.SetFlags("FastRenderers_Experimental");

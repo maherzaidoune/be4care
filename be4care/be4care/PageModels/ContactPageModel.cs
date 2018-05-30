@@ -18,9 +18,9 @@ namespace be4care.PageModels
         private IRestServices _restServices;
         private IDoctorServices _doctorServices;
         private IHStructServices _hStructServices;
-        public IList<Doctor> doctors { get; set; }
-        public IList<HealthStruct> healthStructs { get; set; }
-        public List<ContactGroup> contacts { get; set; }
+        //public IList<Doctor> doctors { get; set; }
+        //public IList<HealthStruct> healthStructs { get; set; }
+        public IList<ContactGroup> contacts { get; set; }
 
         public ICommand edit => new Command(contactSettings);
 
@@ -39,23 +39,23 @@ namespace be4care.PageModels
         {
             Task.Run(async () =>
             {
-                await updateCantact();
-            }).Wait();
+                await initView();
+            });
         }
 
         private void doctorlistupdated(DoctorsListPageModel obj)
         {
             Task.Run(async () =>
             {
-                await updateCantact();
-            }).Wait();
+                await initView();
+            });
         }
 
         private void docCantactUpdated(AddDoctorPageModel obj)
         {
             Task.Run(async () =>
             {
-                await updateCantact();
+                await initView();
             });
             MessagingCenter.Unsubscribe<AddDoctorPageModel>(this, "doctorupdated");
         }
@@ -63,7 +63,7 @@ namespace be4care.PageModels
         {
             Task.Run(async () =>
             {
-                await updateCantact();
+                await initView();
             });
             MessagingCenter.Unsubscribe<AddHstructPageModel>(this, "HstructUpdated");
         }
@@ -76,59 +76,25 @@ namespace be4care.PageModels
             }
             set
             {
-                MessagingCenter.Subscribe<AddDoctorPageModel>(this, "doctorupdated", docCantactUpdated);
-                MessagingCenter.Subscribe<AddHstructPageModel>(this, "HstructUpdated", hstCantactUpdated);
-                MessagingCenter.Subscribe<ContactDetailsPageModel>(this, "delete", delete);
-                MessagingCenter.Subscribe<ContactDetailsPageModel>(this, "deletefromserver", deletedfromsever);
-                CoreMethods.PushPageModel<ContactDetailsPageModel>(value);
-                RaisePropertyChanged();
+                Device.BeginInvokeOnMainThread(async() =>
+                {
+                    await CoreMethods.PushPageModel<ContactDetailsPageModel>(value);
+                    RaisePropertyChanged();
+                    MessagingCenter.Subscribe<AddDoctorPageModel>(this, "doctorupdated", docCantactUpdated);
+                    MessagingCenter.Subscribe<AddHstructPageModel>(this, "HstructUpdated", hstCantactUpdated);
+                    MessagingCenter.Subscribe<ContactDetailsPageModel>(this, "delete", delete);
+                });
+                
+                
             }
         }
 
-        private void deletedfromsever(ContactDetailsPageModel obj)
-        {
-            MessagingCenter.Unsubscribe<ContactDetailsPageModel>(this, "deletefromserver");
-
-            Task.Run(async () =>
-            {
-                try
-                {
-                    doctors = await _restServices.GetDoctorsAsync();
-                    if (doctors != null && doctors.Count > 0)
-                        _doctorServices.SaveDoctors(doctors);
-                    else
-                        doctors = new List<Doctor>();
-                    healthStructs = await _restServices.GetHealthStructs();
-                    if (healthStructs != null && healthStructs.Count > 0)
-                        _hStructServices.SaveStructs(healthStructs);
-                    else
-                        healthStructs = new List<HealthStruct>();
-                    var groupDoc = new ContactGroup("Médecin");
-                    var groupHealth = new ContactGroup("Structure de Santé");
-                    if (doctors.Count > 0)
-                        groupDoc.AddRange(doctors.OrderBy(d => !d.star));
-                    if (healthStructs.Count > 0)
-                        groupHealth.AddRange(healthStructs.OrderBy(d => !d.star));
-
-                    contacts = new List<ContactGroup>();
-                    contacts.Add(groupDoc);
-                    contacts.Add(groupHealth);
-                }
-                catch
-                {
-                    await Task.Run(async () =>
-                    {
-                        await updateCantact();
-                    });
-                }
-            });
-        }
-
+        
         private void delete(ContactDetailsPageModel obj)
         {
             Task.Run(async () =>
             {
-                await updateCantact();
+                await initView();
             });
             MessagingCenter.Unsubscribe<ContactDetailsPageModel>(this, "delete");
         }
@@ -154,71 +120,91 @@ namespace be4care.PageModels
             base.Init(initData);
             Task.Run(async () =>
             {
-                await updateCantact();
+                await initView();
 
             });
         }
 
-        public async Task updateCantact()
+        private async Task<IList<Doctor>> GetDoctors()
         {
-            await Task.Run(async () =>
+            try
             {
-                try
+                var doctors = await _doctorServices.GetDoctors();
+                if (doctors == null || doctors.Count == 0)
                 {
-                    doctors = await _doctorServices.GetDoctors();
-                    if (doctors == null || doctors.Count == 0)
-                    {
-                        doctors = await _restServices.GetDoctorsAsync();
-                        if (doctors != null && doctors.Count > 0)
-                            _doctorServices.SaveDoctors(doctors);
-                        else
-                            doctors = new List<Doctor>();
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine("error getting doctors from local database");
                     doctors = await _restServices.GetDoctorsAsync();
                     if (doctors != null && doctors.Count > 0)
                         _doctorServices.SaveDoctors(doctors);
                     else
                         doctors = new List<Doctor>();
-
                 }
-                try
+                return doctors;
+            }
+            catch
+            {
+                var doctors = await _restServices.GetDoctorsAsync();
+                if (doctors != null && doctors.Count > 0)
+                    _doctorServices.SaveDoctors(doctors);
+                else
+                    doctors = new List<Doctor>();
+                return doctors;
+            }
+        }
+        private async Task<IList<HealthStruct>> GetHealthStructs()
+        {
+            try
+            {
+                var healthStructs = await _hStructServices.GetStructs();
+                if (healthStructs == null || healthStructs.Count == 0)
                 {
-                    healthStructs = await _hStructServices.GetStructs();
-                    if (healthStructs == null || healthStructs.Count == 0)
-                    {
-                        healthStructs = await _restServices.GetHealthStructs();
-                        if (healthStructs != null && healthStructs.Count > 0)
-                            _hStructServices.SaveStructs(healthStructs);
-                        else
-                            healthStructs = new List<HealthStruct>();
-                    }
-                }
-                catch
-                {
-                    Console.WriteLine("error getting health structs from local database");
                     healthStructs = await _restServices.GetHealthStructs();
                     if (healthStructs != null && healthStructs.Count > 0)
                         _hStructServices.SaveStructs(healthStructs);
                     else
                         healthStructs = new List<HealthStruct>();
                 }
+                return healthStructs;
+            }
+            catch
+            {
+                var healthStructs = await _restServices.GetHealthStructs();
+                if (healthStructs != null && healthStructs.Count > 0)
+                    _hStructServices.SaveStructs(healthStructs);
+                else
+                    healthStructs = new List<HealthStruct>();
+                return healthStructs;
+            }
+        }
+        private async Task<IList<ContactGroup>> GetContacts()
+        {
+            var doctors = await GetDoctors();
+            var healthStructs = await GetHealthStructs();
+            var groupDoc = new ContactGroup("Médecin");
+            var groupHealth = new ContactGroup("Structure de Santé");
+            if (doctors.Count > 0)
+                groupDoc.AddRange(doctors.OrderBy(d => !d.star));
+            if (healthStructs.Count > 0)
+                groupHealth.AddRange(healthStructs.OrderBy(d => !d.star));
+            return new List<ContactGroup>
+            {
+                groupDoc,groupHealth
+            };
+        }
 
-                var groupDoc = new ContactGroup("Médecin");
-                var groupHealth = new ContactGroup("Structure de Santé");
-                if (doctors.Count > 0)
-                    groupDoc.AddRange(doctors.OrderBy(d => !d.star));
-                if (healthStructs.Count > 0)
-                    groupHealth.AddRange(healthStructs.OrderBy(d => !d.star));
+        private Task refresh;
 
-                contacts = new List<ContactGroup>();
-                contacts.Add(groupDoc);
-                contacts.Add(groupHealth);
-            });
+        async Task Refresh()
+        {
+            contacts = await GetContacts();
             MessagingCenter.Send(this, "Contactupdated");
+        }
+        public Task initView()
+        {
+            if (refresh?.IsCompleted ?? true)
+            {
+                refresh = Refresh();
+            }
+            return refresh;
         }
 
     }
