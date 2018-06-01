@@ -82,10 +82,10 @@ namespace be4care.PageModels
                    
                     try
                     {
+                        if(await _doctorServices.SaveDoctor(doctor))
+                            MessagingCenter.Send(this, "doctorupdated");
                         if (await _restServices.AddDoctor(doctor))
                         {
-                            await _doctorServices.SaveDoctor(doctor);
-                            MessagingCenter.Send(this, "doctorupdated");
                             _dialogSservices.ShowMessage(fullName + " a été ajouté avec succès ", false);
                         }
                     }
@@ -108,11 +108,10 @@ namespace be4care.PageModels
                     doctor.id = id;
                     try
                     {
-
+                        if(await _doctorServices.UpdateDoctor(doctor))
+                            MessagingCenter.Send(this, "doctorupdated");
                         if (_restServices.UpdateDoctor(doctor))
                         {
-                            await _doctorServices.UpdateDoctor(doctor);
-                            MessagingCenter.Send(this, "doctorupdated");
                             _dialogSservices.ShowMessage(fullName + " a été modifié avec succès ", false);
                         }
                     }

@@ -28,6 +28,7 @@ namespace be4care.PageModels
         public string prenom { get; set; }
         public string num { get; set; }
         public string sex { get; set; }
+        public string pUrl { get; set; }
         public DateTime date { get; set; }
         public string username { get; set; }
         public bool isBusy { get; set; }
@@ -36,6 +37,23 @@ namespace be4care.PageModels
 
         public ICommand save => new Command(saveButton);
         public ICommand backClick => new Command(back);
+        public ICommand changephoto => new Command(photoEdit);
+
+        private void photoEdit(object obj)
+        {
+            Task.Run(async () =>
+            {
+                isEnabled = false;
+                isBusy = true;
+                var url = await _restServices.Upload(user);
+                if (!string.IsNullOrEmpty(url))
+                {
+                    pUrl = url;
+                }
+                isBusy = false;
+                isEnabled = true;
+            });
+        }
 
         private void back(object obj)
         {
@@ -76,6 +94,7 @@ namespace be4care.PageModels
                 num = user.phNumber;
                 date = user.bDate;
                 username = user.username;
+                pUrl = user.pUrl;
                 if (user.sex)
                 {
                     sex = "Homme"; }
@@ -98,6 +117,7 @@ namespace be4care.PageModels
                 phNumber = num,
                 bDate = date,
                 username = username,
+                pUrl = pUrl ,
                 sex = sex.Equals("Homme")
             };
              Task.Run(async () =>
@@ -114,6 +134,8 @@ namespace be4care.PageModels
                         _userServices.SaveUser(user);
                         MessagingCenter.Send(this, "updateProfile");
                         await App.Current.MainPage.Navigation.PopModalAsync();
+                        isBusy = false;
+                        isEnabled = true;
                     }
                 });
             

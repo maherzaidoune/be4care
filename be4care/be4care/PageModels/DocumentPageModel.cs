@@ -217,6 +217,7 @@ namespace be4care.PageModels
             {
                 CoreMethods.PushPageModel<DocumentDetailsPageModel>(value);
                 RaisePropertyChanged();
+                selectedDoc = null;
             }
         }
 
@@ -243,7 +244,8 @@ namespace be4care.PageModels
 
                 MessagingCenter.Unsubscribe<DocDetailsPageModel>(this, "documentadded");
                 MessagingCenter.Unsubscribe<DocDetailsPageModel>(this, "documentnoadded");
-                MessagingCenter.Unsubscribe<DocumentDetailsPageModel>(this, "documentupdated");
+                MessagingCenter.Unsubscribe<DocumentDetailsPageModel>(this, "documentdeleted");
+                //MessagingCenter.Unsubscribe<DocumentDetailsPageModel>(this, "documentupdated");
             }
         }
 
@@ -252,7 +254,16 @@ namespace be4care.PageModels
             base.ViewIsDisappearing(sender, e);
             MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentadded", update);
             MessagingCenter.Subscribe<DocDetailsPageModel>(this, "documentnoadded", UpdateAndSave);
-            MessagingCenter.Subscribe<DocumentDetailsPageModel>(this, "documentupdated", documentUpdated);
+            MessagingCenter.Subscribe<DocumentDetailsPageModel>(this, "documentdeleted", documentdeleted);
+            //MessagingCenter.Subscribe<DocumentDetailsPageModel>(this, "documentupdated", documentUpdated);
+        }
+
+        private void documentdeleted(DocumentDetailsPageModel obj)
+        {
+            Task.Run(async () =>
+            {
+                await UpdateView();
+            });
         }
 
         public override void Init(object initData)
@@ -302,8 +313,8 @@ namespace be4care.PageModels
                         _documentSerives.SaveDocuments(documents);
                 }
                 InitGroups(tri);
-                MessagingCenter.Send(this, "DocumentareUpdated");
             });
+            MessagingCenter.Send(this, "DocumentareUpdated");
         }
 
         public void UpdateAndSave(DocDetailsPageModel obj)

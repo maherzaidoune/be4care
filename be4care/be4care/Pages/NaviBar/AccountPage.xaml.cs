@@ -17,6 +17,6 @@ namespace be4care.Pages
             if (Device.RuntimePlatform == Device.Android)
                 NavigationPage.SetHasNavigationBar(this, false);
             InitializeComponent();
-		}
+        }
 	}
 }

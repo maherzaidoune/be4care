@@ -10,11 +10,25 @@ using Xamarin.Forms;
 namespace be4care.PageModels
 {
     [AddINotifyPropertyChangedInterface]
-    class ContactEditPageModel : FreshMvvm.FreshBasePageModel
+    class DocumentOptionPageModel : FreshMvvm.FreshBasePageModel
     {
+        public Document document { get; set; }
+        public ICommand edit => new Command(editDoc);
 
-        public ICommand edit => new Command(editContact);
-        public ICommand delete => new Command(deleteContact);
+        private void editDoc(object obj)
+        {
+            PopupNavigation.Instance.PopAllAsync();
+            MessagingCenter.Send(this, "editdoc");
+        }
+
+        public ICommand delete => new Command(deleteDoc);
+
+        private void deleteDoc(object obj)
+        {
+            PopupNavigation.Instance.PopAllAsync();
+            MessagingCenter.Send(this, "delete");
+        }
+
         public ICommand annuler => new Command(back);
 
         private void back(object obj)
@@ -22,28 +36,14 @@ namespace be4care.PageModels
             PopupNavigation.Instance.PopAllAsync();
         }
 
-        public Contact contact { get; set; }
-
-        private void deleteContact(object obj)
+        public DocumentOptionPageModel(Document document)
         {
-            PopupNavigation.Instance.PopAllAsync();
-            MessagingCenter.Send(this, "delete");
+            this.document = document;
         }
-
-        private void editContact(object obj)
-        {
-            PopupNavigation.Instance.PopAllAsync();
-            MessagingCenter.Send(this, "editcontact");
-        }
-
-        public ContactEditPageModel(Contact contact)
-        {
-            this.contact = contact;
-        }
-
         public override void Init(object initData)
         {
             base.Init(initData);
         }
+
     }
 }

@@ -47,6 +47,7 @@ namespace be4care.PageModels
                         });
                     }
                 }
+                selected = null;
             }
         }
 
@@ -81,16 +82,14 @@ namespace be4care.PageModels
             isVisible = true;
         }
 
-        private async void updateContact(ContactPageModel obj)
+        private  void updateContact(ContactPageModel obj)
         {
-           
-              await initView();
-            
+             initView();
         }
 
-        private async void updateDocs(DocumentPageModel obj)
+        private  void updateDocs(DocumentPageModel obj)
         {
-              await initView();
+              initView();
         }
 
         public override void Init(object initData)

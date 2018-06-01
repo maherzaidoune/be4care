@@ -17,48 +17,89 @@ namespace be4care.PageModels
         public Document document { get; set; }
         public bool isBusy { get; set; }
         public bool isEnabled { get; set; }
+        public bool isNew { get; set; }
 
         public ICommand save => new Command(saveDoc);
 
         private IRestServices _restService;
         private IDocumentServices _documentServices;
         private IDialogService _dialogServices;
+        public ICommand backClick => new Command(backClickbutton);
+
+        private void backClickbutton(object obj)
+        {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await CoreMethods.PopPageModel();
+                RaisePageWasPopped();
+                RaisePropertyChanged();
+            });
+        }
+
         private void saveDoc(object obj)
         {
             isEnabled = false;
             isBusy = true;
-            Task.Run(async () => {
-                try
-                {
-                    if ( _restService.addDocument(document))
+            if (isNew)
+            {
+                Task.Run(async () => {
+                    try
                     {
-                        if (await _documentServices.SaveDocument(document))
-                        {
-                             MessagingCenter.Send(this, "documentadded");
-                            _dialogServices.ShowMessage("document ajouté avec succes", false);
-                        }
-                        else
-                        {
-                            MessagingCenter.Send(this, "documentnoadded");
-                        }
+                        await _documentServices.SaveDocument(document);
+                        MessagingCenter.Send(this, "documentadded");
+                        if (_restService.addDocument(document))
+                            {
+                                _dialogServices.ShowMessage("document ajouté avec succes", false);
+                            }
+                            else
+                            {
+                                _dialogServices.ShowMessage("Erreur", true);
+                            }
                         Device.BeginInvokeOnMainThread(async () =>
                         {
-                            await CoreMethods.PushPageModel<DocumentDetailsPageModel>(document);
-                            CoreMethods.RemoveFromNavigation();
+                            //await CoreMethods.PushPageModel<DocumentDetailsPageModel>(document);
+                            await CoreMethods.PopPageModel();
+                            //CoreMethods.RemoveFromNavigation();
                             RaisePropertyChanged();
                         });
 
+                        isBusy = false;
+                        isEnabled = true;
                     }
-                    isBusy = false;
-                    isEnabled = true;
-                }
-                catch
+                    catch
+                    {
+                        isBusy = false;
+                        isEnabled = true;
+                    }
+                });
+            }
+            else
+            {
+                Task.Run(async() =>
                 {
-                    Console.WriteLine("DocDetails : Error");
-                    isBusy = false;
-                    isEnabled = true;
-                }
-            });
+                    try
+                    {
+                        await _documentServices.UpdateDocument(document);
+                        MessagingCenter.Send(this, "documentadded");
+                        if (_restService.UpdateDocument(document))
+                        {
+                            _dialogServices.ShowMessage(document.type + " a été modifié avec succès ", false);
+                        }
+                    }
+                    catch
+                    {
+                        _dialogServices.ShowMessage("Erreur , veuillez essayer plus tard", true);
+                    }
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await CoreMethods.PopPageModel();
+                        //CoreMethods.RemoveFromNavigation();
+                        RaisePropertyChanged();
+                    });
+                });
+
+            }
+            
             
         }
 
@@ -72,20 +113,17 @@ namespace be4care.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
-            document = initData as Document;
-            Console.WriteLine(document.text);
-            document.dr = StringHelper.getDr(document.text);
-            document.place = StringHelper.getplace(document.text);
-            try
+            if (initData != null)
             {
-                document.date = DateTime.Parse(StringHelper.getDate(document.text));
+                var data = initData as Tuple<Document, bool>;
+                //document = initData as Document;
+                document = data.Item1;
+                //document.dr = StringHelper.getDr(document.text);
+                //document.place = StringHelper.getplace(document.text);
+                //document.date = DateTime.Now;
+                //document.note = StringHelper.getnote(document.text);
+                isNew = data.Item2;
             }
-            catch
-            {
-                document.date = DateTime.Now;
-            }
-            document.note = StringHelper.getnote(document.text);
-
             isBusy = false;
             isEnabled = true;
         }

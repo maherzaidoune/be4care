@@ -4,20 +4,18 @@
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              CompressedLayout.IsHeadless="True"
              x:Class="be4care.Pages.FavPage">
-    <Grid Padding="10,30,10,10" >
+    <Grid Padding="10,30,10,10" RowSpacing="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="70" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <StackLayout Grid.Row="0"  Padding="0,0,0,10" CompressedLayout.IsHeadless="True">
+        <StackLayout Grid.Row="0"   CompressedLayout.IsHeadless="True">
             <Label Text="Mes Raccourcis" FontSize="36" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
         </StackLayout>
-
-
         <ListView 
                         Grid.Row="2"
                         ItemsSource="{Binding favorites}"
-                        SelectedItem="{Binding selected}"
+                        SelectedItem="{Binding selected,Mode=TwoWay}"
                         SeparatorColor="LightGray"
                         IsGroupingEnabled="true"
                         HasUnevenRows="true"
@@ -27,7 +25,7 @@
             <ListView.GroupHeaderTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout HeightRequest="30"  HorizontalOptions="Fill" BackgroundColor="#f5f5f5" Padding="0,2,0,2">
+                        <StackLayout HeightRequest="30"  HorizontalOptions="Fill" BackgroundColor="#f5f5f5" Margin="1">
                             <Label Text="{Binding title}" FontSize="18" TextColor="Black" Margin="5" HorizontalOptions="Start" VerticalOptions="Center"/>
                         </StackLayout>
                     </ViewCell>
@@ -37,7 +35,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Fill" HeightRequest="{Binding heigh}"  >
-                            <StackLayout  WidthRequest="25" VerticalOptions="Start" Padding="0,2,0,0" >
+                            <StackLayout  WidthRequest="25" VerticalOptions="Start" Margin="1" >
                                 <ffimageloading:CachedImage  Source="star.png" IsVisible="{Binding star}"  VerticalOptions="Center" HeightRequest="20" WidthRequest="20"/>
                             </StackLayout>
                             <AbsoluteLayout  >
@@ -45,7 +43,7 @@
                                     <StackLayout VerticalOptions="Center" IsVisible="{Binding isDocument}" IsEnabled="{Binding isDocument}" >
                                         <ffimageloading:CachedImage  Source="{Binding url}" DownsampleHeight="80"  DownsampleWidth="70"  HeightRequest="80" WidthRequest="70" HorizontalOptions="Start"  VerticalOptions="Center" LoadingPlaceholder="placeholder.png" FadeAnimationForCachedImages="True" FadeAnimationEnabled="True"  />
                                     </StackLayout>
-                                    <StackLayout  Padding="0,5,0,5" VerticalOptions="FillAndExpand">
+                                    <StackLayout  Margin="3" VerticalOptions="FillAndExpand">
                                         <Label IsVisible="{Binding isDocument}" IsEnabled="{Binding isDocument}" Text="{Binding  date,StringFormat='{}{0:MM/dd/yyyy}'}" FontSize="16" TextColor="Gray"  VerticalOptions="Center" />
                                         <Label IsVisible="{Binding isDocument}" IsEnabled="{Binding isDocument}" Text="{Binding  type}" FontSize="18" TextColor="Black"  VerticalOptions="Center" />
                                         <Label IsVisible="{Binding isDocument}" IsEnabled="{Binding isDocument}" Text="{Binding  HStructure}" FontSize="16" TextColor="Gray" VerticalOptions="Center" />

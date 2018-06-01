@@ -27,7 +27,7 @@
             </StackLayout>
             <StackLayout Grid.Row="1" Orientation="Horizontal" Padding="0,0,0,10" CompressedLayout.IsHeadless="True" >
                 <Label Text="Répertoire " FontSize="36" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
-                <ffimageloading:CachedImage Source="modifier.png"
+                <ffimageloading:CachedImage Source="add.png"
                    HeightRequest="30"
                    WidthRequest="30"
                    VerticalOptions="Center"
@@ -41,7 +41,7 @@
                         Grid.Row="2"
                         ItemsSource="{Binding contacts}"
                         RowHeight="35"
-                        SelectedItem="{Binding selectedContact}"
+                        SelectedItem="{Binding selectedContact ,Mode=TwoWay}"
                         SeparatorColor="LightGray"
                         IsGroupingEnabled="true"
                         CachingStrategy="RecycleElement"

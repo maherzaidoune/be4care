@@ -53,8 +53,8 @@
                             ShowLabel="False"
                             Checked="{Binding star,Mode=TwoWay}"
                             Size="30"
-                            OnImg="fav.png"       
-                            OffImg="unfav.png"
+                            OnImg="star.png"       
+                            OffImg="unstar.png"
                         />
                 </Grid>
             </StackLayout>

@@ -60,7 +60,7 @@ namespace be4care.PageModels
                             document = new Document { url = url, text = result };
                             Device.BeginInvokeOnMainThread(async () =>
                             {
-                                await CoreMethods.PushPageModel<DocDetailsPageModel>(document);
+                                await CoreMethods.PushPageModel<DocDetailsPageModel>(new Tuple<Document,bool>(document,true));
                                 RaisePropertyChanged();
                             });
                         }

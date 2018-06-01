@@ -57,7 +57,7 @@ namespace be4care.PageModels
             {
                 await initView();
             });
-            MessagingCenter.Unsubscribe<AddDoctorPageModel>(this, "doctorupdated");
+            //MessagingCenter.Unsubscribe<AddDoctorPageModel>(this, "doctorupdated");
         }
         private void hstCantactUpdated(AddHstructPageModel obj)
         {
@@ -65,7 +65,7 @@ namespace be4care.PageModels
             {
                 await initView();
             });
-            MessagingCenter.Unsubscribe<AddHstructPageModel>(this, "HstructUpdated");
+            //MessagingCenter.Unsubscribe<AddHstructPageModel>(this, "HstructUpdated");
         }
 
         public Contact selectedContact
@@ -84,7 +84,7 @@ namespace be4care.PageModels
                     MessagingCenter.Subscribe<AddHstructPageModel>(this, "HstructUpdated", hstCantactUpdated);
                     MessagingCenter.Subscribe<ContactDetailsPageModel>(this, "delete", delete);
                 });
-                
+                selectedContact = null;
                 
             }
         }
@@ -96,15 +96,20 @@ namespace be4care.PageModels
             {
                 await initView();
             });
-            MessagingCenter.Unsubscribe<ContactDetailsPageModel>(this, "delete");
+            //MessagingCenter.Unsubscribe<ContactDetailsPageModel>(this, "delete");
         }
 
         public ICommand backClick => new Command(backClickbutton);
 
         private void backClickbutton(object obj)
         {
-            CoreMethods.PushPageModel<AccountPageModel>();
-            RaisePropertyChanged();
+            //CoreMethods.PushPageModel<AccountPageModel>();
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                await CoreMethods.PopPageModel();
+                RaisePropertyChanged();
+            });
+            
         }
 
 
@@ -196,13 +201,13 @@ namespace be4care.PageModels
         async Task Refresh()
         {
             contacts = await GetContacts();
-            MessagingCenter.Send(this, "Contactupdated");
         }
         public Task initView()
         {
             if (refresh?.IsCompleted ?? true)
             {
                 refresh = Refresh();
+                MessagingCenter.Send(this, "Contactupdated");
             }
             return refresh;
         }

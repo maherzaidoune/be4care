@@ -8,7 +8,7 @@
         <Label Text="Mon Compte" TextColor="Black" FontSize="36" HorizontalOptions="StartAndExpand" VerticalOptions="Start"/>
             <ListView 
                 ItemsSource="{Binding views}"
-                SelectedItem="{Binding selected}"
+                SelectedItem="{Binding selected, Mode=TwoWay}"
                 RowHeight="50"
                 CachingStrategy="RecycleElement"
                 HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" 

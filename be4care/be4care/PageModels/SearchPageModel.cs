@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace be4care.PageModels
 {
@@ -26,6 +27,7 @@ namespace be4care.PageModels
             {
                 CoreMethods.PushPageModel<DocumentDetailsPageModel>(value);
                 RaisePropertyChanged();
+                selected = null;
             }
         }
 
@@ -51,7 +53,20 @@ namespace be4care.PageModels
         }
         protected override void ViewIsAppearing(object sender, EventArgs e)
         {
-            base.ViewIsAppearing(sender, e); 
+            base.ViewIsAppearing(sender, e);
+            MessagingCenter.Unsubscribe<DocumentPageModel>(this, "DocumentareUpdated");
+
+        }
+
+        protected override void ViewIsDisappearing(object sender, EventArgs e)
+        {
+            base.ViewIsDisappearing(sender, e);
+            MessagingCenter.Subscribe<DocumentPageModel>(this, "DocumentareUpdated", updateDocs);
+        }
+
+        private void updateDocs(DocumentPageModel obj)
+        {
+            initView();
         }
 
         public async Task<IList<Document>> GetDocuments()

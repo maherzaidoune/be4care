@@ -81,55 +81,55 @@ namespace be4care.PageModels
 
         private void delete(ContactEditPageModel obj)
         {
-            MessagingCenter.Unsubscribe<ContactEditPageModel>(this, "delete");
+            //MessagingCenter.Unsubscribe<ContactEditPageModel>(this, "delete");
             if (c != null)
             {
                 if (c is Doctor)
                 {
-                    if (_restService.DeleteDoctor(c as Doctor))
+                    Task.Run(async () =>
                     {
-                        Task.Run(async () =>
+                        if (await _doctorService.DeleteDoctor(c as Doctor))
                         {
-                            if (await _doctorService.DeleteDoctor(c as Doctor))
-                                MessagingCenter.Send(this, "delete");
-                            else
-                                MessagingCenter.Send(this, "deletefromserver");
+                            MessagingCenter.Send(this, "delete");
+                            Device.BeginInvokeOnMainThread(async () =>
+                            {
+                                await CoreMethods.PopPageModel();
+                                RaisePropertyChanged();
+                            });
+                        }
+                        if (_restService.DeleteDoctor(c as Doctor))
                             _dialogService.ShowMessage(c.fullName + "supprimer avec succes", false);
-                        }).Wait();
-                    }
-                    else
-                    {
-                        _dialogService.ShowMessage("Erreur", true);
-                    }
+                        else
+                        {
+                            _dialogService.ShowMessage("Erreur", true);
+                        }
+                    });
                 }
                 if (c is HealthStruct)
                 {
-                    if (_restService.DeleteHstruct(c as HealthStruct))
+                    Task.Run(async () =>
                     {
-                        Task.Run(async () =>
+                        if (await _hstructService.DeleteStruct(c as HealthStruct))
                         {
-                            if(await _hstructService.DeleteStruct(c as HealthStruct))
-                                MessagingCenter.Send(this, "delete");
-                            else
+                            MessagingCenter.Send(this, "delete");
+                            Device.BeginInvokeOnMainThread(async () =>
                             {
-                                //object not deleted from local
-                            }
+                                await CoreMethods.PopPageModel();
+                                RaisePropertyChanged();
+                            });
+                        }
+                        if (_restService.DeleteHstruct(c as HealthStruct))
+                        {
                             _dialogService.ShowMessage(c.fullName + "supprimer avec succes", false);
-                        }).Wait();
-                    }
-                    else
-                    {
-                        _dialogService.ShowMessage("Erreur", true);
-                    }
-
+                        }
+                        else
+                        {
+                            _dialogService.ShowMessage("Erreur", true);
+                        }
+                    });
                 }
             }
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                //await CoreMethods.PushPageModel<ContactPageModel>();
-                await CoreMethods.PopPageModel();
-                RaisePropertyChanged();
-            });
+            
         }
 
         private void sendEmail(object obj)

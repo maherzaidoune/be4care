@@ -44,8 +44,8 @@ namespace be4care.PageModels
             {
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    CoreMethods.RemoveFromNavigation();
                     await CoreMethods.PopPageModel();
+                    CoreMethods.RemoveFromNavigation();
                     RaisePropertyChanged();
                 });
             }
@@ -73,10 +73,10 @@ namespace be4care.PageModels
             {
                 try
                 {
+                   if( await _hStructServices.SaveStruct(hstruct))
+                        MessagingCenter.Send(this, "HstructUpdated");
                     if (await _restServices.AddHealthStruct(hstruct))
                     {
-                        await _hStructServices.SaveStruct(hstruct);
-                        MessagingCenter.Send(this, "HstructUpdated");
                         _dialogSservices.ShowMessage(fullName + " a été ajouté avec succès ", false);
                        
                         Device.BeginInvokeOnMainThread(async () =>
@@ -100,14 +100,14 @@ namespace be4care.PageModels
                 hstruct.id = id;
                 try
                 {
-                   
-                    if (_restServices.UpdateHStruct(hstruct))
-                    {
-                        await _hStructServices.UpdateHStructAsync(hstruct);
-                        MessagingCenter.Send(this, "HstructUpdated");
-                        _dialogSservices.ShowMessage(fullName + " a été modifié avec succès ", false);
-                        
-                    }
+                        if(await _hStructServices.UpdateHStructAsync(hstruct))
+                        {
+                            MessagingCenter.Send(this, "HstructUpdated");
+                        }
+                        if (_restServices.UpdateHStruct(hstruct))
+                        {
+                            _dialogSservices.ShowMessage(fullName + " a été modifié avec succès ", false);
+                        }
                     
                 }
                 catch

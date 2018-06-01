@@ -4,7 +4,7 @@ using System.Text;
 
 namespace be4care.Models
 {
-    class Document : Favorite
+    public class Document : Favorite
     {
         public int heigh { get {
                 return 95;

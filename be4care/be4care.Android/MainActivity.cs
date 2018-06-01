@@ -30,7 +30,7 @@ namespace be4care.Droid
             CrossCurrentActivity.Current.Init(this, bundle);
             Rg.Plugins.Popup.Popup.Init(this, bundle);
             Forms.SetFlags("FastRenderers_Experimental");
-            CachedImageRenderer.Init(enableFastRenderer: true);
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
             Forms.Init(this, bundle);
             LoadApplication(new App());
         }
@@ -60,14 +60,14 @@ namespace be4care.Droid
 
         }
 
-        //public override void OnBackPressed()
-        //{
-        //    // This prevents a user from being able to hit the back button and leave the login page.
-            
-        //    return;
+        public override void OnBackPressed()
+        {
+            // This prevents a user from being able to hit the back button and leave the login page.
+            if (!string.IsNullOrEmpty(be4care.Settings.AuthToken)){
+                base.OnBackPressed();
+            }
+        }
 
-        //}
-        
 
     }
 }

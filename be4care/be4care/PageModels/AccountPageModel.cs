@@ -28,6 +28,8 @@ namespace be4care.PageModels
             }
             set
             {
+                if (value == null)
+                    return;
                 if (value.position == 0)
                     Device.BeginInvokeOnMainThread(async () =>
                     {
@@ -58,7 +60,7 @@ namespace be4care.PageModels
                         await CoreMethods.PushPageModel<AboutDevPageModel>();
                         RaisePropertyChanged();
                     });
-
+                selected =  null;
             }
         }
 
@@ -69,7 +71,7 @@ namespace be4care.PageModels
             //{
             //    //if(views == null)
             //    //{
-                    
+
             //    //}
             //    isVisible = false;
             //}

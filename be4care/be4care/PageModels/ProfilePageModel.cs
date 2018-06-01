@@ -20,6 +20,7 @@ namespace be4care.PageModels
             public string menu { get; set; }
             public string info { get; set; }
         }
+        public string pUrl { get; set; }
         public ICommand photochange => new Command(photoclicked);
         public ICommand edit => new Command(editUser);
         public ICommand backClick => new Command(backClickbutton);
@@ -119,6 +120,7 @@ namespace be4care.PageModels
                         user = _restServices.GetMyProfile();
                         _userServices.SaveUser(user);
                     }
+                    pUrl = user.pUrl;
                 }).Wait(); 
             }
             catch

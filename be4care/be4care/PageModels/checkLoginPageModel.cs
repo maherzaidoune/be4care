@@ -26,7 +26,7 @@ namespace be4care.PageModels
         public override void Init(object initData)
         {
             base.Init(initData);
-            Task.Run(async () =>
+            Task.Run( () =>
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
@@ -52,29 +52,14 @@ namespace be4care.PageModels
                         {
                             await CoreMethods.PushPageModel<onBoardingPageModel>();
                             RaisePropertyChanged();
-                            //var rootPage = FreshMvvm.FreshPageModelResolver.ResolvePageModel<onBoardingPageModel>();
-                            //App.Current.MainPage = new FreshMvvm.FreshNavigationContainer(rootPage);
                         });
                     }
                 }
                 else
                 {
-                    
                      ButtonBar.initBar();
-                    
                 }
-                //refresh = false;
             });
-            //Device.BeginInvokeOnMainThread(async () =>
-            //{
-            //    refresh = true;
-            //    await Task.Run(() =>
-            //       {
-            //           ButtonBar.initBar();
-            //       });
-            //    refresh = false;
-            //});
-
         }
     }
 }

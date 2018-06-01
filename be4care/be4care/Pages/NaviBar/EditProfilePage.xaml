@@ -33,22 +33,30 @@
             </StackLayout>
 
                 <ScrollView  Grid.Row="2" >
-                <StackLayout CompressedLayout.IsHeadless="True">
+                <StackLayout CompressedLayout.IsHeadless="True" Spacing="10">
                     <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="Start" CompressedLayout.IsHeadless="True">
                     <Label Text="Photo de profile"  FontSize="12" TextColor="Gray" Margin="1"/>
                         <ffimageloading:CachedImage 
 			                HeightRequest="75"
                             WidthRequest="75"
                             VerticalOptions="Start"
-                            
-			                Source="{l:EmbeddedImage resourceId=be4care.SharedImages.stephane.png}">
+			                DownsampleToViewSize="true"
+                            ErrorPlaceholder="{l:EmbeddedImage resourceId=be4care.SharedImages.stephane.png}"
+                            LoadingPlaceholder="placeholder.png"
+                            TransformPlaceholders="True"
+			                Source="{Binding pUrl}" >
                             <ffimageloading:CachedImage.Transformations>
                                 <fftransformations:CircleTransformation />
                             </ffimageloading:CachedImage.Transformations>
                         </ffimageloading:CachedImage>
+                        <Label Text="Choisir une image " TextColor="Orange" FontSize="14" Margin="1" >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  changephoto}" />
+                            </Label.GestureRecognizers>
+                        </Label>
 
                     </StackLayout>
-                    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" Padding="0,10,0,10" CompressedLayout.IsHeadless="True">
+                    <StackLayout VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" CompressedLayout.IsHeadless="True">
                     <Label Text="Identifiant" FontSize="12" TextColor="Black" />
                     <Entry Text="{Binding email,Mode=TwoWay}" FontSize="20" HorizontalOptions="Fill"  HeightRequest="40" Margin="5"  />
                     <Label Text="Nom" FontSize="12" TextColor="Black" />

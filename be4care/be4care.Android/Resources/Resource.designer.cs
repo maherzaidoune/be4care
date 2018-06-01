@@ -10143,55 +10143,55 @@ namespace be4care.Droid
 			public const int account = 2130837587;
 			
 			// aapt resource value: 0x7f020054
-			public const int avd_hide_password = 2130837588;
+			public const int add = 2130837588;
 			
 			// aapt resource value: 0x7f020055
-			public const int avd_show_password = 2130837589;
+			public const int avd_hide_password = 2130837589;
 			
 			// aapt resource value: 0x7f020056
-			public const int back = 2130837590;
+			public const int avd_show_password = 2130837590;
 			
 			// aapt resource value: 0x7f020057
-			public const int bb_bottom_bar_top_shadow = 2130837591;
+			public const int back = 2130837591;
 			
 			// aapt resource value: 0x7f020058
-			public const int bubble = 2130837592;
+			public const int bb_bottom_bar_top_shadow = 2130837592;
 			
 			// aapt resource value: 0x7f020059
-			public const int call = 2130837593;
+			public const int bubble = 2130837593;
 			
 			// aapt resource value: 0x7f02005a
-			public const int custom_search_view = 2130837594;
+			public const int call = 2130837594;
 			
 			// aapt resource value: 0x7f02005b
-			public const int design_bottom_navigation_item_background = 2130837595;
+			public const int custom_search_view = 2130837595;
 			
 			// aapt resource value: 0x7f02005c
-			public const int design_fab_background = 2130837596;
+			public const int design_bottom_navigation_item_background = 2130837596;
 			
 			// aapt resource value: 0x7f02005d
-			public const int design_ic_visibility = 2130837597;
+			public const int design_fab_background = 2130837597;
 			
 			// aapt resource value: 0x7f02005e
-			public const int design_ic_visibility_off = 2130837598;
+			public const int design_ic_visibility = 2130837598;
 			
 			// aapt resource value: 0x7f02005f
-			public const int design_password_eye = 2130837599;
+			public const int design_ic_visibility_off = 2130837599;
 			
 			// aapt resource value: 0x7f020060
-			public const int design_snackbar_background = 2130837600;
+			public const int design_password_eye = 2130837600;
 			
 			// aapt resource value: 0x7f020061
-			public const int doc = 2130837601;
+			public const int design_snackbar_background = 2130837601;
 			
 			// aapt resource value: 0x7f020062
-			public const int down = 2130837602;
+			public const int doc = 2130837602;
 			
 			// aapt resource value: 0x7f020063
-			public const int email = 2130837603;
+			public const int down = 2130837603;
 			
 			// aapt resource value: 0x7f020064
-			public const int fav = 2130837604;
+			public const int email = 2130837604;
 			
 			// aapt resource value: 0x7f020065
 			public const int favorite = 2130837605;
@@ -10902,7 +10902,7 @@ namespace be4care.Droid
 			public const int tooltip_frame_light = 2130837838;
 			
 			// aapt resource value: 0x7f02014f
-			public const int unfav = 2130837839;
+			public const int unstar = 2130837839;
 			
 			// aapt resource value: 0x7f020150
 			public const int Up = 2130837840;
