@@ -304,6 +304,7 @@ namespace be4care.PageModels
                         if(!(documents == null || documents.Count == 0))
                             _documentSerives.SaveDocuments(documents);
                     }
+                    MessagingCenter.Send(this, "DocumentareUpdated");
                 }
                 catch
                 {
@@ -314,7 +315,6 @@ namespace be4care.PageModels
                 }
                 InitGroups(tri);
             });
-            MessagingCenter.Send(this, "DocumentareUpdated");
         }
 
         public void UpdateAndSave(DocDetailsPageModel obj)

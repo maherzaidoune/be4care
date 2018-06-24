@@ -1,4 +1,5 @@
-﻿using be4care.Models;
+﻿using be4care.Helpers;
+using be4care.Models;
 using be4care.Services;
 using Plugin.Connectivity;
 using PropertyChanged;
@@ -57,7 +58,14 @@ namespace be4care.PageModels
                         }
                         else
                         {
-                            document = new Document { url = url, text = result };
+                            document = new Document {
+                                url = url,
+                                note = result,
+                                date = DateTime.Now,
+                                dr = StringHelper.getDr(result),
+                                place = StringHelper.getHStructure(result),
+                                type =  StringHelper.gettype(result)
+                            };
                             Device.BeginInvokeOnMainThread(async () =>
                             {
                                 await CoreMethods.PushPageModel<DocDetailsPageModel>(new Tuple<Document,bool>(document,true));

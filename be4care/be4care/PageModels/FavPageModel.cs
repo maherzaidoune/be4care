@@ -160,7 +160,6 @@ namespace be4care.PageModels
             var documentFav = new FavoriteGroupe("Documents");
             var doctorFav = new FavoriteGroupe("Médecin");
             var hstructsFav = new FavoriteGroupe("Structures de santé");
-            // ? operator
             documentFav.AddRange(documents?.Where(d => d.star));
             doctorFav.AddRange(doctors?.Where(d => d.star));
             hstructsFav.AddRange(healthstructs?.Where(d => d.star));

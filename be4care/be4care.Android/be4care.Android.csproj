@@ -68,6 +68,7 @@
     </AndroidHttpClientHandlerType>
     <DefineConstants>
     </DefineConstants>
+    <AndroidLinkSkip>AsNum.XFControls</AndroidLinkSkip>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />

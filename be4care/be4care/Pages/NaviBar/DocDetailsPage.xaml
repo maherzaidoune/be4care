@@ -31,9 +31,7 @@
             </StackLayout>
             <ScrollView Grid.Row="2" >
                 <StackLayout BindingContext="{Binding document}" CompressedLayout.IsHeadless="True" >
-                <Label Text="Date de document" FontSize="12" TextColor="Black" />
-                    <DatePicker Margin="5" Date="{Binding date,Mode=TwoWay}" TextColor="Black"  BackgroundColor="Transparent"  HorizontalOptions="StartAndExpand" />
-                <Label Text="Professionnel de santé" FontSize="12" TextColor="Black" />
+                    <Label Text="Professionnel de santé" FontSize="12" TextColor="Black" />
                     <Entry Text="{Binding dr,Mode=TwoWay}" FontSize="20" HorizontalOptions="Fill"  HeightRequest="40" Margin="5"  />
                 <Label Text="Type de  document" FontSize="12" TextColor="Black" />
                     <Entry Text="{Binding type,Mode=TwoWay}" FontSize="20" HorizontalOptions="Fill" HeightRequest="40" Margin="5"  />

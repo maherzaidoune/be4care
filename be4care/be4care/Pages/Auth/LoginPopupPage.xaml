@@ -40,7 +40,7 @@
                 </AbsoluteLayout>
             </StackLayout>
         </StackLayout>
-        <Label Text="Je n'ai pas un compte " HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand" TextColor="White" FontSize="18">
+        <Label Text="Je n'ai pas un compte " HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand" TextColor="White" FontSize="14" FontAttributes="Italic" >
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding inscription}" NumberOfTapsRequired="1"  />
             </Label.GestureRecognizers>

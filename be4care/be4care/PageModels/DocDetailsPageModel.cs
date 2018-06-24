@@ -45,13 +45,14 @@ namespace be4care.PageModels
                 Task.Run(async () => {
                     try
                     {
+                        //document.date = DateTime.Now;
                         await _documentServices.SaveDocument(document);
                         MessagingCenter.Send(this, "documentadded");
                         if (_restService.addDocument(document))
                             {
                                 _dialogServices.ShowMessage("document ajouté avec succes", false);
-                            }
-                            else
+                        }
+                        else
                             {
                                 _dialogServices.ShowMessage("Erreur", true);
                             }
@@ -84,6 +85,10 @@ namespace be4care.PageModels
                         if (_restService.UpdateDocument(document))
                         {
                             _dialogServices.ShowMessage(document.type + " a été modifié avec succès ", false);
+                        }
+                        else
+                        {
+                            _dialogServices.ShowMessage("Erreur , veuillez essayer plus tard", true);
                         }
                     }
                     catch

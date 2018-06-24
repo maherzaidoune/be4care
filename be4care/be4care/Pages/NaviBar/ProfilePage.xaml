@@ -28,7 +28,7 @@
             </Label>
         </StackLayout>
         <StackLayout Grid.Row="1" Grid.Column="0" Orientation="Horizontal" CompressedLayout.IsHeadless="True">
-            <Label Text="Mon Profile" FontSize="36" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
+            <Label Text="Mon Profil" FontSize="36" TextColor="Black" HorizontalOptions="Start" VerticalOptions="Center"/>
         </StackLayout>
         <Image 
             Grid.Row="1" Grid.Column="1"

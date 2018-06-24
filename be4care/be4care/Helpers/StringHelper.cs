@@ -44,7 +44,7 @@ namespace be4care.Helpers
 
         //REGEX OCR text
 
-        public static  string getDate(string s)
+        public static string getDate(string s)
         {
             Regex r = new Regex(@"^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$");
             Match m = r.Match(s.ToLower());
@@ -54,8 +54,8 @@ namespace be4care.Helpers
             }
             else
             {
-                 r = new Regex(@"\[0*([1-9]|[12][0-9]|3[01]) (janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre) (201[4-9]|20[2-9][0-9]|2[1-9][0-9]{2}|[3-9][0-9]{3}) ((?:0?[0-9]|1[0-9]|2[0-3]){2}:(?:0?[0-9]|[1-5][0-9]))");
-                 m = r.Match(s);
+                r = new Regex(@"\[0*([1-9]|[12][0-9]|3[01]) (janvier|février|mars|avril|mai|juin|juillet|août|septembre|octobre|novembre|décembre) (201[4-9]|20[2-9][0-9]|2[1-9][0-9]{2}|[3-9][0-9]{3}) ((?:0?[0-9]|1[0-9]|2[0-3]){2}:(?:0?[0-9]|[1-5][0-9]))");
+                m = r.Match(s);
                 if (m.Success)
                 {
                     return m.Value;

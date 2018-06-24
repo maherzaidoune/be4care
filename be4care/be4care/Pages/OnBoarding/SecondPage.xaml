@@ -14,11 +14,10 @@
 
             <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand"  BackgroundColor="Transparent" Padding="20">
                 <Label Text="Un stockage personnel et sécurisé"
-                   FontSize="44"
-               TextColor="White"
-                VerticalOptions="Center" 
-                HorizontalOptions="CenterAndExpand" 
-                FontAttributes="Bold"/>
+                   FontSize="Large"
+                   TextColor="White"
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="CenterAndExpand"/>
             </StackLayout>
 
 </ContentView>

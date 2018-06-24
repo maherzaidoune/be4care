@@ -106,7 +106,7 @@ namespace be4care.PageModels
         {
             return new List<ViewElement>
                     {
-                        new ViewElement{ image = "phonebook.png" , label = "Mon Profile",position= 0},
+                        new ViewElement{ image = "phonebook.png" , label = "Mon Profil",position= 0},
                         new ViewElement{ image = "phonebook.png" , label = "Répertoire", position= 1},
                         new ViewElement{ image = "Hand.png" , label = "A propos", position= 2},
                         new ViewElement{ image = "file.png" , label = "Mentions Légales", position= 3},

@@ -29,7 +29,7 @@
                     <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
                 </ffimageloading:CachedImage.GestureRecognizers>
             </ffimageloading:CachedImage>
-            <Label Text="RETOUR "  HorizontalOptions="StartAndExpand" TextColor="Black" FontSize="13" VerticalOptions="Center" >
+            <Label Text="RETOUR "  HorizontalOptions="StartAndExpand" TextColor="White" FontSize="13" VerticalOptions="Center" >
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer  NumberOfTapsRequired="1" Command="{Binding  backClick}" />
                 </Label.GestureRecognizers>
@@ -38,8 +38,8 @@
         
         <ScrollView Grid.Row="1" Padding="0,0,0,15" HorizontalOptions="FillAndExpand" VerticalOptions="Fill">
 
-            <StackLayout   x:Name="inscriptonLayout" VerticalOptions="FillAndExpand" CompressedLayout.IsHeadless="True" >
-                <StackLayout  Orientation="Vertical" VerticalOptions="EndAndExpand"  HorizontalOptions="FillAndExpand" CompressedLayout.IsHeadless="True" >
+            <StackLayout   x:Name="inscriptonLayout" VerticalOptions="FillAndExpand"  >
+                <StackLayout  Orientation="Vertical" VerticalOptions="EndAndExpand"  HorizontalOptions="FillAndExpand" >
                     <Label Text="Inscription" TextColor="White" FontSize="44" FontAttributes="Bold"  HorizontalOptions="CenterAndExpand" Margin="10"/>
                     <StackLayout VerticalOptions="Center" Padding="0,20,0,0">
                     <local:myEntry Placeholder="  Email" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40" Text="{Binding email, Mode=TwoWay}" Keyboard="Email" />
@@ -48,8 +48,8 @@
                     <local:myEntry  Placeholder="  Mot de passe" PlaceholderColor="White" FontSize="20" HorizontalOptions="Fill" Margin="5" HeightRequest="40"  IsPassword="True" Text="{Binding passverif , Mode=OneWayToSource}"  />
                     </StackLayout>
                 </StackLayout>
-                <StackLayout HorizontalOptions="Fill" x:Name="buttonStack" VerticalOptions="FillAndExpand" CompressedLayout.IsHeadless="True">
-                    <StackLayout Orientation="Horizontal" Padding="20,10,20,10" HorizontalOptions="Fill" CompressedLayout.IsHeadless="True">
+                <StackLayout HorizontalOptions="Fill" x:Name="buttonStack" VerticalOptions="FillAndExpand" >
+                    <StackLayout Orientation="Horizontal" Padding="20,10,20,10" HorizontalOptions="Fill" >
                         <ctrls:CheckBox HorizontalOptions="Start"
                 Grid.Column="1"
                 ShowLabel="False"
@@ -60,7 +60,7 @@
                 />
                         <Label Text="J'accepte les conditions d'utilisatios " TextColor="White"  HorizontalOptions="FillAndExpand"/>
                     </StackLayout>
-                    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand" CompressedLayout.IsHeadless="True"  >
+                    <AbsoluteLayout HorizontalOptions="FillAndExpand" VerticalOptions="EndAndExpand"  >
                         <ActivityIndicator
                         AbsoluteLayout.LayoutBounds="0,0.5,1,1"
                         AbsoluteLayout.LayoutFlags="All"
